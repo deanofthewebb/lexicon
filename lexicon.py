@@ -5,16 +5,32 @@ import pickle
 
 
 class Lexicon(object):
+    def load_preprocess(speaker_id):
+        """
+            Load the Preprocessed Training data and return them in batches of <batch_size> or less
+            """
+        cache_directory = os.path.join(os.getcwd(), 'datacache', 'lexicon_objects')
+        if os.path.exists(os.path.join(cache_directory, '{}_preprocess.p'.format(speaker_id.strip()))):
+            pickle_file = open(os.path.join(cache_directory, '{}_preprocess.p'.format(speaker_id.strip())), mode='rb')
+            return pickle.load(pickle_file)
+        else:
+            print('Nothing saved in the preprocess directory')
+            return None
+            
     def __init__(self, base_corpus, name='base_corpus', print_report=False):
-        cache_file = os.path.join(os.getcwd(), 'datacache', 'lexicon_objects
+        cache_file = os.path.join(os.getcwd(), 'datacache', 'lexicon_objects',
                                        '{}_preprocess.p'.format(name.strip()))
 
         if os.path.exists(cache_file):
             # Load cached object
+            (self._name,
+             self._base_corpus,
+             self._full_corpus,
+             self._int_text, 
+             self._vocab_to_int, 
+             self._int_to_vocab) = Lexicon.load_preprocess(name)
             
-            self._name = name.strip()
-            self._base_corpus = base_corpus
-            self._full_corpus = base_corpus
+            self._speeches = []
         else:
             # Create new object
         
@@ -24,7 +40,9 @@ class Lexicon(object):
 
             # Each speech
             self._speeches = []
-            self._vocab_to_int, self._int_to_vocab = self.create_lookup_tables()
+            
+            # Preprocess and save lookup data
+            self.preprocess_and_save()
         
         
         # Print Loading Report
@@ -90,54 +108,49 @@ class Lexicon(object):
             '\n': '||return||'
         }
    
-    def create_lookup_tables(self):
+    def create_lookup_tables(self, tokenized_text):
         """
         Create lookup tables for vocabulary
-        :param text: The text of speeches split into words
         :return: A tuple of dicts (vocab_to_int, int_to_vocab)
         """
-        vocabs = set(self.split_corpus)
+        vocabs = set(tokenized_text)
         self._int_to_vocab = dict(enumerate(vocabs, 1))
         self._vocab_to_int = { v: k for k, v in self._int_to_vocab.items()}
 
         return self._vocab_to_int, self._int_to_vocab
 
 
-    def preprocess_and_save(self):
-        """
-        Preprocess Text Data
-        """
-        cache_directory = os.path.join(os.getcwd(), 'datacache', 'lexicon_objects')
+    def tokenize_corpus(self):
         processed_text = unicodedata.normalize("NFKD", self._full_corpus.strip())  \
-                                      .encode("ascii", "ignore") \
-                                      .decode("ascii", "ignore")
-                
+            .encode("ascii", "ignore") \
+            .decode("ascii", "ignore")
+            
         token_dict = self.token_lookup()
         for key, token in token_dict.items():
             processed_text = processed_text.replace(key, ' {} '.format(token))
 
         processed_text = processed_text.lower()
         processed_text = processed_text.split()
-  
-        
+        return processed_text
+    
+    def preprocess_and_save(self):
+        """
+        Preprocess Text Data
+        """
+        cache_directory = os.path.join(os.getcwd(), 'datacache', 'lexicon_objects')
         if not os.path.exists(cache_directory):
             os.mkdir(cache_directory)
-    
-        self._vocab_to_int, self._int_to_vocab = self.create_lookup_tables(processed_text)
-        self._int_text = [self._vocab_to_int[word] for word in processed_text]
-        pickle.dump((self._int_text, self._vocab_to_int, self._int_to_vocab, token_dict), open(os.path.join(cache_directory, '{}_preprocess.p'.format(self.name)), 'wb'))
+  
+        tokenized_text = self.tokenize_corpus()
+        self._vocab_to_int, self._int_to_vocab = self.create_lookup_tables(tokenized_text)
+        self._int_text = [self._vocab_to_int[word] for word in tokenized_text]
+        pickle.dump((self._name,
+                     self._base_corpus,
+                     self._full_corpus,
+                     self._int_text, 
+                     self._vocab_to_int, 
+                     self._int_to_vocab), open(os.path.join(cache_directory, '{}_preprocess.p'.format(self.name)), 'wb'))
         
-    def load_preprocess(speaker_id):
-            """
-            Load the Preprocessed Training data and return them in batches of <batch_size> or less
-            """
-            cache_directory = os.path.join(os.getcwd(), 'datacache', 'lexicon_objects')
-            if os.path.exists(os.path.join(cache_directory, '{}_preprocess.p'.format(speaker_id.strip()))):
-                pickle_file = open(os.path.join(cache_directory, '{}_preprocess.p'.format(speaker_id.strip())), mode='rb')
-                return pickle.load(pickle_file)
-            else:
-                print('Nothing saved in the preprocess directory')
-                return None
         
 
     
