@@ -7,8 +7,8 @@ import pickle
 class Lexicon(object):
     def load_preprocess(speaker_id):
         """
-            Load the Preprocessed Training data and return them in batches of <batch_size> or less
-            """
+        Load the Preprocessed Training data and return them in batches of <batch_size> or less
+        """
         cache_directory = os.path.join(os.getcwd(), 'datacache', 'lexicon_objects')
         if os.path.exists(os.path.join(cache_directory, '{}_preprocess.p'.format(speaker_id.strip()))):
             pickle_file = open(os.path.join(cache_directory, '{}_preprocess.p'.format(speaker_id.strip())), mode='rb')
@@ -105,6 +105,11 @@ class Lexicon(object):
             ')': '||right_parentheses||',
             '*': '||star||',
             '--': '||dash||',
+            '{NOISE}': '',
+            '{BREATH}': '',
+            '{UH}': '',
+            '{SMACK}': '',
+            '<sil>': '',
             '\n': '||return||'
         }
    
