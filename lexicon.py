@@ -5,14 +5,12 @@ import pickle
 
 
 class Lexicon(object):
-    def load_preprocess(speaker_id):
+    def load_preprocess(cache_file):
         """
-        Load the Preprocessed Training data and return them in batches of <batch_size> or less
+        Load the Preprocessed Training data and return them
         """
-        cache_directory = os.path.join(os.getcwd(), 'datacache', 'lexicon_objects')
-        if os.path.exists(os.path.join(cache_directory, '{}_preprocess.p'.format(speaker_id.strip()))):
-            pickle_file = open(os.path.join(cache_directory, '{}_preprocess.p'.format(speaker_id.strip())), mode='rb')
-            return pickle.load(pickle_file)
+        if os.path.exists(cache_file):
+            return pickle.load(open(cache_file, mode='rb'))
         else:
             print('Nothing saved in the preprocess directory')
             return None
@@ -28,7 +26,7 @@ class Lexicon(object):
              self._full_corpus,
              self._int_text, 
              self._vocab_to_int, 
-             self._int_to_vocab) = Lexicon.load_preprocess(name)
+             self._int_to_vocab) = Lexicon.load_preprocess(cache_file)
             
             self._speeches = []
         else:
@@ -72,17 +70,21 @@ class Lexicon(object):
 
     def add_speech(self, speech):
         self._speeches.append(speech)
-        self._full_corpus += speech
+        self._full_corpus += speech.ground_truth_transcript
     
     def print_loading_report(self):
         print()
         print('Lexicon: "{}" successfully loaded to memory location:'.format(self._name), self)
         print('Dataset Stats')
         print('Number of Unique Words in Base: {}'.format(len({word: None for word in self.base_corpus.split()})))
-        print('Number of Unique Words in Speeches: {}'.format(len({word: None for word in ' '.join(self.speeches).split()})))
+        
+        words = u""
+        for speech in self.speeches:
+            words += speech.ground_truth_transcript
+        print('Number of Unique Words in Speeches: {}'.format(len({word: None for word in words.split()})))
 
         print('Number of Speeches: {}'.format(len(self._speeches)))
-        word_count_speech = [len(speech.split()) for speech in self._speeches]
+        word_count_speech = [len(speech.ground_truth_transcript.split()) for speech in self._speeches]
         print('Average number of words in each speech: {}'.format(np.mean(word_count_speech)))
         print()
         print()
