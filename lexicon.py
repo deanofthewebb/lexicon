@@ -109,6 +109,7 @@ class Lexicon(object):
             '{BREATH}': '',
             '{UH}': '',
             '{SMACK}': '',
+            '{COUGH}': '',
             '<sil>': '',
             '\n': '||return||'
         }
