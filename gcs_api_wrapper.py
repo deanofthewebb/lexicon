@@ -26,6 +26,7 @@ class GCSWrapper(object):
         self._include_time_offsets = include_time_offsets
         
         # Install GCS
+        os.system("pip install --upgrade google-cloud-speech")
         os.system("CLOUDSDK_CORE_DISABLE_PROMPTS=1 ./google-cloud-sdk/install.sh")
         # Add Authentication to Environment Vars
         os.environ['GOOGLE_APPLICATION_CREDENTIALS']=self._key_file

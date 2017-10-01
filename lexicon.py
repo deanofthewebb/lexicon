@@ -26,9 +26,10 @@ class Lexicon(object):
              self._full_corpus,
              self._int_text, 
              self._vocab_to_int, 
-             self._int_to_vocab) = Lexicon.load_preprocess(cache_file)
+             self._int_to_vocab,
+            self._speeches) = Lexicon.load_preprocess(cache_file)
             
-            self._speeches = []
+            #self._speeches = []
         else:
             # Create new object
         
@@ -59,11 +60,20 @@ class Lexicon(object):
     def base_corpus(self):
         return self._base_corpus
     @property
+    def speech_corpus(self):
+        for speech in self.speeches:
+            words += speech.ground_truth_transcript
+        return ' '.join([speech.ground_truth_transcript for speech in self.speeches])
+         
+    @property
     def full_corpus(self):
         return self._full_corpus
     @property
     def split_corpus(self):
         return self._full_corpus.split()
+    @property
+    def vocab_size(self):
+        return len({word: None for word in self.split_corpus}) 
     @property
     def filenames(self):
         return self._filenames
@@ -157,7 +167,8 @@ class Lexicon(object):
                      self._full_corpus,
                      self._int_text, 
                      self._vocab_to_int, 
-                     self._int_to_vocab), open(os.path.join(cache_directory, '{}_preprocess.p'.format(self.name)), 'wb'))
+                     self._int_to_vocab,
+                     self._speeches), open(os.path.join(cache_directory, '{}_preprocess.p'.format(self.name)), 'wb'))
         
         
 

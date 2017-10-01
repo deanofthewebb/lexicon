@@ -16,9 +16,11 @@ class Speech(object):
             print('Nothing saved in the preprocess directory')
             return None
         
-    def __init__(self, speaker_id, speech_id, source_file, ground_truth, start = None, stop = None, audio_type='LINEAR16',
-                 sample_rate=16000, print_report=False):
-        cache_file = os.path.join(os.getcwd(), 'datacache', 'speech_objects',
+    def __init__(self, speaker_id, speech_id, source_file, ground_truth, candidate_transcripts = [],
+         candidate_timestamps = [], cache_file = None, start = 0.0, stop = 0.0, audio_type='LINEAR16',
+                 sample_rate=16000):
+        if not cache_file:
+            cache_file = os.path.join(os.getcwd(), 'datacache', 'speech_objects',
                                        '{}_preprocess.p'.format(speech_id.strip()))
 
         if os.path.exists(cache_file):
@@ -38,13 +40,17 @@ class Speech(object):
             self._speech_id = speech_id
             self._source_file = source_file
             self._ground_truth_transcript = ground_truth
-            self._candidate_transcripts = []
+            self._candidate_transcripts = candidate_transcripts
 
             # Collect Time offsets of each candidate word of the best candidate transcript
-            self._candidate_timestamps = []
+            self._candidate_timestamps = candidate_timestamps
             self._start_time  = float(start)
             self._stop_time   = float(stop)
-            self._audio_file = self.cache_sph2wav()
+            
+            if os.path.splitext(source_file)[1] == 'sph':
+                self._audio_file = self.cache_sph2wav()
+            else:
+                self._audio_file = source_file
 
             # LINEAR16 -> .sph and .wav | FLAC -> .flac
             self._audio_type = audio_type
@@ -122,18 +128,20 @@ class Speech(object):
     
     
     def populate_gcs_results(self, api_result):
-        alternatives = api_result.results[0].alternatives
-        for alternative in alternatives:
-            self._candidate_transcripts.append({"transcript": alternative.transcript, "confidence": alternative.confidence})
-           
-            for word_info in alternative.words:
-                word = word_info.word
-                start_time = word_info.start_time
-                end_time = word_info.end_time
-                start = start_time.seconds + start_time.nanos * 1e-9
-                end = end_time.seconds + end_time.nanos * 1e-9
-                delta = end - start
-                self._candidate_timestamps.append({"word": word, "start_time": start, "end_time": end, "total_time": delta})
+        if len(api_result.results) > 0:
+            alternatives = api_result.results[0].alternatives
+            for alternative in alternatives:
+                self._candidate_transcripts.append({"transcript": alternative.transcript, 
+                                                    "confidence": alternative.confidence})
+
+                for word_info in alternative.words:
+                    word = word_info.word
+                    start_time = word_info.start_time
+                    end_time = word_info.end_time
+                    start = start_time.seconds + start_time.nanos * 1e-9
+                    end = end_time.seconds + end_time.nanos * 1e-9
+                    delta = end - start
+                    self._candidate_timestamps.append({"word": word, "start_time": start, "end_time": end, "total_time": delta})
      
     
     def preprocess_and_save(self):
@@ -142,7 +150,7 @@ class Speech(object):
         """
         cache_directory = os.path.join(os.getcwd(), 'datacache', 'speech_objects')
         if not os.path.exists(cache_directory):
-            os.mkdir(cache_directory)
+            os.makedirs(cache_directory, exist_ok=True)
             
         pickle.dump((self._speech_id,
                      self._speaker_id,
@@ -156,6 +164,7 @@ class Speech(object):
                      self._stop_time, 
                      self._ground_truth_transcript), open(os.path.join(cache_directory,
                                                                        '{}_preprocess.p'.format(self._speech_id)), 'wb'))
+        return os.path.join(cache_directory, '{}_preprocess.p'.format(self._speech_id))
 
 
 
