@@ -374,7 +374,7 @@ class Lexicon(object):
         source_text_ids, target_text_ids = Lexicon.text_to_ids(source_text, target_text, source_vocab_to_int,
                                                                    target_vocab_to_int)
         # Build Graph
-        train_graph = self.build_graph(source_vocab_to_int, target_vocab_to_int)
+        self.train_graph = self.build_graph(source_vocab_to_int, target_vocab_to_int)
 
         source_validation_text = '\n'.join(self.validation_set[0])
         target_validation_text = '\n'.join(self.validation_set[1])
@@ -391,7 +391,7 @@ class Lexicon(object):
          valid_sources_lengths, 
          valid_targets_lengths ) = next(self.get_batches(source_validation_text_ids, target_validation_text_ids,
                                                              val_source_vocab_to_int['<PAD>'], val_target_vocab_to_int['<PAD>']))
-        with tf.Session(graph=train_graph) as sess:
+        with tf.Session(graph=self.train_graph) as sess:
             init = tf.global_variables_initializer()
             self.model.sess = sess
             # Launch the session
@@ -439,61 +439,92 @@ class Lexicon(object):
 
                         helper.save_params(checkpoint_path)
             
-        
+    def sentence_to_seq(sentence, vocab_to_int):
+        """
+        Convert a sentence to a sequence of ids
+        :param sentence: String
+        :param vocab_to_int: Dictionary to go from the words to an id
+        :return: List of word ids
+        """
+
+        # Convert the sentence to lowercase and to list
+        list_words = [word for word in sentence.lower().split() ]
+
+        # Convert words into ids using vocab_to_int
+        list_words_int = list()
+        for word in list_words:
+            # Convert words not in the vocabulary, to the <UNK> word id.
+            if word not in vocab_to_int:
+                list_words_int.append(vocab_to_int['<UNK>'])
+            else:
+                list_words_int.append(vocab_to_int[word])
+        return list_words_int
+    
 
     def evaluate_testset(self):
-        load_path = helper.load_params()
-        token_dict = self.token_lookup()
         steps = 0
-        show_results = 100
-        loaded_graph = tf.Graph()
+        show_results = 1000
+
+        # Load saved model
+        checkpoint_dir = os.path.join(self.cache_dir,'checkpoints/')
+        checkpoint_path = os.path.join(checkpoint_dir, 'model.ckpt')
+
+        # Checkpoints
+        loaded_graph  = self.train_graph
         with tf.Session(graph=loaded_graph) as sess:
-            # Load saved model
-            loader = tf.train.import_meta_graph(load_path + '.meta')
-            loader.restore(sess, load_path)
+
+            #loader = tf.train.import_meta_graph(os.path.join(checkpoint_dir, 'model.ckpt-5000.meta'))
+            #lexicon.model.saver.restore(sess, checkpoint_path)
+
+            #self.model.load_model(sess, checkpoint_path)
 
             input_data = loaded_graph.get_tensor_by_name('input:0')
             logits = loaded_graph.get_tensor_by_name('predictions:0')
             target_sequence_length = loaded_graph.get_tensor_by_name('target_sequence_length:0')
             source_sequence_length = loaded_graph.get_tensor_by_name('source_sequence_length:0')
             keep_prob = loaded_graph.get_tensor_by_name('keep_prob:0')
-            
-            for speech in list(test_speeches.values()):
+
+            token_dict = self.token_lookup()
+            cloud_speech_api_accuracy = []
+            custom_lang_model_accuracy = []
+
+            for speech in self.speeches:
                 gt_transcript = speech.ground_truth_transcript.lower()
                 for key, token in token_dict.items():
                     gt_transcript = gt_transcript.replace(key, ' {} '.format(token))
 
-                cloud_speech_api_accuracy = []
-                custom_lang_model_accuracy = []
+
 
 
                 # Collect Google API Transcript
                 google_api_transcript = ""
                 words = []
                 if speech.candidate_timestamps:
+                    print('if speech.candidate_timestamps')
                     for candidate_timestamp in speech.candidate_timestamps:
                         words.append(candidate_timestamp["word"])
                     google_api_transcript = " ".join(words)
 
 
                 if speech.candidate_timestamps:
+                    print('if speech.candidate_timestamps 2')
                     candidate_script_accuracy = []
                     for candidate_transcript in speech.candidate_transcripts:
                         steps +=1
-                        transcription_sentence = self.model.sentence_to_seq(candidate_transcript["transcript"], source_vocab_to_int)
-
-                        transcription_logits = sess.run(logits, {self.input_data_ph: [transcription_sentence]*batch_size,
-                                                             self.target_sequence_length_ph:[len(transcription_sentence)*2]*batch_size,
-                                                             self.source_sequence_length_ph:[len(transcription_sentence)]*batch_size,
-                                                             self.keep_prob_ph: 1.0})[0]
+                        transcription_sentence = Lexicon.sentence_to_seq(candidate_transcript["transcript"],
+                                                                         source_vocab_to_int)
+                        transcription_logits = sess.run(logits, 
+                                                        {input_data: [transcription_sentence]*self.model.batch_size,
+                                                         target_sequence_length: [len(transcription_sentence)*2]*self.model.batch_size,
+                                                         source_sequence_length: [len(transcription_sentence)]*self.model.batch_size,
+                                                         keep_prob: 1.0})[0]
                         prediction_transcript = " ".join([target_int_to_vocab[i] for i in transcription_logits])
                         # Remove <EOS> Token
                         prediction_transcript = prediction_transcript.replace('<EOS>','')
 
                         if steps % show_results == 0:  
                             print()
-                            print('GCS Candidate Transcript: \n{}'.format(
-                                  " ".join([source_int_to_vocab[i] for i in transcription_sentence])))
+                            print('GCS Candidate Transcript: \n{}'.format(" ".join([source_int_to_vocab[i] for i in transcription_sentence])))
                             print('Seq2Seq Model Prediction Transcript: \n{}'.format(prediction_transcript))
                             print('Ground Truth Transcript: \n{}'.format(gt_transcript))
                             print()
@@ -510,6 +541,7 @@ class Lexicon(object):
 
 
                     # Select Candidate Transcript with the highest accuracy (to prediction)
+
                     index, value = max(enumerate(candidate_script_accuracy), key=operator.itemgetter(1))
 
                     tmp = []
@@ -531,10 +563,11 @@ class Lexicon(object):
                     cloud_speech_api_accuracy.append(gcs_accuracy)
                     custom_lang_model_accuracy.append(clm_accuracy)
 
-        print('Speech Results:')
-        print('Average Candidate Transcript Accuracy:', np.mean(cloud_speech_api_accuracy))
-        print('Average Seq2Seq Model Accuracy:', np.mean(custom_lang_model_accuracy))
-        print()
+            print('Speech Results:')
+            print('Average Candidate Transcript Accuracy:', np.mean(cloud_speech_api_accuracy))
+            print('Average Seq2Seq Model Accuracy:', np.mean(custom_lang_model_accuracy))
+            print()
+
 
         
         

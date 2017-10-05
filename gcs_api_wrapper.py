@@ -26,17 +26,19 @@ class GCSWrapper(object):
         self._include_time_offsets = include_time_offsets
         
         # Install GCS
-        os.system("pip install --upgrade google-cloud-speech")
         os.system("CLOUDSDK_CORE_DISABLE_PROMPTS=1 ./google-cloud-sdk/install.sh")
         # Add Authentication to Environment Vars
         os.environ['GOOGLE_APPLICATION_CREDENTIALS']=self._key_file
         self._client = speech.SpeechClient()
 
+        
+    def get_audio_size(audio_filepath):
+        statinfo = os.stat(audio_filepath)
+        print(statinfo.st_size)
+        return statinfo.st_size
     
     
     def transcribe_speech(self, audio_filepath):
-        # return alternatives, words
-        # Call API
         with open(audio_filepath, 'rb') as audio_file:
             content = audio_file.read()
             audio = types.RecognitionAudio(content=content)
