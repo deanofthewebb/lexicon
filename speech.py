@@ -16,11 +16,9 @@ class Speech(object):
             print('Nothing saved in the preprocess directory')
             return None
         
-    def __init__(self, speaker_id, speech_id, source_file, ground_truth, candidate_transcripts = [],
-         candidate_timestamps = [], cache_file = None, start = 0.0, stop = 0.0, audio_type='LINEAR16',
-                 sample_rate=16000):
-        if not cache_file:
-            cache_file = os.path.join(os.getcwd(), 'datacache', 'speech_objects',
+    def __init__(self, speaker_id, speech_id, source_file, ground_truth, candidate_transcripts = [], candidate_timestamps = [], start = 0.0, stop = 0.0, audio_type='LINEAR16',
+                 sample_rate=16000, print_report=False):
+        cache_file = os.path.join(os.getcwd(), 'datacache', 'speech_objects',
                                        '{}_preprocess.p'.format(speech_id.strip()))
 
         if os.path.exists(cache_file):
@@ -150,7 +148,7 @@ class Speech(object):
         """
         cache_directory = os.path.join(os.getcwd(), 'datacache', 'speech_objects')
         if not os.path.exists(cache_directory):
-            os.makedirs(cache_directory, exist_ok=True)
+            os.makedirs(cache_directory,exist_ok=True)
             
         pickle.dump((self._speech_id,
                      self._speaker_id,
