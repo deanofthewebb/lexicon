@@ -24,6 +24,12 @@ from importlib import reload
 
 
 ```python
+import os
+os.environ['GOOGLE_APPLICATION_CREDENTIALS']=os.path.join(os.getcwd(),'Lexicon-e94eff39fad7.json')
+```
+
+
+```python
 from urllib.request import urlretrieve
 from os.path import isfile, isdir
 from tqdm import tqdm
@@ -148,55 +154,6 @@ audio_files = {dev_file_name_0:gt0, dev_file_name_1:gt1, dev_file_name_2:gt2, de
 ```
 
 
-    ---------------------------------------------------------------------------
-
-    DefaultCredentialsError                   Traceback (most recent call last)
-
-    <ipython-input-3-f969dd3ea995> in <module>()
-          7 
-          8 # Instantiates a client
-    ----> 9 client = speech.SpeechClient()
-         10 
-         11 # The name of the dev-test audio file to transcribe
-
-
-    ~/miniconda3/envs/tf-gpu/lib/python3.5/site-packages/google/cloud/gapic/speech/v1/speech_client.py in __init__(self, service_path, port, channel, credentials, ssl_credentials, scopes, client_config, app_name, app_version, lib_name, lib_version, metrics_headers)
-        144             credentials=credentials,
-        145             scopes=scopes,
-    --> 146             ssl_credentials=ssl_credentials)
-        147 
-        148         self.operations_client = operations_client.OperationsClient(
-
-
-    ~/miniconda3/envs/tf-gpu/lib/python3.5/site-packages/google/gax/grpc.py in create_stub(generated_create_stub, channel, service_path, service_port, credentials, scopes, ssl_credentials)
-        104 
-        105         if credentials is None:
-    --> 106             credentials = _grpc_google_auth.get_default_credentials(scopes)
-        107 
-        108         channel = _grpc_google_auth.secure_authorized_channel(
-
-
-    ~/miniconda3/envs/tf-gpu/lib/python3.5/site-packages/google/gax/_grpc_google_auth.py in get_default_credentials(scopes)
-         60 def get_default_credentials(scopes):
-         61     """Gets the Application Default Credentials."""
-    ---> 62     credentials, _ = google.auth.default(scopes=scopes)
-         63     return credentials
-         64 
-
-
-    ~/miniconda3/envs/tf-gpu/lib/python3.5/site-packages/google/auth/_default.py in default(scopes, request)
-        284             return credentials, explicit_project_id or project_id
-        285 
-    --> 286     raise exceptions.DefaultCredentialsError(_HELP_MESSAGE)
-    
-
-    DefaultCredentialsError: Could not automatically determine credentials. Please set GOOGLE_APPLICATION_CREDENTIALS or
-    explicitly create credential and re-run the application. For more
-    information, please see
-    https://developers.google.com/accounts/docs/application-default-credentials.
-
-
-
 ```python
 # Prepare a plain text corpus from which we train a languague model
 import glob
@@ -309,142 +266,150 @@ for speaker_id, lexicon in lexicons.items():
 ```
 
     Dataset Stats
-    Roughly the number of unique words: 58051
-    Number of sentences: 27600
-    Average number of words in a sentence: 24.12873188405797
-    
-    Transcript sentences 0 to 10:
-    
-    
-    "I shall never be better," said Jane Merrick, sternly
-     "The end is not
-    far off now
-    "
-    
-    "Oh, I'm sorry to hear you say that!" said Patsy; "but I hope it is
-    not true
-     Why, here are we four newly found relations all beginning to
-    get acquainted, and to love one another, and we can't have our little
-    party broken up, auntie dear
-    "
-    
-    "Five of us--five relations," cried Uncle John, coming around the
-    corner of the hedge
-     "Don't I count, Patsy, you rogue? Why you're
-    looking as bright and as bonny as can be
-     I wouldn't be surprised if
-    you could toddle
-    "
-    
-    "Not yet," she answered, cheerfully
-     "But I'm doing finely, Uncle
-    John, and it won't be long before I can get about as well as ever
-    "
-    
-    "And to think," said Aunt Jane, bitterly, "that all this trouble was
-    caused by that miserable boy! If I knew where to send him he'd not
-    stay at Elmhurst a day longer
-    
-    Ground Truth sentences 0 to 10:
-    
-    
-    "I shall never be better," said Jane Merrick, sternly
-     "The end is not
-    far off now
-    "
-    
-    "Oh, I'm sorry to hear you say that!" said Patsy; "but I hope it is
-    not true
-     Why, here are we four newly found relations all beginning to
-    get acquainted, and to love one another, and we can't have our little
-    party broken up, auntie dear
-    "
-    
-    "Five of us--five relations," cried Uncle John, coming around the
-    corner of the hedge
-     "Don't I count, Patsy, you rogue? Why you're
-    looking as bright and as bonny as can be
-     I wouldn't be surprised if
-    you could toddle
-    "
-    
-    "Not yet," she answered, cheerfully
-     "But I'm doing finely, Uncle
-    John, and it won't be long before I can get about as well as ever
-    "
-    
-    "And to think," said Aunt Jane, bitterly, "that all this trouble was
-    caused by that miserable boy! If I knew where to send him he'd not
-    stay at Elmhurst a day longer
-    
-    Dataset Stats
     Roughly the number of unique words: 57965
     Number of sentences: 27540
     Average number of words in a sentence: 24.005228758169935
     
     Transcript sentences 0 to 10:
+     Merrick
+     Would it not be better for me to send these
+    papers by a messenger to your house?"
+    
+    "No; I'll take them myself
+     No one will rob me
+    " And then the door
+    swung open and, chuckling in his usual whimsical fashion, Uncle John
+    came out, wearing his salt-and-pepper suit and stuffing; a bundle of
+    papers into his inside pocket
     
     
-    "I shall never be better," said Jane Merrick, sternly
-     "The end is not
-    far off now
-    "
+    The Major stared at him haughtily, but made no attempt to openly
+    recognize the man
+     Uncle John gave a start, laughed, and then walked
+    away briskly, throwing a hasty "good-bye" to the obsequious banker,
+    who followed him out, bowing low
     
-    "Oh, I'm sorry to hear you say that!" said Patsy; "but I hope it is
-    not true
-     Why, here are we four newly found relations all beginning to
-    get acquainted, and to love one another, and we can't have our little
-    party broken up, auntie dear
-    "
     
-    "Five of us--five relations," cried Uncle John, coming around the
-    corner of the hedge
-     "Don't I count, Patsy, you rogue? Why you're
-    looking as bright and as bonny as can be
-     I wouldn't be surprised if
-    you could toddle
-    "
+    The Major returned to his office with a grave face, and sat for the
+    best part of three hours in a brown study
+     Then he took his hat and
+    went home
     
-    "Not yet," she answered, cheerfully
-     "But I'm doing finely, Uncle
-    John, and it won't be long before I can get about as well as ever
-    "
     
-    "And to think," said Aunt Jane, bitterly, "that all this trouble was
-    caused by that miserable boy! If I knew where to send him he'd not
-    stay at Elmhurst a day longer
+    Patsy asked anxiously if anything had happened, when she saw his face;
+    but the Major shook his head
+    
+    
+    Uncle John arrived just in time for dinner, in a very genial mood,
+    and he and Patsy kept up a lively conversation at the table while the
+    Major looked stern every time he caught the little man's eye
     
     Ground Truth sentences 0 to 10:
+     Merrick
+     Would it not be better for me to send these
+    papers by a messenger to your house?"
+    
+    "No; I'll take them myself
+     No one will rob me
+    " And then the door
+    swung open and, chuckling in his usual whimsical fashion, Uncle John
+    came out, wearing his salt-and-pepper suit and stuffing; a bundle of
+    papers into his inside pocket
     
     
-    "I shall never be better," said Jane Merrick, sternly
-     "The end is not
-    far off now
-    "
+    The Major stared at him haughtily, but made no attempt to openly
+    recognize the man
+     Uncle John gave a start, laughed, and then walked
+    away briskly, throwing a hasty "good-bye" to the obsequious banker,
+    who followed him out, bowing low
     
-    "Oh, I'm sorry to hear you say that!" said Patsy; "but I hope it is
-    not true
-     Why, here are we four newly found relations all beginning to
-    get acquainted, and to love one another, and we can't have our little
-    party broken up, auntie dear
-    "
     
-    "Five of us--five relations," cried Uncle John, coming around the
-    corner of the hedge
-     "Don't I count, Patsy, you rogue? Why you're
-    looking as bright and as bonny as can be
-     I wouldn't be surprised if
-    you could toddle
-    "
+    The Major returned to his office with a grave face, and sat for the
+    best part of three hours in a brown study
+     Then he took his hat and
+    went home
     
-    "Not yet," she answered, cheerfully
-     "But I'm doing finely, Uncle
-    John, and it won't be long before I can get about as well as ever
-    "
     
-    "And to think," said Aunt Jane, bitterly, "that all this trouble was
-    caused by that miserable boy! If I knew where to send him he'd not
-    stay at Elmhurst a day longer
+    Patsy asked anxiously if anything had happened, when she saw his face;
+    but the Major shook his head
+    
+    
+    Uncle John arrived just in time for dinner, in a very genial mood,
+    and he and Patsy kept up a lively conversation at the table while the
+    Major looked stern every time he caught the little man's eye
+    
+    Dataset Stats
+    Roughly the number of unique words: 58051
+    Number of sentences: 27600
+    Average number of words in a sentence: 24.12873188405797
+    
+    Transcript sentences 0 to 10:
+     Merrick
+     Would it not be better for me to send these
+    papers by a messenger to your house?"
+    
+    "No; I'll take them myself
+     No one will rob me
+    " And then the door
+    swung open and, chuckling in his usual whimsical fashion, Uncle John
+    came out, wearing his salt-and-pepper suit and stuffing; a bundle of
+    papers into his inside pocket
+    
+    
+    The Major stared at him haughtily, but made no attempt to openly
+    recognize the man
+     Uncle John gave a start, laughed, and then walked
+    away briskly, throwing a hasty "good-bye" to the obsequious banker,
+    who followed him out, bowing low
+    
+    
+    The Major returned to his office with a grave face, and sat for the
+    best part of three hours in a brown study
+     Then he took his hat and
+    went home
+    
+    
+    Patsy asked anxiously if anything had happened, when she saw his face;
+    but the Major shook his head
+    
+    
+    Uncle John arrived just in time for dinner, in a very genial mood,
+    and he and Patsy kept up a lively conversation at the table while the
+    Major looked stern every time he caught the little man's eye
+    
+    Ground Truth sentences 0 to 10:
+     Merrick
+     Would it not be better for me to send these
+    papers by a messenger to your house?"
+    
+    "No; I'll take them myself
+     No one will rob me
+    " And then the door
+    swung open and, chuckling in his usual whimsical fashion, Uncle John
+    came out, wearing his salt-and-pepper suit and stuffing; a bundle of
+    papers into his inside pocket
+    
+    
+    The Major stared at him haughtily, but made no attempt to openly
+    recognize the man
+     Uncle John gave a start, laughed, and then walked
+    away briskly, throwing a hasty "good-bye" to the obsequious banker,
+    who followed him out, bowing low
+    
+    
+    The Major returned to his office with a grave face, and sat for the
+    best part of three hours in a brown study
+     Then he took his hat and
+    went home
+    
+    
+    Patsy asked anxiously if anything had happened, when she saw his face;
+    but the Major shook his head
+    
+    
+    Uncle John arrived just in time for dinner, in a very genial mood,
+    and he and Patsy kept up a lively conversation at the table while the
+    Major looked stern every time he caught the little man's eye
     
 
 
@@ -511,6 +476,11 @@ print('')
 np.save("lang_model.npy",bigram_model)
 ```
 
+    
+    
+    
+
+
 
 ```python
 fdist = nltk.FreqDist(bigram_model)
@@ -520,6 +490,59 @@ print("Word|Freq:")
 for word, frequency in fdist.most_common(50):
     print(u'{}|{}'.format(word, frequency))
 ```
+
+    Word|Freq:
+    ('project', 'gutenbergtm')|1095
+    ('project', 'gutenberg')|1014
+    ('greater', 'part')|532
+    ('captain', 'nemo')|452
+    ('united', 'states')|407
+    ('great', 'britain')|385
+    ('uncle', 'john')|364
+    ('gold', 'silver')|337
+    ('let', 'us')|331
+    ('of', 'course')|328
+    ('new', 'york')|310
+    ('old', 'man')|306
+    ('gutenbergtm', 'electronic')|306
+    ('mr', 'bounderby')|294
+    ('public', 'domain')|293
+    ('every', 'one')|291
+    ('young', 'man')|284
+    ('mrs', 'sparsit')|282
+    ('one', 'day')|281
+    ('one', 'another')|280
+    ('archive', 'foundation')|279
+    ('gutenberg', 'literary')|279
+    ('literary', 'archive')|279
+    ('dont', 'know')|275
+    ('electronic', 'works')|272
+    ('per', 'cent')|263
+    ('could', 'see')|262
+    ('ned', 'land')|254
+    ('good', 'deal')|247
+    ('two', 'three')|240
+    ('set', 'forth')|225
+    ('years', 'ago')|220
+    ('old', 'woman')|219
+    ('you', 'may')|218
+    ('it', 'would')|207
+    ('the', 'first')|206
+    ('next', 'day')|201
+    ('long', 'time')|200
+    ('said', 'mrs')|199
+    ('said', 'mr')|198
+    ('of', 'the')|198
+    ('first', 'time')|196
+    ('every', 'day')|193
+    ('one', 'thing')|193
+    ('small', 'print')|189
+    ('men', 'women')|187
+    ('electronic', 'work')|187
+    ('every', 'man')|182
+    ('mr', 'gradgrind')|173
+    ('it', 'may')|172
+
 
 
 ```python
@@ -534,6 +557,14 @@ print()
 # Determine Most common in conditional frequency
 print("Listing 20 most frequent words to come after 'greater':\n", cfreq_2gram["greater"].most_common(20))
 ```
+
+    
+    Listing the words that can follow after 'greater':
+     dict_keys(['valuable', 'smaller', 'gehenna', 'desolation', 'dexterity', 'opportunities', 'woe', 'returns', 'perithous', 'tenant', 'honor', 'indeed', 'agony', 'glorious', 'latter', 'account', 'divinity', 'sum', 'indignation', 'sin', 'advantage', 'transgression', 'flourish', 'necessary', 'teacher', 'activity', 'fortune', 'whole', 'rank', 'beauty', 'abundance', 'cost', 'disorders', 'sums', 'told', 'opening', 'action', 'parsimony', 'claim', 'worlds', 'beginning', 'convenience', 'labourers', 'change', 'supply', 'require', 'equal', 'found', 'weal', 'confidence', 'expected', 'knave', 'scarcity', 'quantity', 'gift', 'thoughts', 'trade', 'insult', 'deviation', 'stock', 'second', 'prince', 'extent', 'great', 'semblance', 'america', 'zeal', 'solidarity', 'clerk', 'want', 'among', 'rum', 'sun', 'riches', 'lesser', 'wealth', 'proportion', 'importation', 'slaves', 'liberty', 'grew', 'sorrow', 'intelligence', 'it', 'moment', 'need', 'inferiority', 'difference', 'vessels', 'as', 'writings', 'number', 'sometimes', 'men', 'sadness', 'little', 'clearness', 'distinctness', 'cheap', 'ones', 'rapidity', 'capital', 'countries', 'boldness', 'thirst', 'balance', 'crop', 'danger', 'shall', 'eloquence', 'never', 'whatever', 'peace', 'power', 'general', 'cheapness', 'usual', 'fast', 'warmth', 'titan', 'tartness', 'relevance', 'come', 'enthusiasm', 'body', 'sensation', 'and', 'dole', 'prospective', 'length', 'injustice', 'perpendicular', 'worldly', 'mans', 'depth', 'glory', 'otherwise', 'calamity', 'he', 'splendour', 'costage', 'heartiness', 'difficulties', 'salaries', 'frequently', 'gladness', 'influence', 'gain', 'gold', 'professed', 'melodies', 'strength', 'weight', 'desire', 'every', 'nails', 'present', 'incorporation', 'simplicity', 'environment', 'contained', 'wisdom', 'former', 'exportation', 'understanding', 'still', 'return', 'made', 'fortitude', 'therefore', 'produce', 'confusion', 'like', 'actually', 'force', 'guilds', 'remoteness', 'favour', 'france', 'well', 'alterations', 'use', 'delectation', 'already', 'if', 'than', 'peril', 'strain', 'life', 'at', 'range', 'sanctity', 'freedom', 'service', 'wrong', 'depths', 'herein', 'importance', 'goods', 'mountains', 'the', 'mass', 'rapture', 'content', 'business', 'sovereign', 'wonder', 'comfort', 'fame', 'art', 'things', 'mystery', 'far', 'subconscious', 'fiercer', 'either', 'without', 'continuing', 'restoration', 'rent', 'love', 'annual', 'portion', 'seems', 'land', 'effort', 'chance', 'impersonal', 'malversation', 'diligence', 'london', 'gifts', 'mastery', 'talents', 'to', 'waxen', 'augmentation', 'pasture', 'money', 'superabundance', 'upon', 'parts', 'quantities', 'vitality', 'such', 'ever', 'brewery', 'ii', 'capacities', 'believed', 'demand', 'name', 'pleasure', 'corn', 'strides', 'personal', 'steps', 'fire', 'economy', 'dilatation', 'no', 'rice', 'practicality', 'yet', 'place', 'would', 'view', 'death', 'variation', 'difficulty', 'shame', 'original', 'renown', 'amount', 'energy', 'revenue', 'antipathy', 'fund', 'expense', 'might', 'poets', 'triumph', 'circulation', 'universal', 'vanquished', 'field', 'fury', 'reduction', 'haste', 'favours', 'pressure', 'latitude', 'taint', 'less', 'circumstances', 'dangers', 'left', 'extensive', 'lawe', 'brightness', 'haytime', 'though', 'offence', 'lights', 'authority', 'crown', 'anyone', 'real', 'consequence', 'windbag', 'value', 'mind', 'saving', 'expression', 'wiser', 'share', 'facility', 'contemporary', 'enduring', 'point', 'degree', 'honourable', 'sufficient', 'foregoing', 'care', 'its', 'surplus', 'horn', 'pomp', 'attractions', 'favours\x94', 'group', 'numbers', 'higher', 'first', 'satisfaction', 'advantages', 'imprudence', 'dawn', 'africa', 'fear', 'lasting', 'tax', 'ruritania', 'crime', 'could', 'variety', 'english', 'ease', 'rich', 'but', 'age', 'employs', 'thing', 'annoyance', 'inconveniency', 'time', 'kindness', 'evil', 'greater', 'perhaps', 'must', 'degrees', 'producing', 'leader', 'many', 'hope', 'admiration', 'interest', 'taxes', 'individual', 'none', 'frequency', 'success', 'harm', 'dignity', 'injudicious', 'heat', 'one', 'went', 'common', 'in', 'abroad', 'formerly', 'evils', 'done', 'modern', 'pain', 'past', 'height', 'honour', 'frequent', 'ordinary', 'security', 'approximation', 'levying', 'trespass', 'fault', 'profusion', 'price', 'slumbers', 'jefferies', 'togetherness', 'pride', 'pieces', 'speed', 'loss', 'reprobate', 'ned', 'stocks', 'rights', 'violence', 'silence', 'benefit', 'distress', 'fixed', 'effect', 'almost', 'end', 'grief', 'singleness', 'acorn', 'suited', 'competition', 'velocity', 'obstacles', 'rise', 'profit', 'seignorage', 'goodness', 'grace', 'encountering', 'cultivation', 'events', 'distance', 'part'])
+    
+    Listing 20 most frequent words to come after 'greater':
+     [('part', 532), ('quantity', 105), ('number', 50), ('proportion', 43), ('value', 24), ('smaller', 16), ('share', 16), ('greater', 16), ('less', 12), ('profit', 11), ('capital', 9), ('importance', 9), ('the', 9), ('revenue', 9), ('surplus', 8), ('degree', 7), ('variety', 7), ('distance', 7), ('sum', 6), ('stock', 6)]
+
 
 
 ```python
@@ -670,6 +701,207 @@ for audio, ground_truth in audio_files.items():
     
 ```
 
+    Waiting for operation to complete...
+    
+    
+    RE-RANKED Results: 
+     {'go go do you hear': 0.85315002696588638, 'go do you here': 0.86520871338434524, 'I go do you hear': 0.81552877281792457, 'go do here': 0.85310941742492696, 'do you here': 0.75866525587625799, 'go do you hear': 0.77847528909333052, 'goat do you hear': 0.85976193998940287, 'do you hear': 0.75895958994515234, 'goat do you here': 0.85946760592050853, 'I go do you here': 0.81523443874903023}
+    
+    
+    ORIGINAL Transcript: 
+    'goat do you here' 
+    with a confidence_score of: 0.9545454978942871
+    
+    
+    RE-RANKED Transcript: 
+    'go do you here' 
+    with a confidence_score of: 0.8652087133843452
+    
+    
+    GROUND TRUTH TRANSCRIPT: 
+    GO DO YOU HEAR
+    
+    The original transcript was RE-RANKED. The transcripts do not match!
+    Differences between original and re-ranked:  ['goat']
+    
+    
+    The original transcript DOES NOT MATCH ground truth.
+    Differences between original and ground truth:  ['here', 'goat']
+    
+    
+    The RE_RANKED transcript DOES NOT MATCH ground truth.
+    Differences between Reranked and ground truth:  ['here']
+    
+    
+    
+    
+    ORIGINAL Edit Distance: 
+    4
+    RE-RANKED Edit Distance: 
+    2
+    
+    
+    Waiting for operation to complete...
+    
+    
+    RE-RANKED Results: 
+     {'at this moment of the whole soul of the old man seem centered in his eyes which became bloodshot the veins of the throat swelled his cheeks and temples became purple as though he was struck with epilepsy nothing was wanting to complete this but the utterance of a cry': 0.87474450767040257, 'at this moment of the whole soul of the Old Man scene centered in his eyes which became bloodshot the veins of the throat swelled his cheeks and temples became purple as though he was struck with epilepsy nothing was wanting to complete this but the utterance of a cry': 0.86880395710468294, 'at this moment the whole soul of the old man seems centered in his eyes which became bloodshot the veins of the throat swelled his cheeks and temples became purple as though he was struck with epilepsy nothing was wanting to complete this but the utterance of a cry': 0.88751497417688374, 'at this moment of the whole soul of the old man seemed centered in his eyes which became bloodshot the veins of the throat swelled his cheeks and temples became purple as though he was struck with epilepsy nothing was wanting to complete this but the utterance of a cry': 0.87742958217859279, 'at this moment the whole soul of the old man seem centered in his eyes which became bloodshot the veins of the throat swelled his cheeks and temples became purple as though he was struck with epilepsy nothing was wanting to complete this but the utterance of a cry': 0.88437801450490949, 'at this moment to the whole soul of the old man seemed centered in his eyes which became bloodshot the veins of the throat swelled his cheeks and temples became purple as though he was struck with epilepsy nothing was wanting to complete this but the utterance of a cry': 0.88942871093750009, 'at this moment to the whole soul of the Old Man scene centered in his eyes which became bloodshot the veins of the throat swelled his cheeks and temples became purple as though he was struck with epilepsy nothing was wanting to complete this but the utterance of a cry': 0.87938940227031703, 'at this moment the whole soul of the Old Man scene centered in his eyes which became bloodshot the veins of the throat swelled his cheeks and temples became purple as though he was struck with epilepsy nothing was wanting to complete this but the utterance of a cry': 0.87849078625440591, 'at this moment to the whole soul of the old man seem centered in his eyes which became bloodshot the veins of the throat swelled his cheeks and temples became purple as though he was struck with epilepsy nothing was wanting to complete this but the utterance of a cry': 0.88532995283603666, 'at this moment the whole soul of the old man seemed centered in his eyes which became bloodshot the veins of the throat swelled his cheeks and temples became purple as though he was struck with epilepsy nothing was wanting to complete this but the utterance of a cry': 0.88711463958024983}
+    
+    
+    ORIGINAL Transcript: 
+    'at this moment of the whole soul of the old man seemed centered in his eyes which became bloodshot the veins of the throat swelled his cheeks and temples became purple as though he was struck with epilepsy nothing was wanting to complete this but the utterance of a cry' 
+    with a confidence_score of: 0.9498937726020813
+    
+    
+    RE-RANKED Transcript: 
+    'at this moment to the whole soul of the old man seemed centered in his eyes which became bloodshot the veins of the throat swelled his cheeks and temples became purple as though he was struck with epilepsy nothing was wanting to complete this but the utterance of a cry' 
+    with a confidence_score of: 0.8894287109375001
+    
+    
+    GROUND TRUTH TRANSCRIPT: 
+    AT THIS MOMENT THE WHOLE SOUL OF THE OLD MAN SEEMED CENTRED IN HIS EYES WHICH BECAME BLOODSHOT THE VEINS OF THE THROAT SWELLED HIS CHEEKS AND TEMPLES BECAME PURPLE AS THOUGH HE WAS STRUCK WITH EPILEPSY NOTHING WAS WANTING TO COMPLETE THIS BUT THE UTTERANCE OF A CRY
+    
+    No reranking was performed. The transcripts match!
+    
+    
+    The original transcript DOES NOT MATCH ground truth.
+    Differences between original and ground truth:  ['centered']
+    
+    
+    The RE_RANKED transcript DOES NOT MATCH ground truth.
+    Differences between Reranked and ground truth:  ['centered']
+    
+    
+    
+    
+    ORIGINAL Edit Distance: 
+    4
+    RE-RANKED Edit Distance: 
+    4
+    
+    
+    Waiting for operation to complete...
+    
+    
+    RE-RANKED Results: 
+     {'Devon he rushed towards the old man and made him inhaler powerful restorative': 0.72487533390522008, 'deveny rushed towards the old man and made him and Halo powerful restorative': 0.74758408963680267, 'deveney rushed towards the old man and made him in Halo powerful restorative': 0.73207941949367528, 'Devon he rushed towards the old man and made him and Halo powerful restorative': 0.7115083783864975, 'Devin he rushed towards the old man and made him in Halo powerful restorative': 0.74116749465465548, 'Devin he rushed towards the old man and made him and Halo powerful restorative': 0.76070690453052525, 'Devon he rushed towards the old man and made him in Halo powerful restorative': 0.69701785147190098, 'deveney Rush towards the old man and made him and Halo powerful restorative': 0.69918780922889712, 'deveny Rush towards the old man and made him and Halo powerful restorative': 0.69918780922889712, 'deveney rushed towards the old man and made him and Halo powerful restorative': 0.74758408963680267}
+    
+    
+    ORIGINAL Transcript: 
+    'Devon he rushed towards the old man and made him inhaler powerful restorative' 
+    with a confidence_score of: 0.7925808429718018
+    
+    
+    RE-RANKED Transcript: 
+    'Devin he rushed towards the old man and made him and Halo powerful restorative' 
+    with a confidence_score of: 0.7607069045305253
+    
+    
+    GROUND TRUTH TRANSCRIPT: 
+    D'AVRIGNY RUSHED TOWARDS THE OLD MAN AND MADE HIM INHALE A POWERFUL RESTORATIVE
+    
+    The original transcript was RE-RANKED. The transcripts do not match!
+    Differences between original and re-ranked:  ['devon', 'inhaler']
+    
+    
+    The original transcript DOES NOT MATCH ground truth.
+    Differences between original and ground truth:  ['devon', 'he', 'inhaler']
+    
+    
+    The RE_RANKED transcript DOES NOT MATCH ground truth.
+    Differences between Reranked and ground truth:  ['devin', 'he', 'halo']
+    
+    
+    
+    
+    ORIGINAL Edit Distance: 
+    9
+    RE-RANKED Edit Distance: 
+    13
+    
+    
+    Waiting for operation to complete...
+    
+    
+    RE-RANKED Results: 
+     {"but in less than five minutes the staircase groaned when he's an extraordinary way.": 0.75442036092281339, "but I'm less than 5 minutes the staircase groaned when he's an extraordinary wait": 0.7674720663577318, "but in less than five minutes the staircase groaned when he's an extraordinary weight": 0.80769927799701691, "but in less than five minutes the staircase groaned when he's an extraordinary way": 0.80769927799701691, "but I'm less than 5 minutes the staircase groaned when he's an extraordinary way": 0.7674720663577318, "but in less than 5 minutes the staircase groaned when he's an extraordinary weight": 0.7811811616644263, "but in less than five minutes the staircase groaned when he's an extraordinary wait": 0.80769927799701691, "but in less than 5 minutes the staircase groaned when he's an extraordinary way": 0.81482807900756593, "but in less than 5 minutes the staircase groaned when he's an extraordinary wait": 0.81482807900756593, "but I'm less than 5 minutes the staircase groaned when he's an extraordinary weight": 0.7674720663577318}
+    
+    
+    ORIGINAL Transcript: 
+    'but I'm less than 5 minutes the staircase groaned when he's an extraordinary way' 
+    with a confidence_score of: 0.8512189984321594
+    
+    
+    RE-RANKED Transcript: 
+    'but in less than 5 minutes the staircase groaned when he's an extraordinary wait' 
+    with a confidence_score of: 0.8148280790075659
+    
+    
+    GROUND TRUTH TRANSCRIPT: 
+    BUT IN LESS THAN FIVE MINUTES THE STAIRCASE GROANED BENEATH AN EXTRAORDINARY WEIGHT
+    
+    The original transcript was RE-RANKED. The transcripts do not match!
+    Differences between original and re-ranked:  ['i', "'m", 'way']
+    
+    
+    The original transcript DOES NOT MATCH ground truth.
+    Differences between original and ground truth:  ['5', 'when', "'m", 'he', "'s", 'i', 'way']
+    
+    
+    The RE_RANKED transcript DOES NOT MATCH ground truth.
+    Differences between Reranked and ground truth:  ['wait', '5', "'s", 'when', 'he']
+    
+    
+    
+    
+    ORIGINAL Edit Distance: 
+    18
+    RE-RANKED Edit Distance: 
+    14
+    
+    
+    Waiting for operation to complete...
+    
+    
+    RE-RANKED Results: 
+     {'and the cry issued from his pores if we made us speak a cry frightful and its silence': 0.8229485416784883, 'and the cry issued from his pores if we made the speak a cry frightful and its silence': 0.81755691375583417, 'and the cry issued from his pores if we may the speak a cry frightful and its silence': 0.80107996519655, 'and the cry issued from his pores if we made the speak a cry frightful and it silence': 0.77812602724879987, 'and the cry issued from his pores if we made the speak a cry frightful in it silence': 0.77820050343871117, 'and the cry issued from his pores if we made us speak a cry frightful in its silence': 0.8230056628584862, "and the cry issued from his pores if we made the speak a cry frightful and it's silence": 0.82358051147311928, 'and the cry issued from his pores if we may the speak a cry frightful in it silence': 0.76172350123524668, 'and the cry issued from his pores if we made the speak a cry frightful in its silence': 0.81761403474956751, 'and the cry issued from his pores if we may the speak a cry frightful in its silence': 0.80190430544316771}
+    
+    
+    ORIGINAL Transcript: 
+    'and the cry issued from his pores if we made us speak a cry frightful in its silence' 
+    with a confidence_score of: 0.9122896194458008
+    
+    
+    RE-RANKED Transcript: 
+    'and the cry issued from his pores if we made the speak a cry frightful and it's silence' 
+    with a confidence_score of: 0.8235805114731193
+    
+    
+    GROUND TRUTH TRANSCRIPT: 
+    AND THE CRY ISSUED FROM HIS PORES IF WE MAY THUS SPEAK A CRY FRIGHTFUL IN ITS SILENCE
+    
+    The original transcript was RE-RANKED. The transcripts do not match!
+    Differences between original and re-ranked:  ['us', 'in', 'its']
+    
+    
+    The original transcript DOES NOT MATCH ground truth.
+    Differences between original and ground truth:  ['us', 'made']
+    
+    
+    The RE_RANKED transcript DOES NOT MATCH ground truth.
+    Differences between Reranked and ground truth:  ['it', "'s", 'made']
+    
+    
+    
+    
+    ORIGINAL Edit Distance: 
+    4
+    RE-RANKED Edit Distance: 
+    7
+    
+    
+
+
 ### Evaluate N-Gram Model on Dataset
 
 
@@ -786,6 +1018,75 @@ for filename, gt_transcript in transcripts.items():
 
 ```
 
+    Found 97 text files in the directory: /src/lexicon/LibriSpeech/dev-clean/**/*.txt
+
+
+
+    ---------------------------------------------------------------------------
+
+    _DeadlineExceededError                    Traceback (most recent call last)
+
+    ~/miniconda3/envs/tf-gpu/lib/python3.5/site-packages/google/gax/retry.py in inner(*args)
+        120                 to_call = add_timeout_arg(a_func, timeout, **kwargs)
+    --> 121                 return to_call(*args)
+        122             except Exception as exception:  # pylint: disable=broad-except
+
+
+    ~/miniconda3/envs/tf-gpu/lib/python3.5/site-packages/google/gax/retry.py in inner(*args)
+         67         updated_args = args + (timeout,)
+    ---> 68         return a_func(*updated_args, **kwargs)
+         69 
+
+
+    ~/miniconda3/envs/tf-gpu/lib/python3.5/site-packages/google/gax/__init__.py in _done_check(_)
+        669             if not self.done():
+    --> 670                 raise _DeadlineExceededError()
+        671 
+
+
+    _DeadlineExceededError: Deadline Exceeded
+
+    
+    During handling of the above exception, another exception occurred:
+
+
+    KeyboardInterrupt                         Traceback (most recent call last)
+
+    <ipython-input-13-ae178e66cb33> in <module>()
+         55     # Detects speech and words in the audio file
+         56     operation = client.long_running_recognize(config, audio)
+    ---> 57     result = operation.result(timeout=90)
+         58     alternatives = result.results[0].alternatives
+         59 
+
+
+    ~/miniconda3/envs/tf-gpu/lib/python3.5/site-packages/google/gax/__init__.py in result(self, timeout)
+        593         """
+        594         # Check exceptional case: raise if no response
+    --> 595         if not self._poll(timeout).HasField('response'):
+        596             raise GaxError(self._operation.error.message)
+        597 
+
+
+    ~/miniconda3/envs/tf-gpu/lib/python3.5/site-packages/google/gax/__init__.py in _poll(self, timeout)
+        703 
+        704         # Start polling, and return the final result from `_done_check`.
+    --> 705         return retryable_done_check()
+        706 
+        707     def _execute_tasks(self):
+
+
+    ~/miniconda3/envs/tf-gpu/lib/python3.5/site-packages/google/gax/retry.py in inner(*args)
+        133                 # expected delay.
+        134                 to_sleep = random.uniform(0, delay * 2)
+    --> 135                 time.sleep(to_sleep / _MILLIS_PER_SECOND)
+        136                 delay = min(delay * delay_mult, max_delay_millis)
+        137 
+
+
+    KeyboardInterrupt: 
+
+
 
 ```python
 # Use other TED speeches for building test set
@@ -827,6 +1128,8 @@ def get_audio_size(audio_filepath):
 
 
 ```python
+from gcs_api_wrapper import GCSWrapper
+
 speaker_id, lexicon = list(lexicons.items())[0]
 gcs = GCSWrapper()
 cache_directory = os.path.join(os.getcwd(), 'datacache', 'speech_objects')
@@ -858,2158 +1161,366 @@ lexicon.optimize(early_stop=True)
 #lexicon.evaluate_testset()
 ```
 
-    Epoch   0 Batch  100/2536 - Train Accuracy: 0.5909, Validation Accuracy: 0.6339, Loss: 3.7819
-    Epoch   0 Batch  200/2536 - Train Accuracy: 0.7076, Validation Accuracy: 0.6339, Loss: 2.5078
-    Epoch   0 Batch  300/2536 - Train Accuracy: 0.7054, Validation Accuracy: 0.6339, Loss: 2.3029
-    Epoch   0 Batch  400/2536 - Train Accuracy: 0.5996, Validation Accuracy: 0.6339, Loss: 2.8934
-    Epoch   0 Batch  500/2536 - Train Accuracy: 0.5458, Validation Accuracy: 0.6339, Loss: 3.6510
-    Epoch   0 Batch  600/2536 - Train Accuracy: 0.5646, Validation Accuracy: 0.6339, Loss: 3.4727
-    Epoch   0 Batch  700/2536 - Train Accuracy: 0.5769, Validation Accuracy: 0.6339, Loss: 3.4185
-    Epoch   0 Batch  800/2536 - Train Accuracy: 0.5625, Validation Accuracy: 0.6339, Loss: 3.5207
-    Epoch   0 Batch  900/2536 - Train Accuracy: 0.4487, Validation Accuracy: 0.6339, Loss: 4.0872
-    Epoch   0 Batch 1000/2536 - Train Accuracy: 0.5062, Validation Accuracy: 0.6339, Loss: 3.4609
-    Epoch   0 Batch 1100/2536 - Train Accuracy: 0.3638, Validation Accuracy: 0.6339, Loss: 4.5591
-    Epoch   0 Batch 1200/2536 - Train Accuracy: 0.4668, Validation Accuracy: 0.6339, Loss: 3.6390
-    Epoch   0 Batch 1300/2536 - Train Accuracy: 0.7236, Validation Accuracy: 0.6339, Loss: 2.4886
-    Epoch   0 Batch 1400/2536 - Train Accuracy: 0.4813, Validation Accuracy: 0.6339, Loss: 3.5806
-    Epoch   0 Batch 1500/2536 - Train Accuracy: 0.6466, Validation Accuracy: 0.6339, Loss: 2.6339
-    Epoch   0 Batch 1600/2536 - Train Accuracy: 0.5521, Validation Accuracy: 0.6339, Loss: 3.1899
-    Epoch   0 Batch 1700/2536 - Train Accuracy: 0.6278, Validation Accuracy: 0.6339, Loss: 2.5285
-    Epoch   0 Batch 1800/2536 - Train Accuracy: 0.7358, Validation Accuracy: 0.6339, Loss: 1.8110
-    Epoch   0 Batch 1900/2536 - Train Accuracy: 0.5599, Validation Accuracy: 0.6339, Loss: 2.8119
-    Epoch   0 Batch 2000/2536 - Train Accuracy: 0.5889, Validation Accuracy: 0.6339, Loss: 2.9511
-    Epoch   0 Batch 2100/2536 - Train Accuracy: 0.4375, Validation Accuracy: 0.6339, Loss: 3.6075
-    Epoch   0 Batch 2200/2536 - Train Accuracy: 0.5813, Validation Accuracy: 0.6339, Loss: 2.7566
-    Epoch   0 Batch 2300/2536 - Train Accuracy: 0.3750, Validation Accuracy: 0.6339, Loss: 4.4988
-    Epoch   0 Batch 2400/2536 - Train Accuracy: 0.5216, Validation Accuracy: 0.6339, Loss: 3.3584
-    Epoch   0 Batch 2500/2536 - Train Accuracy: 0.4183, Validation Accuracy: 0.6339, Loss: 4.0160
-    Epoch   1 Batch  100/2536 - Train Accuracy: 0.6534, Validation Accuracy: 0.6339, Loss: 2.3992
-    Epoch   1 Batch  200/2536 - Train Accuracy: 0.7321, Validation Accuracy: 0.6339, Loss: 1.9085
-    Epoch   1 Batch  300/2536 - Train Accuracy: 0.7188, Validation Accuracy: 0.6339, Loss: 1.7597
-    Epoch   1 Batch  400/2536 - Train Accuracy: 0.6680, Validation Accuracy: 0.6339, Loss: 2.2870
-    Epoch   1 Batch  500/2536 - Train Accuracy: 0.5708, Validation Accuracy: 0.6339, Loss: 2.9395
-    Epoch   1 Batch  600/2536 - Train Accuracy: 0.5958, Validation Accuracy: 0.6339, Loss: 2.7216
-    Epoch   1 Batch  700/2536 - Train Accuracy: 0.5938, Validation Accuracy: 0.6339, Loss: 2.7720
-    Epoch   1 Batch  800/2536 - Train Accuracy: 0.5841, Validation Accuracy: 0.6339, Loss: 2.8416
-    Epoch   1 Batch  900/2536 - Train Accuracy: 0.4955, Validation Accuracy: 0.6339, Loss: 3.1415
-    Epoch   1 Batch 1000/2536 - Train Accuracy: 0.5417, Validation Accuracy: 0.6339, Loss: 2.7730
-    Epoch   1 Batch 1100/2536 - Train Accuracy: 0.3817, Validation Accuracy: 0.6339, Loss: 3.7213
-    Epoch   1 Batch 1200/2536 - Train Accuracy: 0.5020, Validation Accuracy: 0.6339, Loss: 2.8784
-    Epoch   1 Batch 1300/2536 - Train Accuracy: 0.7308, Validation Accuracy: 0.6339, Loss: 1.8544
-    Epoch   1 Batch 1400/2536 - Train Accuracy: 0.5146, Validation Accuracy: 0.6339, Loss: 2.9559
-    Epoch   1 Batch 1500/2536 - Train Accuracy: 0.6755, Validation Accuracy: 0.6339, Loss: 2.0428
-    Epoch   1 Batch 1600/2536 - Train Accuracy: 0.6042, Validation Accuracy: 0.6339, Loss: 2.5360
-    Epoch   1 Batch 1700/2536 - Train Accuracy: 0.6619, Validation Accuracy: 0.6339, Loss: 2.0350
-    Epoch   1 Batch 1800/2536 - Train Accuracy: 0.7642, Validation Accuracy: 0.6339, Loss: 1.4795
-    Epoch   1 Batch 1900/2536 - Train Accuracy: 0.5990, Validation Accuracy: 0.6339, Loss: 2.2648
-    Epoch   1 Batch 2000/2536 - Train Accuracy: 0.6274, Validation Accuracy: 0.6339, Loss: 2.3492
-    Epoch   1 Batch 2100/2536 - Train Accuracy: 0.5078, Validation Accuracy: 0.6339, Loss: 2.7127
-    Epoch   1 Batch 2200/2536 - Train Accuracy: 0.6354, Validation Accuracy: 0.6339, Loss: 2.2033
-    Epoch   1 Batch 2300/2536 - Train Accuracy: 0.4399, Validation Accuracy: 0.6339, Loss: 3.8612
-    Epoch   1 Batch 2400/2536 - Train Accuracy: 0.5288, Validation Accuracy: 0.6339, Loss: 2.7622
-    Epoch   1 Batch 2500/2536 - Train Accuracy: 0.4567, Validation Accuracy: 0.6339, Loss: 3.3669
-    Epoch   2 Batch  100/2536 - Train Accuracy: 0.6733, Validation Accuracy: 0.6339, Loss: 2.0062
-    Epoch   2 Batch  200/2536 - Train Accuracy: 0.7411, Validation Accuracy: 0.6339, Loss: 1.6330
-    Epoch   2 Batch  300/2536 - Train Accuracy: 0.7388, Validation Accuracy: 0.6339, Loss: 1.4664
-    Epoch   2 Batch  400/2536 - Train Accuracy: 0.6973, Validation Accuracy: 0.6339, Loss: 1.9647
-    Epoch   2 Batch  500/2536 - Train Accuracy: 0.5771, Validation Accuracy: 0.6339, Loss: 2.4975
-    Epoch   2 Batch  600/2536 - Train Accuracy: 0.6021, Validation Accuracy: 0.6339, Loss: 2.3414
-    Epoch   2 Batch  700/2536 - Train Accuracy: 0.6058, Validation Accuracy: 0.6339, Loss: 2.4317
-    Epoch   2 Batch  800/2536 - Train Accuracy: 0.6082, Validation Accuracy: 0.6339, Loss: 2.4752
-    Epoch   2 Batch  900/2536 - Train Accuracy: 0.5112, Validation Accuracy: 0.6339, Loss: 2.6803
-    Epoch   2 Batch 1000/2536 - Train Accuracy: 0.5938, Validation Accuracy: 0.6339, Loss: 2.3807
-    Epoch   2 Batch 1100/2536 - Train Accuracy: 0.4286, Validation Accuracy: 0.6339, Loss: 3.2201
-    Epoch   2 Batch 1200/2536 - Train Accuracy: 0.5078, Validation Accuracy: 0.6339, Loss: 2.4335
-    Epoch   2 Batch 1300/2536 - Train Accuracy: 0.7524, Validation Accuracy: 0.6339, Loss: 1.4841
-    Epoch   2 Batch 1400/2536 - Train Accuracy: 0.5521, Validation Accuracy: 0.6339, Loss: 2.6113
-    Epoch   2 Batch 1500/2536 - Train Accuracy: 0.6971, Validation Accuracy: 0.6339, Loss: 1.7170
-    Epoch   2 Batch 1600/2536 - Train Accuracy: 0.6146, Validation Accuracy: 0.6339, Loss: 2.1507
-    Epoch   2 Batch 1700/2536 - Train Accuracy: 0.7102, Validation Accuracy: 0.6339, Loss: 1.7170
-    Epoch   2 Batch 1800/2536 - Train Accuracy: 0.7812, Validation Accuracy: 0.6339, Loss: 1.2533
-    Epoch   2 Batch 1900/2536 - Train Accuracy: 0.6641, Validation Accuracy: 0.6339, Loss: 1.9008
-    Epoch   2 Batch 2000/2536 - Train Accuracy: 0.6514, Validation Accuracy: 0.6339, Loss: 2.0053
-    Epoch   2 Batch 2100/2536 - Train Accuracy: 0.5417, Validation Accuracy: 0.6339, Loss: 2.0230
-    Epoch   2 Batch 2200/2536 - Train Accuracy: 0.6500, Validation Accuracy: 0.6339, Loss: 1.9123
-    Epoch   2 Batch 2300/2536 - Train Accuracy: 0.4543, Validation Accuracy: 0.6339, Loss: 3.3482
-    Epoch   2 Batch 2400/2536 - Train Accuracy: 0.5721, Validation Accuracy: 0.6339, Loss: 2.4116
-    Epoch   2 Batch 2500/2536 - Train Accuracy: 0.4760, Validation Accuracy: 0.6339, Loss: 2.9548
-    Epoch   3 Batch  100/2536 - Train Accuracy: 0.6989, Validation Accuracy: 0.6339, Loss: 1.6845
-    Epoch   3 Batch  200/2536 - Train Accuracy: 0.7545, Validation Accuracy: 0.6339, Loss: 1.4443
-    Epoch   3 Batch  300/2536 - Train Accuracy: 0.7500, Validation Accuracy: 0.6339, Loss: 1.2922
-    Epoch   3 Batch  400/2536 - Train Accuracy: 0.6914, Validation Accuracy: 0.6339, Loss: 1.7133
-    Epoch   3 Batch  500/2536 - Train Accuracy: 0.6312, Validation Accuracy: 0.6339, Loss: 2.2221
-    Epoch   3 Batch  600/2536 - Train Accuracy: 0.6375, Validation Accuracy: 0.6339, Loss: 2.0591
-    Epoch   3 Batch  700/2536 - Train Accuracy: 0.6178, Validation Accuracy: 0.6339, Loss: 2.1516
-    Epoch   3 Batch  800/2536 - Train Accuracy: 0.6298, Validation Accuracy: 0.6339, Loss: 2.2143
-    Epoch   3 Batch  900/2536 - Train Accuracy: 0.5223, Validation Accuracy: 0.6339, Loss: 2.3201
-    Epoch   3 Batch 1000/2536 - Train Accuracy: 0.6042, Validation Accuracy: 0.6339, Loss: 2.0954
-    Epoch   3 Batch 1100/2536 - Train Accuracy: 0.4308, Validation Accuracy: 0.6339, Loss: 2.8656
-    Epoch   3 Batch 1200/2536 - Train Accuracy: 0.5547, Validation Accuracy: 0.6339, Loss: 2.1372
-    Epoch   3 Batch 1300/2536 - Train Accuracy: 0.7740, Validation Accuracy: 0.6339, Loss: 1.2151
-    Epoch   3 Batch 1400/2536 - Train Accuracy: 0.5896, Validation Accuracy: 0.6339, Loss: 2.3213
-    Epoch   3 Batch 1500/2536 - Train Accuracy: 0.7212, Validation Accuracy: 0.6339, Loss: 1.5167
-    Epoch   3 Batch 1600/2536 - Train Accuracy: 0.6589, Validation Accuracy: 0.6339, Loss: 1.8671
-    Epoch   3 Batch 1700/2536 - Train Accuracy: 0.7273, Validation Accuracy: 0.6339, Loss: 1.5243
-    Epoch   3 Batch 1800/2536 - Train Accuracy: 0.7955, Validation Accuracy: 0.6339, Loss: 1.0825
-    Epoch   3 Batch 1900/2536 - Train Accuracy: 0.6719, Validation Accuracy: 0.6339, Loss: 1.6258
-    Epoch   3 Batch 2000/2536 - Train Accuracy: 0.6755, Validation Accuracy: 0.6339, Loss: 1.7238
-    Epoch   3 Batch 2100/2536 - Train Accuracy: 0.6510, Validation Accuracy: 0.6339, Loss: 1.4436
-    Epoch   3 Batch 2200/2536 - Train Accuracy: 0.6646, Validation Accuracy: 0.6339, Loss: 1.6853
-    Epoch   3 Batch 2300/2536 - Train Accuracy: 0.4856, Validation Accuracy: 0.6339, Loss: 2.9567
-    Epoch   3 Batch 2400/2536 - Train Accuracy: 0.5721, Validation Accuracy: 0.6362, Loss: 2.1496
-    Epoch   3 Batch 2500/2536 - Train Accuracy: 0.5072, Validation Accuracy: 0.6339, Loss: 2.6819
-    Epoch   4 Batch  100/2536 - Train Accuracy: 0.7500, Validation Accuracy: 0.6339, Loss: 1.4768
-    Epoch   4 Batch  200/2536 - Train Accuracy: 0.7790, Validation Accuracy: 0.6339, Loss: 1.3142
-    Epoch   4 Batch  300/2536 - Train Accuracy: 0.7612, Validation Accuracy: 0.6339, Loss: 1.1365
-    Epoch   4 Batch  400/2536 - Train Accuracy: 0.7109, Validation Accuracy: 0.6339, Loss: 1.5150
-    Epoch   4 Batch  500/2536 - Train Accuracy: 0.6521, Validation Accuracy: 0.6339, Loss: 1.9431
-    Epoch   4 Batch  600/2536 - Train Accuracy: 0.6542, Validation Accuracy: 0.6339, Loss: 1.8600
-    Epoch   4 Batch  700/2536 - Train Accuracy: 0.6298, Validation Accuracy: 0.6339, Loss: 1.9284
-    Epoch   4 Batch  800/2536 - Train Accuracy: 0.6442, Validation Accuracy: 0.6339, Loss: 1.9823
-    Epoch   4 Batch  900/2536 - Train Accuracy: 0.5625, Validation Accuracy: 0.6339, Loss: 2.1051
-    Epoch   4 Batch 1000/2536 - Train Accuracy: 0.6042, Validation Accuracy: 0.6339, Loss: 1.8825
-    Epoch   4 Batch 1100/2536 - Train Accuracy: 0.4866, Validation Accuracy: 0.6339, Loss: 2.6423
-    Epoch   4 Batch 1200/2536 - Train Accuracy: 0.5547, Validation Accuracy: 0.6339, Loss: 1.9372
-    Epoch   4 Batch 1300/2536 - Train Accuracy: 0.8029, Validation Accuracy: 0.6339, Loss: 0.9568
-    Epoch   4 Batch 1400/2536 - Train Accuracy: 0.5854, Validation Accuracy: 0.6339, Loss: 2.0906
-    Epoch   4 Batch 1500/2536 - Train Accuracy: 0.7476, Validation Accuracy: 0.6339, Loss: 1.3430
-    Epoch   4 Batch 1600/2536 - Train Accuracy: 0.6875, Validation Accuracy: 0.6339, Loss: 1.6284
-    Epoch   4 Batch 1700/2536 - Train Accuracy: 0.7642, Validation Accuracy: 0.6339, Loss: 1.3230
-    Epoch   4 Batch 1800/2536 - Train Accuracy: 0.8182, Validation Accuracy: 0.6339, Loss: 0.9572
-    Epoch   4 Batch 1900/2536 - Train Accuracy: 0.6719, Validation Accuracy: 0.6339, Loss: 1.4391
-    Epoch   4 Batch 2000/2536 - Train Accuracy: 0.6875, Validation Accuracy: 0.6339, Loss: 1.5467
-    Epoch   4 Batch 2100/2536 - Train Accuracy: 0.7995, Validation Accuracy: 0.6362, Loss: 0.9944
-    Epoch   4 Batch 2200/2536 - Train Accuracy: 0.6875, Validation Accuracy: 0.6339, Loss: 1.5083
-    Epoch   4 Batch 2300/2536 - Train Accuracy: 0.5120, Validation Accuracy: 0.6362, Loss: 2.6629
-    Epoch   4 Batch 2400/2536 - Train Accuracy: 0.6178, Validation Accuracy: 0.6362, Loss: 1.9105
-    Epoch   4 Batch 2500/2536 - Train Accuracy: 0.5192, Validation Accuracy: 0.6339, Loss: 2.4228
-    Epoch   5 Batch  100/2536 - Train Accuracy: 0.7472, Validation Accuracy: 0.6339, Loss: 1.2848
-    Epoch   5 Batch  200/2536 - Train Accuracy: 0.7746, Validation Accuracy: 0.6339, Loss: 1.1667
-    Epoch   5 Batch  300/2536 - Train Accuracy: 0.7835, Validation Accuracy: 0.6339, Loss: 0.9963
-    Epoch   5 Batch  400/2536 - Train Accuracy: 0.7344, Validation Accuracy: 0.6339, Loss: 1.3268
-    Epoch   5 Batch  500/2536 - Train Accuracy: 0.6646, Validation Accuracy: 0.6339, Loss: 1.7425
-    Epoch   5 Batch  600/2536 - Train Accuracy: 0.6562, Validation Accuracy: 0.6339, Loss: 1.6514
-    Epoch   5 Batch  700/2536 - Train Accuracy: 0.6370, Validation Accuracy: 0.6339, Loss: 1.7199
-    Epoch   5 Batch  800/2536 - Train Accuracy: 0.6587, Validation Accuracy: 0.6339, Loss: 1.7668
-    Epoch   5 Batch  900/2536 - Train Accuracy: 0.6071, Validation Accuracy: 0.6339, Loss: 1.9057
-    Epoch   5 Batch 1000/2536 - Train Accuracy: 0.6229, Validation Accuracy: 0.6339, Loss: 1.7293
-    Epoch   5 Batch 1100/2536 - Train Accuracy: 0.4710, Validation Accuracy: 0.6339, Loss: 2.4221
-    Epoch   5 Batch 1200/2536 - Train Accuracy: 0.5664, Validation Accuracy: 0.6339, Loss: 1.7613
-    Epoch   5 Batch 1300/2536 - Train Accuracy: 0.8293, Validation Accuracy: 0.6339, Loss: 0.7494
-    Epoch   5 Batch 1400/2536 - Train Accuracy: 0.6104, Validation Accuracy: 0.6339, Loss: 1.9493
-    Epoch   5 Batch 1500/2536 - Train Accuracy: 0.7572, Validation Accuracy: 0.6339, Loss: 1.1972
-    Epoch   5 Batch 1600/2536 - Train Accuracy: 0.6901, Validation Accuracy: 0.6339, Loss: 1.4559
-    Epoch   5 Batch 1700/2536 - Train Accuracy: 0.7614, Validation Accuracy: 0.6339, Loss: 1.1539
-    Epoch   5 Batch 1800/2536 - Train Accuracy: 0.8381, Validation Accuracy: 0.6339, Loss: 0.8309
-    Epoch   5 Batch 1900/2536 - Train Accuracy: 0.6901, Validation Accuracy: 0.6339, Loss: 1.2847
-    Epoch   5 Batch 2000/2536 - Train Accuracy: 0.6707, Validation Accuracy: 0.6339, Loss: 1.3231
-    Epoch   5 Batch 2100/2536 - Train Accuracy: 0.8594, Validation Accuracy: 0.6339, Loss: 0.6827
-    Epoch   5 Batch 2200/2536 - Train Accuracy: 0.7271, Validation Accuracy: 0.6339, Loss: 1.3427
-    Epoch   5 Batch 2300/2536 - Train Accuracy: 0.5337, Validation Accuracy: 0.6339, Loss: 2.3964
-    Epoch   5 Batch 2400/2536 - Train Accuracy: 0.6178, Validation Accuracy: 0.6339, Loss: 1.7478
-    Epoch   5 Batch 2500/2536 - Train Accuracy: 0.5312, Validation Accuracy: 0.6362, Loss: 2.1873
-    Epoch   6 Batch  100/2536 - Train Accuracy: 0.7869, Validation Accuracy: 0.6339, Loss: 1.0875
-    Epoch   6 Batch  200/2536 - Train Accuracy: 0.7879, Validation Accuracy: 0.6339, Loss: 1.0442
-    Epoch   6 Batch  300/2536 - Train Accuracy: 0.7991, Validation Accuracy: 0.6339, Loss: 0.8817
-    Epoch   6 Batch  400/2536 - Train Accuracy: 0.7305, Validation Accuracy: 0.6339, Loss: 1.1920
-    Epoch   6 Batch  500/2536 - Train Accuracy: 0.6771, Validation Accuracy: 0.6339, Loss: 1.5779
-    Epoch   6 Batch  600/2536 - Train Accuracy: 0.6833, Validation Accuracy: 0.6339, Loss: 1.4556
-    Epoch   6 Batch  700/2536 - Train Accuracy: 0.6659, Validation Accuracy: 0.6339, Loss: 1.5407
-    Epoch   6 Batch  800/2536 - Train Accuracy: 0.6707, Validation Accuracy: 0.6339, Loss: 1.6016
-    Epoch   6 Batch  900/2536 - Train Accuracy: 0.6049, Validation Accuracy: 0.6339, Loss: 1.6992
-    Epoch   6 Batch 1000/2536 - Train Accuracy: 0.6417, Validation Accuracy: 0.6339, Loss: 1.5995
-    Epoch   6 Batch 1100/2536 - Train Accuracy: 0.5089, Validation Accuracy: 0.6339, Loss: 2.2003
-    Epoch   6 Batch 1200/2536 - Train Accuracy: 0.6133, Validation Accuracy: 0.6339, Loss: 1.5787
-    Epoch   6 Batch 1300/2536 - Train Accuracy: 0.8726, Validation Accuracy: 0.6339, Loss: 0.5489
-    Epoch   6 Batch 1400/2536 - Train Accuracy: 0.6146, Validation Accuracy: 0.6339, Loss: 1.7816
-    Epoch   6 Batch 1500/2536 - Train Accuracy: 0.7740, Validation Accuracy: 0.6339, Loss: 1.0663
-    Epoch   6 Batch 1600/2536 - Train Accuracy: 0.7057, Validation Accuracy: 0.6339, Loss: 1.2852
-    Epoch   6 Batch 1700/2536 - Train Accuracy: 0.7670, Validation Accuracy: 0.6339, Loss: 1.0108
-    Epoch   6 Batch 1800/2536 - Train Accuracy: 0.8409, Validation Accuracy: 0.6339, Loss: 0.7354
-    Epoch   6 Batch 1900/2536 - Train Accuracy: 0.7292, Validation Accuracy: 0.6339, Loss: 1.1217
-    Epoch   6 Batch 2000/2536 - Train Accuracy: 0.7308, Validation Accuracy: 0.6339, Loss: 1.1484
-    Epoch   6 Batch 2100/2536 - Train Accuracy: 0.8906, Validation Accuracy: 0.6339, Loss: 0.4710
-    Epoch   6 Batch 2200/2536 - Train Accuracy: 0.7188, Validation Accuracy: 0.6339, Loss: 1.2289
-    Epoch   6 Batch 2300/2536 - Train Accuracy: 0.5625, Validation Accuracy: 0.6362, Loss: 2.1687
-    Epoch   6 Batch 2400/2536 - Train Accuracy: 0.6538, Validation Accuracy: 0.6362, Loss: 1.5524
-    Epoch   6 Batch 2500/2536 - Train Accuracy: 0.5409, Validation Accuracy: 0.6362, Loss: 2.0072
-    Epoch   7 Batch  100/2536 - Train Accuracy: 0.7841, Validation Accuracy: 0.6362, Loss: 0.9128
-    Epoch   7 Batch  200/2536 - Train Accuracy: 0.7969, Validation Accuracy: 0.6339, Loss: 0.9725
-    Epoch   7 Batch  300/2536 - Train Accuracy: 0.8192, Validation Accuracy: 0.6339, Loss: 0.7962
-    Epoch   7 Batch  400/2536 - Train Accuracy: 0.7461, Validation Accuracy: 0.6339, Loss: 1.0636
-    Epoch   7 Batch  500/2536 - Train Accuracy: 0.6875, Validation Accuracy: 0.6339, Loss: 1.4067
-    Epoch   7 Batch  600/2536 - Train Accuracy: 0.6917, Validation Accuracy: 0.6339, Loss: 1.3458
-    Epoch   7 Batch  700/2536 - Train Accuracy: 0.6947, Validation Accuracy: 0.6339, Loss: 1.3765
-    Epoch   7 Batch  800/2536 - Train Accuracy: 0.6971, Validation Accuracy: 0.6339, Loss: 1.4218
-    Epoch   7 Batch  900/2536 - Train Accuracy: 0.6429, Validation Accuracy: 0.6339, Loss: 1.5395
-    Epoch   7 Batch 1000/2536 - Train Accuracy: 0.6521, Validation Accuracy: 0.6339, Loss: 1.4689
-    Epoch   7 Batch 1100/2536 - Train Accuracy: 0.5268, Validation Accuracy: 0.6339, Loss: 2.0079
-    Epoch   7 Batch 1200/2536 - Train Accuracy: 0.6406, Validation Accuracy: 0.6339, Loss: 1.4564
-    Epoch   7 Batch 1300/2536 - Train Accuracy: 0.9159, Validation Accuracy: 0.6339, Loss: 0.4087
-    Epoch   7 Batch 1400/2536 - Train Accuracy: 0.6104, Validation Accuracy: 0.6339, Loss: 1.6274
-    Epoch   7 Batch 1500/2536 - Train Accuracy: 0.8005, Validation Accuracy: 0.6339, Loss: 0.9113
-    Epoch   7 Batch 1600/2536 - Train Accuracy: 0.7396, Validation Accuracy: 0.6339, Loss: 1.1367
-    Epoch   7 Batch 1700/2536 - Train Accuracy: 0.7642, Validation Accuracy: 0.6339, Loss: 0.9012
-    Epoch   7 Batch 1800/2536 - Train Accuracy: 0.8551, Validation Accuracy: 0.6339, Loss: 0.6265
-    Epoch   7 Batch 1900/2536 - Train Accuracy: 0.7526, Validation Accuracy: 0.6339, Loss: 0.9725
-    Epoch   7 Batch 2000/2536 - Train Accuracy: 0.7476, Validation Accuracy: 0.6339, Loss: 1.0058
-    Epoch   7 Batch 2100/2536 - Train Accuracy: 0.9375, Validation Accuracy: 0.6339, Loss: 0.3652
-    Epoch   7 Batch 2200/2536 - Train Accuracy: 0.7333, Validation Accuracy: 0.6339, Loss: 1.0731
-    Epoch   7 Batch 2300/2536 - Train Accuracy: 0.5962, Validation Accuracy: 0.6339, Loss: 1.9688
-    Epoch   7 Batch 2400/2536 - Train Accuracy: 0.6587, Validation Accuracy: 0.6362, Loss: 1.3791
-    Epoch   7 Batch 2500/2536 - Train Accuracy: 0.5697, Validation Accuracy: 0.6362, Loss: 1.8299
-    Epoch   8 Batch  100/2536 - Train Accuracy: 0.8125, Validation Accuracy: 0.6339, Loss: 0.7784
-    Epoch   8 Batch  200/2536 - Train Accuracy: 0.7991, Validation Accuracy: 0.6339, Loss: 0.8513
-    Epoch   8 Batch  300/2536 - Train Accuracy: 0.8393, Validation Accuracy: 0.6339, Loss: 0.6838
-    Epoch   8 Batch  400/2536 - Train Accuracy: 0.7617, Validation Accuracy: 0.6339, Loss: 0.9369
-    Epoch   8 Batch  500/2536 - Train Accuracy: 0.7083, Validation Accuracy: 0.6339, Loss: 1.2918
-    Epoch   8 Batch  600/2536 - Train Accuracy: 0.7500, Validation Accuracy: 0.6339, Loss: 1.1843
-    Epoch   8 Batch  700/2536 - Train Accuracy: 0.7139, Validation Accuracy: 0.6339, Loss: 1.2867
-    Epoch   8 Batch  800/2536 - Train Accuracy: 0.7212, Validation Accuracy: 0.6339, Loss: 1.2979
-    Epoch   8 Batch  900/2536 - Train Accuracy: 0.6585, Validation Accuracy: 0.6339, Loss: 1.4299
-    Epoch   8 Batch 1000/2536 - Train Accuracy: 0.6687, Validation Accuracy: 0.6339, Loss: 1.3261
-    Epoch   8 Batch 1100/2536 - Train Accuracy: 0.5871, Validation Accuracy: 0.6339, Loss: 1.8941
-    Epoch   8 Batch 1200/2536 - Train Accuracy: 0.6426, Validation Accuracy: 0.6339, Loss: 1.3430
-    Epoch   8 Batch 1300/2536 - Train Accuracy: 0.9423, Validation Accuracy: 0.6339, Loss: 0.2871
-    Epoch   8 Batch 1400/2536 - Train Accuracy: 0.6396, Validation Accuracy: 0.6339, Loss: 1.4911
-    Epoch   8 Batch 1500/2536 - Train Accuracy: 0.8293, Validation Accuracy: 0.6339, Loss: 0.8203
-    Epoch   8 Batch 1600/2536 - Train Accuracy: 0.7552, Validation Accuracy: 0.6339, Loss: 1.0032
-    Epoch   8 Batch 1700/2536 - Train Accuracy: 0.8182, Validation Accuracy: 0.6339, Loss: 0.7849
-    Epoch   8 Batch 1800/2536 - Train Accuracy: 0.8608, Validation Accuracy: 0.6339, Loss: 0.5227
-    Epoch   8 Batch 1900/2536 - Train Accuracy: 0.8177, Validation Accuracy: 0.6339, Loss: 0.8714
-    Epoch   8 Batch 2000/2536 - Train Accuracy: 0.7548, Validation Accuracy: 0.6339, Loss: 0.9017
-    Epoch   8 Batch 2100/2536 - Train Accuracy: 0.9297, Validation Accuracy: 0.6339, Loss: 0.3078
-    Epoch   8 Batch 2200/2536 - Train Accuracy: 0.7438, Validation Accuracy: 0.6339, Loss: 0.9836
-    Epoch   8 Batch 2300/2536 - Train Accuracy: 0.6154, Validation Accuracy: 0.6339, Loss: 1.7652
-    Epoch   8 Batch 2400/2536 - Train Accuracy: 0.6971, Validation Accuracy: 0.6339, Loss: 1.2424
-    Epoch   8 Batch 2500/2536 - Train Accuracy: 0.6010, Validation Accuracy: 0.6362, Loss: 1.6186
-    Epoch   9 Batch  100/2536 - Train Accuracy: 0.8324, Validation Accuracy: 0.6362, Loss: 0.6458
-    Epoch   9 Batch  200/2536 - Train Accuracy: 0.8147, Validation Accuracy: 0.6339, Loss: 0.7763
-    Epoch   9 Batch  300/2536 - Train Accuracy: 0.8438, Validation Accuracy: 0.6339, Loss: 0.6093
-    Epoch   9 Batch  400/2536 - Train Accuracy: 0.7988, Validation Accuracy: 0.6339, Loss: 0.8444
-    Epoch   9 Batch  500/2536 - Train Accuracy: 0.7021, Validation Accuracy: 0.6339, Loss: 1.1807
-    Epoch   9 Batch  600/2536 - Train Accuracy: 0.7396, Validation Accuracy: 0.6339, Loss: 1.0820
-    Epoch   9 Batch  700/2536 - Train Accuracy: 0.7139, Validation Accuracy: 0.6339, Loss: 1.1265
-    Epoch   9 Batch  800/2536 - Train Accuracy: 0.7236, Validation Accuracy: 0.6339, Loss: 1.1705
-    Epoch   9 Batch  900/2536 - Train Accuracy: 0.6942, Validation Accuracy: 0.6339, Loss: 1.2653
-    Epoch   9 Batch 1000/2536 - Train Accuracy: 0.7083, Validation Accuracy: 0.6339, Loss: 1.1997
-    Epoch   9 Batch 1100/2536 - Train Accuracy: 0.5826, Validation Accuracy: 0.6339, Loss: 1.7286
-    Epoch   9 Batch 1200/2536 - Train Accuracy: 0.6641, Validation Accuracy: 0.6339, Loss: 1.1676
-    Epoch   9 Batch 1300/2536 - Train Accuracy: 0.9495, Validation Accuracy: 0.6339, Loss: 0.2076
-    Epoch   9 Batch 1400/2536 - Train Accuracy: 0.6687, Validation Accuracy: 0.6339, Loss: 1.3317
-    Epoch   9 Batch 1500/2536 - Train Accuracy: 0.8341, Validation Accuracy: 0.6339, Loss: 0.6981
-    Epoch   9 Batch 1600/2536 - Train Accuracy: 0.7760, Validation Accuracy: 0.6339, Loss: 0.8754
-    Epoch   9 Batch 1700/2536 - Train Accuracy: 0.8352, Validation Accuracy: 0.6339, Loss: 0.6527
-    Epoch   9 Batch 1800/2536 - Train Accuracy: 0.8807, Validation Accuracy: 0.6339, Loss: 0.4398
-    Epoch   9 Batch 1900/2536 - Train Accuracy: 0.8047, Validation Accuracy: 0.6339, Loss: 0.7624
-    Epoch   9 Batch 2000/2536 - Train Accuracy: 0.7837, Validation Accuracy: 0.6362, Loss: 0.8088
-    Epoch   9 Batch 2100/2536 - Train Accuracy: 0.9479, Validation Accuracy: 0.6362, Loss: 0.2412
-    Epoch   9 Batch 2200/2536 - Train Accuracy: 0.7854, Validation Accuracy: 0.6339, Loss: 0.9118
-    Epoch   9 Batch 2300/2536 - Train Accuracy: 0.6274, Validation Accuracy: 0.6339, Loss: 1.5524
-    Epoch   9 Batch 2400/2536 - Train Accuracy: 0.7067, Validation Accuracy: 0.6339, Loss: 1.1247
-    Epoch   9 Batch 2500/2536 - Train Accuracy: 0.6226, Validation Accuracy: 0.6362, Loss: 1.4897
-    Epoch  10 Batch  100/2536 - Train Accuracy: 0.8722, Validation Accuracy: 0.6339, Loss: 0.5428
-    Epoch  10 Batch  200/2536 - Train Accuracy: 0.8192, Validation Accuracy: 0.6339, Loss: 0.7102
-    Epoch  10 Batch  300/2536 - Train Accuracy: 0.8571, Validation Accuracy: 0.6339, Loss: 0.5346
-    Epoch  10 Batch  400/2536 - Train Accuracy: 0.8027, Validation Accuracy: 0.6339, Loss: 0.7629
-    Epoch  10 Batch  500/2536 - Train Accuracy: 0.7042, Validation Accuracy: 0.6339, Loss: 1.0385
-    Epoch  10 Batch  600/2536 - Train Accuracy: 0.7750, Validation Accuracy: 0.6339, Loss: 0.9570
-    Epoch  10 Batch  700/2536 - Train Accuracy: 0.7716, Validation Accuracy: 0.6339, Loss: 0.9985
-    Epoch  10 Batch  800/2536 - Train Accuracy: 0.7476, Validation Accuracy: 0.6339, Loss: 1.0381
-    Epoch  10 Batch  900/2536 - Train Accuracy: 0.7165, Validation Accuracy: 0.6339, Loss: 1.1555
-    Epoch  10 Batch 1000/2536 - Train Accuracy: 0.7021, Validation Accuracy: 0.6339, Loss: 1.1061
-    Epoch  10 Batch 1100/2536 - Train Accuracy: 0.5804, Validation Accuracy: 0.6339, Loss: 1.6040
-    Epoch  10 Batch 1200/2536 - Train Accuracy: 0.7070, Validation Accuracy: 0.6339, Loss: 1.0475
-    Epoch  10 Batch 1300/2536 - Train Accuracy: 0.9736, Validation Accuracy: 0.6339, Loss: 0.1692
-    Epoch  10 Batch 1400/2536 - Train Accuracy: 0.6833, Validation Accuracy: 0.6339, Loss: 1.2304
-    Epoch  10 Batch 1500/2536 - Train Accuracy: 0.8558, Validation Accuracy: 0.6339, Loss: 0.5882
-    Epoch  10 Batch 1600/2536 - Train Accuracy: 0.7917, Validation Accuracy: 0.6339, Loss: 0.7720
-    Epoch  10 Batch 1700/2536 - Train Accuracy: 0.8636, Validation Accuracy: 0.6339, Loss: 0.5777
-    Epoch  10 Batch 1800/2536 - Train Accuracy: 0.8977, Validation Accuracy: 0.6339, Loss: 0.3838
-    Epoch  10 Batch 1900/2536 - Train Accuracy: 0.7995, Validation Accuracy: 0.6339, Loss: 0.6861
-    Epoch  10 Batch 2000/2536 - Train Accuracy: 0.8149, Validation Accuracy: 0.6339, Loss: 0.7019
-    Epoch  10 Batch 2100/2536 - Train Accuracy: 0.9479, Validation Accuracy: 0.6339, Loss: 0.1919
-    Epoch  10 Batch 2200/2536 - Train Accuracy: 0.7812, Validation Accuracy: 0.6339, Loss: 0.8546
-    Epoch  10 Batch 2300/2536 - Train Accuracy: 0.6394, Validation Accuracy: 0.6339, Loss: 1.3787
-    Epoch  10 Batch 2400/2536 - Train Accuracy: 0.7308, Validation Accuracy: 0.6339, Loss: 1.0443
-    Epoch  10 Batch 2500/2536 - Train Accuracy: 0.6587, Validation Accuracy: 0.6339, Loss: 1.3067
-    Epoch  11 Batch  100/2536 - Train Accuracy: 0.8778, Validation Accuracy: 0.6362, Loss: 0.4634
-    Epoch  11 Batch  200/2536 - Train Accuracy: 0.8192, Validation Accuracy: 0.6362, Loss: 0.6294
-    Epoch  11 Batch  300/2536 - Train Accuracy: 0.8728, Validation Accuracy: 0.6339, Loss: 0.4885
-    Epoch  11 Batch  400/2536 - Train Accuracy: 0.8242, Validation Accuracy: 0.6339, Loss: 0.6609
-    Epoch  11 Batch  500/2536 - Train Accuracy: 0.7083, Validation Accuracy: 0.6339, Loss: 0.9651
-    Epoch  11 Batch  600/2536 - Train Accuracy: 0.7688, Validation Accuracy: 0.6339, Loss: 0.8411
-    Epoch  11 Batch  700/2536 - Train Accuracy: 0.7981, Validation Accuracy: 0.6339, Loss: 0.8960
-    Epoch  11 Batch  800/2536 - Train Accuracy: 0.7668, Validation Accuracy: 0.6339, Loss: 0.9194
-    Epoch  11 Batch  900/2536 - Train Accuracy: 0.7366, Validation Accuracy: 0.6339, Loss: 1.0451
-    Epoch  11 Batch 1000/2536 - Train Accuracy: 0.7333, Validation Accuracy: 0.6339, Loss: 1.0312
-    Epoch  11 Batch 1100/2536 - Train Accuracy: 0.6138, Validation Accuracy: 0.6339, Loss: 1.4867
-    Epoch  11 Batch 1200/2536 - Train Accuracy: 0.7012, Validation Accuracy: 0.6339, Loss: 0.9629
-    Epoch  11 Batch 1300/2536 - Train Accuracy: 0.9712, Validation Accuracy: 0.6339, Loss: 0.1233
-    Epoch  11 Batch 1400/2536 - Train Accuracy: 0.7042, Validation Accuracy: 0.6339, Loss: 1.1274
-    Epoch  11 Batch 1500/2536 - Train Accuracy: 0.8822, Validation Accuracy: 0.6339, Loss: 0.5209
-    Epoch  11 Batch 1600/2536 - Train Accuracy: 0.8099, Validation Accuracy: 0.6339, Loss: 0.6645
-    Epoch  11 Batch 1700/2536 - Train Accuracy: 0.8693, Validation Accuracy: 0.6339, Loss: 0.5186
-    Epoch  11 Batch 1800/2536 - Train Accuracy: 0.9091, Validation Accuracy: 0.6339, Loss: 0.3332
-    Epoch  11 Batch 1900/2536 - Train Accuracy: 0.8490, Validation Accuracy: 0.6339, Loss: 0.5979
-    Epoch  11 Batch 2000/2536 - Train Accuracy: 0.7957, Validation Accuracy: 0.6339, Loss: 0.6329
-    Epoch  11 Batch 2100/2536 - Train Accuracy: 0.9505, Validation Accuracy: 0.6362, Loss: 0.1619
-    Epoch  11 Batch 2200/2536 - Train Accuracy: 0.7958, Validation Accuracy: 0.6339, Loss: 0.7380
-    Epoch  11 Batch 2300/2536 - Train Accuracy: 0.6731, Validation Accuracy: 0.6339, Loss: 1.2446
-    Epoch  11 Batch 2400/2536 - Train Accuracy: 0.7572, Validation Accuracy: 0.6339, Loss: 0.9074
-    Epoch  11 Batch 2500/2536 - Train Accuracy: 0.6346, Validation Accuracy: 0.6362, Loss: 1.2094
-    Epoch  12 Batch  100/2536 - Train Accuracy: 0.8835, Validation Accuracy: 0.6362, Loss: 0.4094
-    Epoch  12 Batch  200/2536 - Train Accuracy: 0.8326, Validation Accuracy: 0.6339, Loss: 0.6349
-    Epoch  12 Batch  300/2536 - Train Accuracy: 0.8616, Validation Accuracy: 0.6339, Loss: 0.4610
-    Epoch  12 Batch  400/2536 - Train Accuracy: 0.8223, Validation Accuracy: 0.6339, Loss: 0.5801
-    Epoch  12 Batch  500/2536 - Train Accuracy: 0.7312, Validation Accuracy: 0.6339, Loss: 0.8859
-    Epoch  12 Batch  600/2536 - Train Accuracy: 0.7875, Validation Accuracy: 0.6339, Loss: 0.7784
-    Epoch  12 Batch  700/2536 - Train Accuracy: 0.7668, Validation Accuracy: 0.6339, Loss: 0.8487
-    Epoch  12 Batch  800/2536 - Train Accuracy: 0.7788, Validation Accuracy: 0.6339, Loss: 0.8324
-    Epoch  12 Batch  900/2536 - Train Accuracy: 0.7165, Validation Accuracy: 0.6339, Loss: 0.9440
-    Epoch  12 Batch 1000/2536 - Train Accuracy: 0.7312, Validation Accuracy: 0.6339, Loss: 0.9816
-    Epoch  12 Batch 1100/2536 - Train Accuracy: 0.6384, Validation Accuracy: 0.6339, Loss: 1.3769
-    Epoch  12 Batch 1200/2536 - Train Accuracy: 0.7305, Validation Accuracy: 0.6339, Loss: 0.8984
-    Epoch  12 Batch 1300/2536 - Train Accuracy: 0.9808, Validation Accuracy: 0.6339, Loss: 0.1023
-    Epoch  12 Batch 1400/2536 - Train Accuracy: 0.7083, Validation Accuracy: 0.6339, Loss: 1.0539
-    Epoch  12 Batch 1500/2536 - Train Accuracy: 0.8750, Validation Accuracy: 0.6339, Loss: 0.4562
-    Epoch  12 Batch 1600/2536 - Train Accuracy: 0.8854, Validation Accuracy: 0.6339, Loss: 0.5901
-    Epoch  12 Batch 1700/2536 - Train Accuracy: 0.8892, Validation Accuracy: 0.6339, Loss: 0.4436
-    Epoch  12 Batch 1800/2536 - Train Accuracy: 0.9347, Validation Accuracy: 0.6339, Loss: 0.2875
-    Epoch  12 Batch 1900/2536 - Train Accuracy: 0.8646, Validation Accuracy: 0.6339, Loss: 0.5281
-    Epoch  12 Batch 2000/2536 - Train Accuracy: 0.8029, Validation Accuracy: 0.6339, Loss: 0.5623
-    Epoch  12 Batch 2100/2536 - Train Accuracy: 0.9661, Validation Accuracy: 0.6339, Loss: 0.1434
-    Epoch  12 Batch 2200/2536 - Train Accuracy: 0.8000, Validation Accuracy: 0.6339, Loss: 0.6421
-    Epoch  12 Batch 2300/2536 - Train Accuracy: 0.6803, Validation Accuracy: 0.6339, Loss: 1.1443
-    Epoch  12 Batch 2400/2536 - Train Accuracy: 0.7620, Validation Accuracy: 0.6362, Loss: 0.8064
-    Epoch  12 Batch 2500/2536 - Train Accuracy: 0.7212, Validation Accuracy: 0.6362, Loss: 1.1051
-    Epoch  13 Batch  100/2536 - Train Accuracy: 0.9233, Validation Accuracy: 0.6362, Loss: 0.3470
-    Epoch  13 Batch  200/2536 - Train Accuracy: 0.8482, Validation Accuracy: 0.6339, Loss: 0.5485
-    Epoch  13 Batch  300/2536 - Train Accuracy: 0.8772, Validation Accuracy: 0.6339, Loss: 0.4200
-    Epoch  13 Batch  400/2536 - Train Accuracy: 0.8105, Validation Accuracy: 0.6339, Loss: 0.5442
-    Epoch  13 Batch  500/2536 - Train Accuracy: 0.7854, Validation Accuracy: 0.6339, Loss: 0.7985
-    Epoch  13 Batch  600/2536 - Train Accuracy: 0.8083, Validation Accuracy: 0.6339, Loss: 0.7594
-    Epoch  13 Batch  700/2536 - Train Accuracy: 0.7861, Validation Accuracy: 0.6339, Loss: 0.7670
-    Epoch  13 Batch  800/2536 - Train Accuracy: 0.7716, Validation Accuracy: 0.6339, Loss: 0.7565
-    Epoch  13 Batch  900/2536 - Train Accuracy: 0.7723, Validation Accuracy: 0.6339, Loss: 0.8577
-    Epoch  13 Batch 1000/2536 - Train Accuracy: 0.7479, Validation Accuracy: 0.6339, Loss: 0.9267
-    Epoch  13 Batch 1100/2536 - Train Accuracy: 0.6607, Validation Accuracy: 0.6339, Loss: 1.2514
-    Epoch  13 Batch 1200/2536 - Train Accuracy: 0.7188, Validation Accuracy: 0.6339, Loss: 0.8605
-    Epoch  13 Batch 1300/2536 - Train Accuracy: 0.9832, Validation Accuracy: 0.6339, Loss: 0.0910
-    Epoch  13 Batch 1400/2536 - Train Accuracy: 0.7229, Validation Accuracy: 0.6362, Loss: 0.9404
-    Epoch  13 Batch 1500/2536 - Train Accuracy: 0.9087, Validation Accuracy: 0.6339, Loss: 0.4081
-    Epoch  13 Batch 1600/2536 - Train Accuracy: 0.8854, Validation Accuracy: 0.6339, Loss: 0.5269
-    Epoch  13 Batch 1700/2536 - Train Accuracy: 0.9091, Validation Accuracy: 0.6339, Loss: 0.3881
-    Epoch  13 Batch 1800/2536 - Train Accuracy: 0.9318, Validation Accuracy: 0.6339, Loss: 0.2653
-    Epoch  13 Batch 1900/2536 - Train Accuracy: 0.8724, Validation Accuracy: 0.6339, Loss: 0.4934
-    Epoch  13 Batch 2000/2536 - Train Accuracy: 0.7933, Validation Accuracy: 0.6339, Loss: 0.5334
-    Epoch  13 Batch 2100/2536 - Train Accuracy: 0.9818, Validation Accuracy: 0.6362, Loss: 0.1180
-    Epoch  13 Batch 2200/2536 - Train Accuracy: 0.8063, Validation Accuracy: 0.6339, Loss: 0.6204
-    Epoch  13 Batch 2300/2536 - Train Accuracy: 0.7308, Validation Accuracy: 0.6339, Loss: 1.0405
-    Epoch  13 Batch 2400/2536 - Train Accuracy: 0.7620, Validation Accuracy: 0.6339, Loss: 0.7486
-    Epoch  13 Batch 2500/2536 - Train Accuracy: 0.7139, Validation Accuracy: 0.6339, Loss: 1.0378
-    Epoch  14 Batch  100/2536 - Train Accuracy: 0.9233, Validation Accuracy: 0.6362, Loss: 0.3123
-    Epoch  14 Batch  200/2536 - Train Accuracy: 0.8527, Validation Accuracy: 0.6339, Loss: 0.5304
-    Epoch  14 Batch  300/2536 - Train Accuracy: 0.9040, Validation Accuracy: 0.6339, Loss: 0.3835
-    Epoch  14 Batch  400/2536 - Train Accuracy: 0.8301, Validation Accuracy: 0.6339, Loss: 0.5265
-    Epoch  14 Batch  500/2536 - Train Accuracy: 0.7604, Validation Accuracy: 0.6339, Loss: 0.7369
-    Epoch  14 Batch  600/2536 - Train Accuracy: 0.8125, Validation Accuracy: 0.6339, Loss: 0.6646
-    Epoch  14 Batch  700/2536 - Train Accuracy: 0.7668, Validation Accuracy: 0.6339, Loss: 0.7496
-    Epoch  14 Batch  800/2536 - Train Accuracy: 0.8029, Validation Accuracy: 0.6339, Loss: 0.7437
-    Epoch  14 Batch  900/2536 - Train Accuracy: 0.7656, Validation Accuracy: 0.6339, Loss: 0.8702
-    Epoch  14 Batch 1000/2536 - Train Accuracy: 0.7271, Validation Accuracy: 0.6339, Loss: 0.8865
-    Epoch  14 Batch 1100/2536 - Train Accuracy: 0.6540, Validation Accuracy: 0.6339, Loss: 1.1817
-    Epoch  14 Batch 1200/2536 - Train Accuracy: 0.7148, Validation Accuracy: 0.6362, Loss: 0.8075
-    Epoch  14 Batch 1300/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6339, Loss: 0.0660
-    Epoch  14 Batch 1400/2536 - Train Accuracy: 0.7542, Validation Accuracy: 0.6339, Loss: 0.8757
-    Epoch  14 Batch 1500/2536 - Train Accuracy: 0.8894, Validation Accuracy: 0.6339, Loss: 0.3733
-    Epoch  14 Batch 1600/2536 - Train Accuracy: 0.8698, Validation Accuracy: 0.6339, Loss: 0.4220
-    Epoch  14 Batch 1700/2536 - Train Accuracy: 0.9148, Validation Accuracy: 0.6339, Loss: 0.3423
-    Epoch  14 Batch 1800/2536 - Train Accuracy: 0.9290, Validation Accuracy: 0.6339, Loss: 0.2305
-    Epoch  14 Batch 1900/2536 - Train Accuracy: 0.8698, Validation Accuracy: 0.6339, Loss: 0.4500
-    Epoch  14 Batch 2000/2536 - Train Accuracy: 0.8413, Validation Accuracy: 0.6339, Loss: 0.4870
-    Epoch  14 Batch 2100/2536 - Train Accuracy: 0.9792, Validation Accuracy: 0.6339, Loss: 0.0992
-    Epoch  14 Batch 2200/2536 - Train Accuracy: 0.8229, Validation Accuracy: 0.6339, Loss: 0.5295
-    Epoch  14 Batch 2300/2536 - Train Accuracy: 0.7067, Validation Accuracy: 0.6339, Loss: 0.9552
-    Epoch  14 Batch 2400/2536 - Train Accuracy: 0.7933, Validation Accuracy: 0.6362, Loss: 0.7003
-    Epoch  14 Batch 2500/2536 - Train Accuracy: 0.7260, Validation Accuracy: 0.6339, Loss: 0.9450
-    Epoch  15 Batch  100/2536 - Train Accuracy: 0.9261, Validation Accuracy: 0.6339, Loss: 0.2557
-    Epoch  15 Batch  200/2536 - Train Accuracy: 0.8549, Validation Accuracy: 0.6339, Loss: 0.4461
-    Epoch  15 Batch  300/2536 - Train Accuracy: 0.9196, Validation Accuracy: 0.6339, Loss: 0.3409
-    Epoch  15 Batch  400/2536 - Train Accuracy: 0.8184, Validation Accuracy: 0.6339, Loss: 0.5306
-    Epoch  15 Batch  500/2536 - Train Accuracy: 0.7854, Validation Accuracy: 0.6339, Loss: 0.6825
-    Epoch  15 Batch  600/2536 - Train Accuracy: 0.8146, Validation Accuracy: 0.6339, Loss: 0.6035
-    Epoch  15 Batch  700/2536 - Train Accuracy: 0.7837, Validation Accuracy: 0.6339, Loss: 0.7035
-    Epoch  15 Batch  800/2536 - Train Accuracy: 0.8053, Validation Accuracy: 0.6339, Loss: 0.6015
-    Epoch  15 Batch  900/2536 - Train Accuracy: 0.7768, Validation Accuracy: 0.6339, Loss: 0.7679
-    Epoch  15 Batch 1000/2536 - Train Accuracy: 0.7250, Validation Accuracy: 0.6339, Loss: 0.8219
-    Epoch  15 Batch 1100/2536 - Train Accuracy: 0.7009, Validation Accuracy: 0.6339, Loss: 1.0815
-    Epoch  15 Batch 1200/2536 - Train Accuracy: 0.7344, Validation Accuracy: 0.6339, Loss: 0.7431
-    Epoch  15 Batch 1300/2536 - Train Accuracy: 0.9856, Validation Accuracy: 0.6339, Loss: 0.0597
-    Epoch  15 Batch 1400/2536 - Train Accuracy: 0.7604, Validation Accuracy: 0.6339, Loss: 0.7996
-    Epoch  15 Batch 1500/2536 - Train Accuracy: 0.8822, Validation Accuracy: 0.6362, Loss: 0.3289
-    Epoch  15 Batch 1600/2536 - Train Accuracy: 0.8880, Validation Accuracy: 0.6339, Loss: 0.3793
-    Epoch  15 Batch 1700/2536 - Train Accuracy: 0.9119, Validation Accuracy: 0.6339, Loss: 0.2980
-    Epoch  15 Batch 1800/2536 - Train Accuracy: 0.9318, Validation Accuracy: 0.6339, Loss: 0.2005
-    Epoch  15 Batch 1900/2536 - Train Accuracy: 0.8516, Validation Accuracy: 0.6339, Loss: 0.3933
-    Epoch  15 Batch 2000/2536 - Train Accuracy: 0.8534, Validation Accuracy: 0.6339, Loss: 0.4141
-    Epoch  15 Batch 2100/2536 - Train Accuracy: 0.9896, Validation Accuracy: 0.6339, Loss: 0.0753
-    Epoch  15 Batch 2200/2536 - Train Accuracy: 0.8479, Validation Accuracy: 0.6339, Loss: 0.5044
-    Epoch  15 Batch 2300/2536 - Train Accuracy: 0.7452, Validation Accuracy: 0.6339, Loss: 0.8828
-    Epoch  15 Batch 2400/2536 - Train Accuracy: 0.7909, Validation Accuracy: 0.6362, Loss: 0.6152
-    Epoch  15 Batch 2500/2536 - Train Accuracy: 0.7236, Validation Accuracy: 0.6339, Loss: 0.8399
-    Epoch  16 Batch  100/2536 - Train Accuracy: 0.9432, Validation Accuracy: 0.6339, Loss: 0.2181
-    Epoch  16 Batch  200/2536 - Train Accuracy: 0.8683, Validation Accuracy: 0.6339, Loss: 0.4232
-    Epoch  16 Batch  300/2536 - Train Accuracy: 0.9107, Validation Accuracy: 0.6339, Loss: 0.3240
-    Epoch  16 Batch  400/2536 - Train Accuracy: 0.8398, Validation Accuracy: 0.6339, Loss: 0.4533
-    Epoch  16 Batch  500/2536 - Train Accuracy: 0.7896, Validation Accuracy: 0.6339, Loss: 0.6238
-    Epoch  16 Batch  600/2536 - Train Accuracy: 0.8229, Validation Accuracy: 0.6339, Loss: 0.5791
-    Epoch  16 Batch  700/2536 - Train Accuracy: 0.7933, Validation Accuracy: 0.6339, Loss: 0.5842
-    Epoch  16 Batch  800/2536 - Train Accuracy: 0.8221, Validation Accuracy: 0.6339, Loss: 0.5620
-    Epoch  16 Batch  900/2536 - Train Accuracy: 0.7924, Validation Accuracy: 0.6339, Loss: 0.6802
-    Epoch  16 Batch 1000/2536 - Train Accuracy: 0.7771, Validation Accuracy: 0.6339, Loss: 0.7689
-    Epoch  16 Batch 1100/2536 - Train Accuracy: 0.6585, Validation Accuracy: 0.6339, Loss: 1.0008
-    Epoch  16 Batch 1200/2536 - Train Accuracy: 0.7578, Validation Accuracy: 0.6339, Loss: 0.6878
-    Epoch  16 Batch 1300/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6339, Loss: 0.0497
-    Epoch  16 Batch 1400/2536 - Train Accuracy: 0.7438, Validation Accuracy: 0.6339, Loss: 0.7373
-    Epoch  16 Batch 1500/2536 - Train Accuracy: 0.8846, Validation Accuracy: 0.6339, Loss: 0.2929
-    Epoch  16 Batch 1600/2536 - Train Accuracy: 0.9271, Validation Accuracy: 0.6339, Loss: 0.3387
-    Epoch  16 Batch 1700/2536 - Train Accuracy: 0.9205, Validation Accuracy: 0.6339, Loss: 0.2623
-    Epoch  16 Batch 1800/2536 - Train Accuracy: 0.9290, Validation Accuracy: 0.6339, Loss: 0.1831
-    Epoch  16 Batch 1900/2536 - Train Accuracy: 0.9062, Validation Accuracy: 0.6339, Loss: 0.3655
-    Epoch  16 Batch 2000/2536 - Train Accuracy: 0.8606, Validation Accuracy: 0.6339, Loss: 0.3960
-    Epoch  16 Batch 2100/2536 - Train Accuracy: 0.9922, Validation Accuracy: 0.6339, Loss: 0.0702
-    Epoch  16 Batch 2200/2536 - Train Accuracy: 0.8479, Validation Accuracy: 0.6339, Loss: 0.4593
-    Epoch  16 Batch 2300/2536 - Train Accuracy: 0.7788, Validation Accuracy: 0.6362, Loss: 0.8173
-    Epoch  16 Batch 2400/2536 - Train Accuracy: 0.8125, Validation Accuracy: 0.6339, Loss: 0.5823
-    Epoch  16 Batch 2500/2536 - Train Accuracy: 0.7692, Validation Accuracy: 0.6362, Loss: 0.7758
-    Epoch  17 Batch  100/2536 - Train Accuracy: 0.9347, Validation Accuracy: 0.6339, Loss: 0.2033
-    Epoch  17 Batch  200/2536 - Train Accuracy: 0.8683, Validation Accuracy: 0.6339, Loss: 0.4011
-    Epoch  17 Batch  300/2536 - Train Accuracy: 0.9174, Validation Accuracy: 0.6339, Loss: 0.2825
-    Epoch  17 Batch  400/2536 - Train Accuracy: 0.8574, Validation Accuracy: 0.6339, Loss: 0.3635
-    Epoch  17 Batch  500/2536 - Train Accuracy: 0.7667, Validation Accuracy: 0.6339, Loss: 0.5618
-    Epoch  17 Batch  600/2536 - Train Accuracy: 0.8646, Validation Accuracy: 0.6339, Loss: 0.5477
-    Epoch  17 Batch  700/2536 - Train Accuracy: 0.8510, Validation Accuracy: 0.6339, Loss: 0.5478
-    Epoch  17 Batch  800/2536 - Train Accuracy: 0.8389, Validation Accuracy: 0.6339, Loss: 0.5256
-    Epoch  17 Batch  900/2536 - Train Accuracy: 0.8036, Validation Accuracy: 0.6339, Loss: 0.6325
-    Epoch  17 Batch 1000/2536 - Train Accuracy: 0.7688, Validation Accuracy: 0.6339, Loss: 0.6929
-    Epoch  17 Batch 1100/2536 - Train Accuracy: 0.6897, Validation Accuracy: 0.6362, Loss: 0.9234
-    Epoch  17 Batch 1200/2536 - Train Accuracy: 0.8008, Validation Accuracy: 0.6339, Loss: 0.5995
-    Epoch  17 Batch 1300/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6339, Loss: 0.0491
-    Epoch  17 Batch 1400/2536 - Train Accuracy: 0.7667, Validation Accuracy: 0.6339, Loss: 0.7229
-    Epoch  17 Batch 1500/2536 - Train Accuracy: 0.9014, Validation Accuracy: 0.6339, Loss: 0.2699
-    Epoch  17 Batch 1600/2536 - Train Accuracy: 0.9062, Validation Accuracy: 0.6362, Loss: 0.3079
-    Epoch  17 Batch 1700/2536 - Train Accuracy: 0.9318, Validation Accuracy: 0.6339, Loss: 0.2661
-    Epoch  17 Batch 1800/2536 - Train Accuracy: 0.9403, Validation Accuracy: 0.6362, Loss: 0.1594
-    Epoch  17 Batch 1900/2536 - Train Accuracy: 0.8958, Validation Accuracy: 0.6339, Loss: 0.3527
-    Epoch  17 Batch 2000/2536 - Train Accuracy: 0.8654, Validation Accuracy: 0.6339, Loss: 0.3394
-    Epoch  17 Batch 2100/2536 - Train Accuracy: 0.9714, Validation Accuracy: 0.6339, Loss: 0.0658
-    Epoch  17 Batch 2200/2536 - Train Accuracy: 0.8375, Validation Accuracy: 0.6339, Loss: 0.4305
-    Epoch  17 Batch 2300/2536 - Train Accuracy: 0.7812, Validation Accuracy: 0.6339, Loss: 0.7052
-    Epoch  17 Batch 2400/2536 - Train Accuracy: 0.7933, Validation Accuracy: 0.6362, Loss: 0.5209
-    Epoch  17 Batch 2500/2536 - Train Accuracy: 0.8245, Validation Accuracy: 0.6362, Loss: 0.7085
-    Epoch  18 Batch  100/2536 - Train Accuracy: 0.9517, Validation Accuracy: 0.6339, Loss: 0.1786
-    Epoch  18 Batch  200/2536 - Train Accuracy: 0.8728, Validation Accuracy: 0.6339, Loss: 0.3486
-    Epoch  18 Batch  300/2536 - Train Accuracy: 0.9219, Validation Accuracy: 0.6339, Loss: 0.2769
-    Epoch  18 Batch  400/2536 - Train Accuracy: 0.8438, Validation Accuracy: 0.6339, Loss: 0.3719
-    Epoch  18 Batch  500/2536 - Train Accuracy: 0.8354, Validation Accuracy: 0.6362, Loss: 0.5055
-    Epoch  18 Batch  600/2536 - Train Accuracy: 0.8292, Validation Accuracy: 0.6339, Loss: 0.5301
-    Epoch  18 Batch  700/2536 - Train Accuracy: 0.8269, Validation Accuracy: 0.6339, Loss: 0.4858
-    Epoch  18 Batch  800/2536 - Train Accuracy: 0.8558, Validation Accuracy: 0.6339, Loss: 0.5173
-    Epoch  18 Batch  900/2536 - Train Accuracy: 0.8125, Validation Accuracy: 0.6362, Loss: 0.5784
-    Epoch  18 Batch 1000/2536 - Train Accuracy: 0.7875, Validation Accuracy: 0.6362, Loss: 0.6879
-    Epoch  18 Batch 1100/2536 - Train Accuracy: 0.7188, Validation Accuracy: 0.6339, Loss: 0.9049
-    Epoch  18 Batch 1200/2536 - Train Accuracy: 0.7793, Validation Accuracy: 0.6362, Loss: 0.6097
-    Epoch  18 Batch 1300/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6362, Loss: 0.0434
-    Epoch  18 Batch 1400/2536 - Train Accuracy: 0.7604, Validation Accuracy: 0.6339, Loss: 0.6622
-    Epoch  18 Batch 1500/2536 - Train Accuracy: 0.9351, Validation Accuracy: 0.6339, Loss: 0.2577
-    Epoch  18 Batch 1600/2536 - Train Accuracy: 0.9505, Validation Accuracy: 0.6362, Loss: 0.2780
-    Epoch  18 Batch 1700/2536 - Train Accuracy: 0.9403, Validation Accuracy: 0.6362, Loss: 0.2448
-    Epoch  18 Batch 1800/2536 - Train Accuracy: 0.9517, Validation Accuracy: 0.6339, Loss: 0.1569
-    Epoch  18 Batch 1900/2536 - Train Accuracy: 0.9089, Validation Accuracy: 0.6339, Loss: 0.3020
-    Epoch  18 Batch 2000/2536 - Train Accuracy: 0.8774, Validation Accuracy: 0.6339, Loss: 0.3091
-    Epoch  18 Batch 2100/2536 - Train Accuracy: 0.9922, Validation Accuracy: 0.6339, Loss: 0.0667
-    Epoch  18 Batch 2200/2536 - Train Accuracy: 0.8667, Validation Accuracy: 0.6339, Loss: 0.3950
-    Epoch  18 Batch 2300/2536 - Train Accuracy: 0.7740, Validation Accuracy: 0.6339, Loss: 0.6586
-    Epoch  18 Batch 2400/2536 - Train Accuracy: 0.8654, Validation Accuracy: 0.6339, Loss: 0.4704
-    Epoch  18 Batch 2500/2536 - Train Accuracy: 0.8197, Validation Accuracy: 0.6384, Loss: 0.6083
-    Epoch  19 Batch  100/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6362, Loss: 0.1648
-    Epoch  19 Batch  200/2536 - Train Accuracy: 0.8817, Validation Accuracy: 0.6362, Loss: 0.3001
-    Epoch  19 Batch  300/2536 - Train Accuracy: 0.9129, Validation Accuracy: 0.6362, Loss: 0.2291
-    Epoch  19 Batch  400/2536 - Train Accuracy: 0.8555, Validation Accuracy: 0.6362, Loss: 0.3493
-    Epoch  19 Batch  500/2536 - Train Accuracy: 0.8479, Validation Accuracy: 0.6362, Loss: 0.4636
-    Epoch  19 Batch  600/2536 - Train Accuracy: 0.8646, Validation Accuracy: 0.6362, Loss: 0.4849
-    Epoch  19 Batch  700/2536 - Train Accuracy: 0.8702, Validation Accuracy: 0.6362, Loss: 0.4771
-    Epoch  19 Batch  800/2536 - Train Accuracy: 0.8486, Validation Accuracy: 0.6362, Loss: 0.4571
-    Epoch  19 Batch  900/2536 - Train Accuracy: 0.7946, Validation Accuracy: 0.6339, Loss: 0.5637
-    Epoch  19 Batch 1000/2536 - Train Accuracy: 0.7792, Validation Accuracy: 0.6339, Loss: 0.6447
-    Epoch  19 Batch 1100/2536 - Train Accuracy: 0.7232, Validation Accuracy: 0.6362, Loss: 0.8178
-    Epoch  19 Batch 1200/2536 - Train Accuracy: 0.7891, Validation Accuracy: 0.6339, Loss: 0.5549
-    Epoch  19 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0304
-    Epoch  19 Batch 1400/2536 - Train Accuracy: 0.7750, Validation Accuracy: 0.6339, Loss: 0.6205
-    Epoch  19 Batch 1500/2536 - Train Accuracy: 0.9399, Validation Accuracy: 0.6339, Loss: 0.2251
-    Epoch  19 Batch 1600/2536 - Train Accuracy: 0.9297, Validation Accuracy: 0.6362, Loss: 0.2524
-    Epoch  19 Batch 1700/2536 - Train Accuracy: 0.9375, Validation Accuracy: 0.6362, Loss: 0.2178
-    Epoch  19 Batch 1800/2536 - Train Accuracy: 0.9375, Validation Accuracy: 0.6339, Loss: 0.1248
-    Epoch  19 Batch 1900/2536 - Train Accuracy: 0.9323, Validation Accuracy: 0.6339, Loss: 0.2714
-    Epoch  19 Batch 2000/2536 - Train Accuracy: 0.9135, Validation Accuracy: 0.6339, Loss: 0.2738
-    Epoch  19 Batch 2100/2536 - Train Accuracy: 0.9818, Validation Accuracy: 0.6339, Loss: 0.0635
-    Epoch  19 Batch 2200/2536 - Train Accuracy: 0.8542, Validation Accuracy: 0.6339, Loss: 0.3653
-    Epoch  19 Batch 2300/2536 - Train Accuracy: 0.7885, Validation Accuracy: 0.6339, Loss: 0.6071
-    Epoch  19 Batch 2400/2536 - Train Accuracy: 0.8365, Validation Accuracy: 0.6339, Loss: 0.4268
-    Epoch  19 Batch 2500/2536 - Train Accuracy: 0.8197, Validation Accuracy: 0.6362, Loss: 0.6046
-    Epoch  20 Batch  100/2536 - Train Accuracy: 0.9602, Validation Accuracy: 0.6362, Loss: 0.1241
-    Epoch  20 Batch  200/2536 - Train Accuracy: 0.8884, Validation Accuracy: 0.6362, Loss: 0.2882
-    Epoch  20 Batch  300/2536 - Train Accuracy: 0.9286, Validation Accuracy: 0.6362, Loss: 0.2366
-    Epoch  20 Batch  400/2536 - Train Accuracy: 0.8789, Validation Accuracy: 0.6362, Loss: 0.3067
-    Epoch  20 Batch  500/2536 - Train Accuracy: 0.8438, Validation Accuracy: 0.6362, Loss: 0.4497
-    Epoch  20 Batch  600/2536 - Train Accuracy: 0.8542, Validation Accuracy: 0.6362, Loss: 0.4238
-    Epoch  20 Batch  700/2536 - Train Accuracy: 0.8726, Validation Accuracy: 0.6362, Loss: 0.4463
-    Epoch  20 Batch  800/2536 - Train Accuracy: 0.8245, Validation Accuracy: 0.6384, Loss: 0.4180
-    Epoch  20 Batch  900/2536 - Train Accuracy: 0.8237, Validation Accuracy: 0.6339, Loss: 0.5179
-    Epoch  20 Batch 1000/2536 - Train Accuracy: 0.7958, Validation Accuracy: 0.6339, Loss: 0.6184
-    Epoch  20 Batch 1100/2536 - Train Accuracy: 0.7522, Validation Accuracy: 0.6362, Loss: 0.7643
-    Epoch  20 Batch 1200/2536 - Train Accuracy: 0.8027, Validation Accuracy: 0.6384, Loss: 0.5122
-    Epoch  20 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0273
-    Epoch  20 Batch 1400/2536 - Train Accuracy: 0.7729, Validation Accuracy: 0.6339, Loss: 0.5700
-    Epoch  20 Batch 1500/2536 - Train Accuracy: 0.9423, Validation Accuracy: 0.6339, Loss: 0.1922
-    Epoch  20 Batch 1600/2536 - Train Accuracy: 0.9219, Validation Accuracy: 0.6362, Loss: 0.2151
-    Epoch  20 Batch 1700/2536 - Train Accuracy: 0.9545, Validation Accuracy: 0.6362, Loss: 0.1935
-    Epoch  20 Batch 1800/2536 - Train Accuracy: 0.9631, Validation Accuracy: 0.6339, Loss: 0.1182
-    Epoch  20 Batch 1900/2536 - Train Accuracy: 0.9167, Validation Accuracy: 0.6339, Loss: 0.2407
-    Epoch  20 Batch 2000/2536 - Train Accuracy: 0.9087, Validation Accuracy: 0.6339, Loss: 0.2474
-    Epoch  20 Batch 2100/2536 - Train Accuracy: 0.9870, Validation Accuracy: 0.6362, Loss: 0.0555
-    Epoch  20 Batch 2200/2536 - Train Accuracy: 0.8625, Validation Accuracy: 0.6339, Loss: 0.3498
-    Epoch  20 Batch 2300/2536 - Train Accuracy: 0.8125, Validation Accuracy: 0.6339, Loss: 0.5935
-    Epoch  20 Batch 2400/2536 - Train Accuracy: 0.8702, Validation Accuracy: 0.6339, Loss: 0.3673
-    Epoch  20 Batch 2500/2536 - Train Accuracy: 0.8365, Validation Accuracy: 0.6362, Loss: 0.5129
-    Epoch  21 Batch  100/2536 - Train Accuracy: 0.9773, Validation Accuracy: 0.6339, Loss: 0.1035
-    Epoch  21 Batch  200/2536 - Train Accuracy: 0.8996, Validation Accuracy: 0.6362, Loss: 0.2557
-    Epoch  21 Batch  300/2536 - Train Accuracy: 0.9375, Validation Accuracy: 0.6339, Loss: 0.2562
-    Epoch  21 Batch  400/2536 - Train Accuracy: 0.8672, Validation Accuracy: 0.6339, Loss: 0.2883
-    Epoch  21 Batch  500/2536 - Train Accuracy: 0.8542, Validation Accuracy: 0.6362, Loss: 0.3948
-    Epoch  21 Batch  600/2536 - Train Accuracy: 0.8792, Validation Accuracy: 0.6362, Loss: 0.3936
-    Epoch  21 Batch  700/2536 - Train Accuracy: 0.8942, Validation Accuracy: 0.6362, Loss: 0.3886
-    Epoch  21 Batch  800/2536 - Train Accuracy: 0.8774, Validation Accuracy: 0.6362, Loss: 0.3857
-    Epoch  21 Batch  900/2536 - Train Accuracy: 0.8259, Validation Accuracy: 0.6339, Loss: 0.4728
-    Epoch  21 Batch 1000/2536 - Train Accuracy: 0.7937, Validation Accuracy: 0.6362, Loss: 0.5719
-    Epoch  21 Batch 1100/2536 - Train Accuracy: 0.7344, Validation Accuracy: 0.6362, Loss: 0.6928
-    Epoch  21 Batch 1200/2536 - Train Accuracy: 0.8066, Validation Accuracy: 0.6384, Loss: 0.5119
-    Epoch  21 Batch 1300/2536 - Train Accuracy: 0.9880, Validation Accuracy: 0.6339, Loss: 0.0319
-    Epoch  21 Batch 1400/2536 - Train Accuracy: 0.8083, Validation Accuracy: 0.6339, Loss: 0.5520
-    Epoch  21 Batch 1500/2536 - Train Accuracy: 0.9327, Validation Accuracy: 0.6362, Loss: 0.1959
-    Epoch  21 Batch 1600/2536 - Train Accuracy: 0.9818, Validation Accuracy: 0.6362, Loss: 0.1780
-    Epoch  21 Batch 1700/2536 - Train Accuracy: 0.9290, Validation Accuracy: 0.6362, Loss: 0.1937
-    Epoch  21 Batch 1800/2536 - Train Accuracy: 0.9460, Validation Accuracy: 0.6362, Loss: 0.0952
-    Epoch  21 Batch 1900/2536 - Train Accuracy: 0.9271, Validation Accuracy: 0.6339, Loss: 0.2328
-    Epoch  21 Batch 2000/2536 - Train Accuracy: 0.8894, Validation Accuracy: 0.6339, Loss: 0.2032
-    Epoch  21 Batch 2100/2536 - Train Accuracy: 0.9844, Validation Accuracy: 0.6362, Loss: 0.0534
-    Epoch  21 Batch 2200/2536 - Train Accuracy: 0.8667, Validation Accuracy: 0.6339, Loss: 0.3149
-    Epoch  21 Batch 2300/2536 - Train Accuracy: 0.8125, Validation Accuracy: 0.6339, Loss: 0.5260
-    Epoch  21 Batch 2400/2536 - Train Accuracy: 0.8654, Validation Accuracy: 0.6362, Loss: 0.3600
-    Epoch  21 Batch 2500/2536 - Train Accuracy: 0.8053, Validation Accuracy: 0.6339, Loss: 0.5206
-    Epoch  22 Batch  100/2536 - Train Accuracy: 0.9915, Validation Accuracy: 0.6339, Loss: 0.0983
-    Epoch  22 Batch  200/2536 - Train Accuracy: 0.9129, Validation Accuracy: 0.6339, Loss: 0.2254
-    Epoch  22 Batch  300/2536 - Train Accuracy: 0.9330, Validation Accuracy: 0.6362, Loss: 0.2025
-    Epoch  22 Batch  400/2536 - Train Accuracy: 0.9004, Validation Accuracy: 0.6339, Loss: 0.2660
-    Epoch  22 Batch  500/2536 - Train Accuracy: 0.8313, Validation Accuracy: 0.6384, Loss: 0.3675
-    Epoch  22 Batch  600/2536 - Train Accuracy: 0.8792, Validation Accuracy: 0.6362, Loss: 0.3737
-    Epoch  22 Batch  700/2536 - Train Accuracy: 0.8678, Validation Accuracy: 0.6362, Loss: 0.3787
-    Epoch  22 Batch  800/2536 - Train Accuracy: 0.8750, Validation Accuracy: 0.6384, Loss: 0.3751
-    Epoch  22 Batch  900/2536 - Train Accuracy: 0.8504, Validation Accuracy: 0.6362, Loss: 0.4210
-    Epoch  22 Batch 1000/2536 - Train Accuracy: 0.8104, Validation Accuracy: 0.6362, Loss: 0.5438
-    Epoch  22 Batch 1100/2536 - Train Accuracy: 0.7254, Validation Accuracy: 0.6362, Loss: 0.7025
-    Epoch  22 Batch 1200/2536 - Train Accuracy: 0.8105, Validation Accuracy: 0.6362, Loss: 0.4984
-    Epoch  22 Batch 1300/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6339, Loss: 0.0359
-    Epoch  22 Batch 1400/2536 - Train Accuracy: 0.7979, Validation Accuracy: 0.6339, Loss: 0.4900
-    Epoch  22 Batch 1500/2536 - Train Accuracy: 0.9447, Validation Accuracy: 0.6339, Loss: 0.1706
-    Epoch  22 Batch 1600/2536 - Train Accuracy: 0.9349, Validation Accuracy: 0.6362, Loss: 0.1649
-    Epoch  22 Batch 1700/2536 - Train Accuracy: 0.9432, Validation Accuracy: 0.6362, Loss: 0.1709
-    Epoch  22 Batch 1800/2536 - Train Accuracy: 0.9489, Validation Accuracy: 0.6362, Loss: 0.0927
-    Epoch  22 Batch 1900/2536 - Train Accuracy: 0.9349, Validation Accuracy: 0.6339, Loss: 0.2143
-    Epoch  22 Batch 2000/2536 - Train Accuracy: 0.8870, Validation Accuracy: 0.6339, Loss: 0.2172
-    Epoch  22 Batch 2100/2536 - Train Accuracy: 0.9740, Validation Accuracy: 0.6384, Loss: 0.0404
-    Epoch  22 Batch 2200/2536 - Train Accuracy: 0.9000, Validation Accuracy: 0.6339, Loss: 0.2709
-    Epoch  22 Batch 2300/2536 - Train Accuracy: 0.7764, Validation Accuracy: 0.6362, Loss: 0.4483
-    Epoch  22 Batch 2400/2536 - Train Accuracy: 0.8894, Validation Accuracy: 0.6406, Loss: 0.3420
-    Epoch  22 Batch 2500/2536 - Train Accuracy: 0.8726, Validation Accuracy: 0.6339, Loss: 0.4742
-    Epoch  23 Batch  100/2536 - Train Accuracy: 0.9773, Validation Accuracy: 0.6362, Loss: 0.0945
-    Epoch  23 Batch  200/2536 - Train Accuracy: 0.9152, Validation Accuracy: 0.6362, Loss: 0.2095
-    Epoch  23 Batch  300/2536 - Train Accuracy: 0.9330, Validation Accuracy: 0.6384, Loss: 0.1904
-    Epoch  23 Batch  400/2536 - Train Accuracy: 0.9102, Validation Accuracy: 0.6362, Loss: 0.2922
-    Epoch  23 Batch  500/2536 - Train Accuracy: 0.9042, Validation Accuracy: 0.6384, Loss: 0.3396
-    Epoch  23 Batch  600/2536 - Train Accuracy: 0.8917, Validation Accuracy: 0.6362, Loss: 0.3648
-    Epoch  23 Batch  700/2536 - Train Accuracy: 0.8702, Validation Accuracy: 0.6362, Loss: 0.3564
-    Epoch  23 Batch  800/2536 - Train Accuracy: 0.8846, Validation Accuracy: 0.6384, Loss: 0.3483
-    Epoch  23 Batch  900/2536 - Train Accuracy: 0.8527, Validation Accuracy: 0.6362, Loss: 0.4382
-    Epoch  23 Batch 1000/2536 - Train Accuracy: 0.8250, Validation Accuracy: 0.6362, Loss: 0.5510
-    Epoch  23 Batch 1100/2536 - Train Accuracy: 0.7701, Validation Accuracy: 0.6362, Loss: 0.6347
-    Epoch  23 Batch 1200/2536 - Train Accuracy: 0.8340, Validation Accuracy: 0.6362, Loss: 0.4687
-    Epoch  23 Batch 1300/2536 - Train Accuracy: 0.9928, Validation Accuracy: 0.6339, Loss: 0.0384
-    Epoch  23 Batch 1400/2536 - Train Accuracy: 0.8125, Validation Accuracy: 0.6339, Loss: 0.4695
-    Epoch  23 Batch 1500/2536 - Train Accuracy: 0.9375, Validation Accuracy: 0.6339, Loss: 0.1862
-    Epoch  23 Batch 1600/2536 - Train Accuracy: 0.9505, Validation Accuracy: 0.6362, Loss: 0.1802
-    Epoch  23 Batch 1700/2536 - Train Accuracy: 0.9574, Validation Accuracy: 0.6362, Loss: 0.1416
-    Epoch  23 Batch 1800/2536 - Train Accuracy: 0.9659, Validation Accuracy: 0.6362, Loss: 0.0912
-    Epoch  23 Batch 1900/2536 - Train Accuracy: 0.9219, Validation Accuracy: 0.6362, Loss: 0.1960
-    Epoch  23 Batch 2000/2536 - Train Accuracy: 0.9615, Validation Accuracy: 0.6362, Loss: 0.1724
-    Epoch  23 Batch 2100/2536 - Train Accuracy: 0.9896, Validation Accuracy: 0.6362, Loss: 0.0416
-    Epoch  23 Batch 2200/2536 - Train Accuracy: 0.8833, Validation Accuracy: 0.6362, Loss: 0.2783
-    Epoch  23 Batch 2300/2536 - Train Accuracy: 0.8293, Validation Accuracy: 0.6362, Loss: 0.4258
-    Epoch  23 Batch 2400/2536 - Train Accuracy: 0.8894, Validation Accuracy: 0.6339, Loss: 0.3163
-    Epoch  23 Batch 2500/2536 - Train Accuracy: 0.8510, Validation Accuracy: 0.6339, Loss: 0.4227
-    Epoch  24 Batch  100/2536 - Train Accuracy: 0.9773, Validation Accuracy: 0.6339, Loss: 0.0907
-    Epoch  24 Batch  200/2536 - Train Accuracy: 0.9174, Validation Accuracy: 0.6339, Loss: 0.2172
-    Epoch  24 Batch  300/2536 - Train Accuracy: 0.9554, Validation Accuracy: 0.6339, Loss: 0.1992
-    Epoch  24 Batch  400/2536 - Train Accuracy: 0.8789, Validation Accuracy: 0.6339, Loss: 0.2362
-    Epoch  24 Batch  500/2536 - Train Accuracy: 0.8938, Validation Accuracy: 0.6339, Loss: 0.3240
-    Epoch  24 Batch  600/2536 - Train Accuracy: 0.8875, Validation Accuracy: 0.6384, Loss: 0.3643
-    Epoch  24 Batch  700/2536 - Train Accuracy: 0.8846, Validation Accuracy: 0.6339, Loss: 0.3287
-    Epoch  24 Batch  800/2536 - Train Accuracy: 0.9231, Validation Accuracy: 0.6362, Loss: 0.3264
-    Epoch  24 Batch  900/2536 - Train Accuracy: 0.8750, Validation Accuracy: 0.6362, Loss: 0.3737
-    Epoch  24 Batch 1000/2536 - Train Accuracy: 0.8083, Validation Accuracy: 0.6362, Loss: 0.4653
-    Epoch  24 Batch 1100/2536 - Train Accuracy: 0.7679, Validation Accuracy: 0.6362, Loss: 0.5902
-    Epoch  24 Batch 1200/2536 - Train Accuracy: 0.7910, Validation Accuracy: 0.6362, Loss: 0.4493
-    Epoch  24 Batch 1300/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6339, Loss: 0.0238
-    Epoch  24 Batch 1400/2536 - Train Accuracy: 0.8146, Validation Accuracy: 0.6339, Loss: 0.4508
-    Epoch  24 Batch 1500/2536 - Train Accuracy: 0.9207, Validation Accuracy: 0.6362, Loss: 0.1464
-    Epoch  24 Batch 1600/2536 - Train Accuracy: 0.9635, Validation Accuracy: 0.6362, Loss: 0.1277
-    Epoch  24 Batch 1700/2536 - Train Accuracy: 0.9545, Validation Accuracy: 0.6384, Loss: 0.1311
-    Epoch  24 Batch 1800/2536 - Train Accuracy: 0.9574, Validation Accuracy: 0.6362, Loss: 0.0859
-    Epoch  24 Batch 1900/2536 - Train Accuracy: 0.9167, Validation Accuracy: 0.6362, Loss: 0.1798
-    Epoch  24 Batch 2000/2536 - Train Accuracy: 0.9062, Validation Accuracy: 0.6384, Loss: 0.1601
-    Epoch  24 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0293
-    Epoch  24 Batch 2200/2536 - Train Accuracy: 0.9208, Validation Accuracy: 0.6362, Loss: 0.2155
-    Epoch  24 Batch 2300/2536 - Train Accuracy: 0.8101, Validation Accuracy: 0.6339, Loss: 0.3634
-    Epoch  24 Batch 2400/2536 - Train Accuracy: 0.8918, Validation Accuracy: 0.6362, Loss: 0.2705
-    Epoch  24 Batch 2500/2536 - Train Accuracy: 0.8558, Validation Accuracy: 0.6362, Loss: 0.3952
-    Epoch  25 Batch  100/2536 - Train Accuracy: 0.9830, Validation Accuracy: 0.6362, Loss: 0.0878
-    Epoch  25 Batch  200/2536 - Train Accuracy: 0.9286, Validation Accuracy: 0.6339, Loss: 0.1659
-    Epoch  25 Batch  300/2536 - Train Accuracy: 0.9464, Validation Accuracy: 0.6384, Loss: 0.1916
-    Epoch  25 Batch  400/2536 - Train Accuracy: 0.9238, Validation Accuracy: 0.6362, Loss: 0.2344
-    Epoch  25 Batch  500/2536 - Train Accuracy: 0.8896, Validation Accuracy: 0.6362, Loss: 0.3138
-    Epoch  25 Batch  600/2536 - Train Accuracy: 0.8979, Validation Accuracy: 0.6384, Loss: 0.3258
-    Epoch  25 Batch  700/2536 - Train Accuracy: 0.9135, Validation Accuracy: 0.6384, Loss: 0.2833
-    Epoch  25 Batch  800/2536 - Train Accuracy: 0.8918, Validation Accuracy: 0.6362, Loss: 0.2979
-    Epoch  25 Batch  900/2536 - Train Accuracy: 0.8728, Validation Accuracy: 0.6384, Loss: 0.3495
-    Epoch  25 Batch 1000/2536 - Train Accuracy: 0.8063, Validation Accuracy: 0.6362, Loss: 0.4942
-    Epoch  25 Batch 1100/2536 - Train Accuracy: 0.7835, Validation Accuracy: 0.6362, Loss: 0.6128
-    Epoch  25 Batch 1200/2536 - Train Accuracy: 0.8379, Validation Accuracy: 0.6362, Loss: 0.3892
-    Epoch  25 Batch 1300/2536 - Train Accuracy: 0.9928, Validation Accuracy: 0.6339, Loss: 0.0223
-    Epoch  25 Batch 1400/2536 - Train Accuracy: 0.7896, Validation Accuracy: 0.6339, Loss: 0.3933
-    Epoch  25 Batch 1500/2536 - Train Accuracy: 0.9255, Validation Accuracy: 0.6362, Loss: 0.1360
-    Epoch  25 Batch 1600/2536 - Train Accuracy: 0.9818, Validation Accuracy: 0.6384, Loss: 0.1294
-    Epoch  25 Batch 1700/2536 - Train Accuracy: 0.9716, Validation Accuracy: 0.6362, Loss: 0.1159
-    Epoch  25 Batch 1800/2536 - Train Accuracy: 0.9744, Validation Accuracy: 0.6362, Loss: 0.0773
-    Epoch  25 Batch 1900/2536 - Train Accuracy: 0.9401, Validation Accuracy: 0.6362, Loss: 0.1629
-    Epoch  25 Batch 2000/2536 - Train Accuracy: 0.9543, Validation Accuracy: 0.6339, Loss: 0.1445
-    Epoch  25 Batch 2100/2536 - Train Accuracy: 0.9948, Validation Accuracy: 0.6362, Loss: 0.0351
-    Epoch  25 Batch 2200/2536 - Train Accuracy: 0.9313, Validation Accuracy: 0.6362, Loss: 0.2226
-    Epoch  25 Batch 2300/2536 - Train Accuracy: 0.8341, Validation Accuracy: 0.6362, Loss: 0.3857
-    Epoch  25 Batch 2400/2536 - Train Accuracy: 0.9038, Validation Accuracy: 0.6339, Loss: 0.2502
-    Epoch  25 Batch 2500/2536 - Train Accuracy: 0.8894, Validation Accuracy: 0.6362, Loss: 0.3767
-    Epoch  26 Batch  100/2536 - Train Accuracy: 0.9858, Validation Accuracy: 0.6339, Loss: 0.0796
-    Epoch  26 Batch  200/2536 - Train Accuracy: 0.9420, Validation Accuracy: 0.6339, Loss: 0.1814
-    Epoch  26 Batch  300/2536 - Train Accuracy: 0.9420, Validation Accuracy: 0.6339, Loss: 0.1684
-    Epoch  26 Batch  400/2536 - Train Accuracy: 0.9062, Validation Accuracy: 0.6339, Loss: 0.2167
-    Epoch  26 Batch  500/2536 - Train Accuracy: 0.8958, Validation Accuracy: 0.6339, Loss: 0.2380
-    Epoch  26 Batch  600/2536 - Train Accuracy: 0.9083, Validation Accuracy: 0.6362, Loss: 0.3009
-    Epoch  26 Batch  700/2536 - Train Accuracy: 0.9255, Validation Accuracy: 0.6339, Loss: 0.2728
-    Epoch  26 Batch  800/2536 - Train Accuracy: 0.8942, Validation Accuracy: 0.6362, Loss: 0.2928
-    Epoch  26 Batch  900/2536 - Train Accuracy: 0.8951, Validation Accuracy: 0.6339, Loss: 0.3423
-    Epoch  26 Batch 1000/2536 - Train Accuracy: 0.8187, Validation Accuracy: 0.6339, Loss: 0.4683
-    Epoch  26 Batch 1100/2536 - Train Accuracy: 0.7567, Validation Accuracy: 0.6339, Loss: 0.5089
-    Epoch  26 Batch 1200/2536 - Train Accuracy: 0.8125, Validation Accuracy: 0.6362, Loss: 0.3779
-    Epoch  26 Batch 1300/2536 - Train Accuracy: 0.9784, Validation Accuracy: 0.6339, Loss: 0.0282
-    Epoch  26 Batch 1400/2536 - Train Accuracy: 0.8375, Validation Accuracy: 0.6339, Loss: 0.3917
-    Epoch  26 Batch 1500/2536 - Train Accuracy: 0.9639, Validation Accuracy: 0.6384, Loss: 0.1221
-    Epoch  26 Batch 1600/2536 - Train Accuracy: 0.9740, Validation Accuracy: 0.6362, Loss: 0.1007
-    Epoch  26 Batch 1700/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6362, Loss: 0.1153
-    Epoch  26 Batch 1800/2536 - Train Accuracy: 0.9602, Validation Accuracy: 0.6339, Loss: 0.0797
-    Epoch  26 Batch 1900/2536 - Train Accuracy: 0.9375, Validation Accuracy: 0.6339, Loss: 0.1792
-    Epoch  26 Batch 2000/2536 - Train Accuracy: 0.9447, Validation Accuracy: 0.6339, Loss: 0.1251
-    Epoch  26 Batch 2100/2536 - Train Accuracy: 0.9792, Validation Accuracy: 0.6362, Loss: 0.0326
-    Epoch  26 Batch 2200/2536 - Train Accuracy: 0.9250, Validation Accuracy: 0.6339, Loss: 0.1942
-    Epoch  26 Batch 2300/2536 - Train Accuracy: 0.8534, Validation Accuracy: 0.6339, Loss: 0.3456
-    Epoch  26 Batch 2400/2536 - Train Accuracy: 0.9038, Validation Accuracy: 0.6339, Loss: 0.2577
-    Epoch  26 Batch 2500/2536 - Train Accuracy: 0.9014, Validation Accuracy: 0.6339, Loss: 0.3213
-    Epoch  27 Batch  100/2536 - Train Accuracy: 0.9659, Validation Accuracy: 0.6339, Loss: 0.1010
-    Epoch  27 Batch  200/2536 - Train Accuracy: 0.9375, Validation Accuracy: 0.6339, Loss: 0.1481
-    Epoch  27 Batch  300/2536 - Train Accuracy: 0.9554, Validation Accuracy: 0.6362, Loss: 0.1383
-    Epoch  27 Batch  400/2536 - Train Accuracy: 0.9180, Validation Accuracy: 0.6339, Loss: 0.1923
-    Epoch  27 Batch  500/2536 - Train Accuracy: 0.9021, Validation Accuracy: 0.6362, Loss: 0.2519
-    Epoch  27 Batch  600/2536 - Train Accuracy: 0.9146, Validation Accuracy: 0.6362, Loss: 0.3081
-    Epoch  27 Batch  700/2536 - Train Accuracy: 0.9279, Validation Accuracy: 0.6406, Loss: 0.2446
-    Epoch  27 Batch  800/2536 - Train Accuracy: 0.9159, Validation Accuracy: 0.6362, Loss: 0.2465
-    Epoch  27 Batch  900/2536 - Train Accuracy: 0.8705, Validation Accuracy: 0.6362, Loss: 0.3106
-    Epoch  27 Batch 1000/2536 - Train Accuracy: 0.8625, Validation Accuracy: 0.6339, Loss: 0.4086
-    Epoch  27 Batch 1100/2536 - Train Accuracy: 0.8192, Validation Accuracy: 0.6339, Loss: 0.4936
-    Epoch  27 Batch 1200/2536 - Train Accuracy: 0.8320, Validation Accuracy: 0.6339, Loss: 0.3565
-    Epoch  27 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0159
-    Epoch  27 Batch 1400/2536 - Train Accuracy: 0.8708, Validation Accuracy: 0.6339, Loss: 0.3678
-    Epoch  27 Batch 1500/2536 - Train Accuracy: 0.9736, Validation Accuracy: 0.6362, Loss: 0.0982
-    Epoch  27 Batch 1600/2536 - Train Accuracy: 0.9896, Validation Accuracy: 0.6384, Loss: 0.0850
-    Epoch  27 Batch 1700/2536 - Train Accuracy: 0.9489, Validation Accuracy: 0.6384, Loss: 0.1018
-    Epoch  27 Batch 1800/2536 - Train Accuracy: 0.9716, Validation Accuracy: 0.6362, Loss: 0.0816
-    Epoch  27 Batch 1900/2536 - Train Accuracy: 0.9245, Validation Accuracy: 0.6362, Loss: 0.1720
-    Epoch  27 Batch 2000/2536 - Train Accuracy: 0.9183, Validation Accuracy: 0.6384, Loss: 0.1204
-    Epoch  27 Batch 2100/2536 - Train Accuracy: 0.9974, Validation Accuracy: 0.6384, Loss: 0.0219
-    Epoch  27 Batch 2200/2536 - Train Accuracy: 0.9125, Validation Accuracy: 0.6362, Loss: 0.1905
-    Epoch  27 Batch 2300/2536 - Train Accuracy: 0.8726, Validation Accuracy: 0.6339, Loss: 0.2907
-    Epoch  27 Batch 2400/2536 - Train Accuracy: 0.8918, Validation Accuracy: 0.6362, Loss: 0.2288
-    Epoch  27 Batch 2500/2536 - Train Accuracy: 0.8606, Validation Accuracy: 0.6362, Loss: 0.2789
-    Epoch  28 Batch  100/2536 - Train Accuracy: 0.9858, Validation Accuracy: 0.6362, Loss: 0.0751
-    Epoch  28 Batch  200/2536 - Train Accuracy: 0.9241, Validation Accuracy: 0.6362, Loss: 0.1421
-    Epoch  28 Batch  300/2536 - Train Accuracy: 0.9442, Validation Accuracy: 0.6362, Loss: 0.1320
-    Epoch  28 Batch  400/2536 - Train Accuracy: 0.9180, Validation Accuracy: 0.6362, Loss: 0.1787
-    Epoch  28 Batch  500/2536 - Train Accuracy: 0.8979, Validation Accuracy: 0.6384, Loss: 0.2251
-    Epoch  28 Batch  600/2536 - Train Accuracy: 0.8979, Validation Accuracy: 0.6362, Loss: 0.2653
-    Epoch  28 Batch  700/2536 - Train Accuracy: 0.9207, Validation Accuracy: 0.6362, Loss: 0.2183
-    Epoch  28 Batch  800/2536 - Train Accuracy: 0.9231, Validation Accuracy: 0.6384, Loss: 0.2425
-    Epoch  28 Batch  900/2536 - Train Accuracy: 0.9085, Validation Accuracy: 0.6362, Loss: 0.2848
-    Epoch  28 Batch 1000/2536 - Train Accuracy: 0.8542, Validation Accuracy: 0.6339, Loss: 0.4033
-    Epoch  28 Batch 1100/2536 - Train Accuracy: 0.7924, Validation Accuracy: 0.6339, Loss: 0.4727
-    Epoch  28 Batch 1200/2536 - Train Accuracy: 0.8594, Validation Accuracy: 0.6362, Loss: 0.3190
-    Epoch  28 Batch 1300/2536 - Train Accuracy: 0.9856, Validation Accuracy: 0.6339, Loss: 0.0203
-    Epoch  28 Batch 1400/2536 - Train Accuracy: 0.8417, Validation Accuracy: 0.6339, Loss: 0.3628
-    Epoch  28 Batch 1500/2536 - Train Accuracy: 0.9784, Validation Accuracy: 0.6362, Loss: 0.0910
-    Epoch  28 Batch 1600/2536 - Train Accuracy: 0.9974, Validation Accuracy: 0.6362, Loss: 0.0810
-    Epoch  28 Batch 1700/2536 - Train Accuracy: 0.9801, Validation Accuracy: 0.6362, Loss: 0.0898
-    Epoch  28 Batch 1800/2536 - Train Accuracy: 0.9801, Validation Accuracy: 0.6362, Loss: 0.0717
-    Epoch  28 Batch 1900/2536 - Train Accuracy: 0.9349, Validation Accuracy: 0.6362, Loss: 0.1655
-    Epoch  28 Batch 2000/2536 - Train Accuracy: 0.9615, Validation Accuracy: 0.6362, Loss: 0.1056
-    Epoch  28 Batch 2100/2536 - Train Accuracy: 0.9818, Validation Accuracy: 0.6384, Loss: 0.0216
-    Epoch  28 Batch 2200/2536 - Train Accuracy: 0.9250, Validation Accuracy: 0.6339, Loss: 0.2086
-    Epoch  28 Batch 2300/2536 - Train Accuracy: 0.8846, Validation Accuracy: 0.6339, Loss: 0.2880
-    Epoch  28 Batch 2400/2536 - Train Accuracy: 0.9279, Validation Accuracy: 0.6362, Loss: 0.2281
-    Epoch  28 Batch 2500/2536 - Train Accuracy: 0.8726, Validation Accuracy: 0.6362, Loss: 0.2890
-    Epoch  29 Batch  100/2536 - Train Accuracy: 0.9886, Validation Accuracy: 0.6339, Loss: 0.0585
-    Epoch  29 Batch  200/2536 - Train Accuracy: 0.9643, Validation Accuracy: 0.6339, Loss: 0.1379
-    Epoch  29 Batch  300/2536 - Train Accuracy: 0.9621, Validation Accuracy: 0.6362, Loss: 0.1594
-    Epoch  29 Batch  400/2536 - Train Accuracy: 0.9043, Validation Accuracy: 0.6384, Loss: 0.1707
-    Epoch  29 Batch  500/2536 - Train Accuracy: 0.9062, Validation Accuracy: 0.6406, Loss: 0.2288
-    Epoch  29 Batch  600/2536 - Train Accuracy: 0.9229, Validation Accuracy: 0.6362, Loss: 0.2572
-    Epoch  29 Batch  700/2536 - Train Accuracy: 0.9062, Validation Accuracy: 0.6384, Loss: 0.2130
-    Epoch  29 Batch  800/2536 - Train Accuracy: 0.8942, Validation Accuracy: 0.6384, Loss: 0.2004
-    Epoch  29 Batch  900/2536 - Train Accuracy: 0.9062, Validation Accuracy: 0.6384, Loss: 0.2715
-    Epoch  29 Batch 1000/2536 - Train Accuracy: 0.8667, Validation Accuracy: 0.6362, Loss: 0.3835
-    Epoch  29 Batch 1100/2536 - Train Accuracy: 0.8036, Validation Accuracy: 0.6362, Loss: 0.4370
-    Epoch  29 Batch 1200/2536 - Train Accuracy: 0.8340, Validation Accuracy: 0.6362, Loss: 0.2799
-    Epoch  29 Batch 1300/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6339, Loss: 0.0238
-    Epoch  29 Batch 1400/2536 - Train Accuracy: 0.8500, Validation Accuracy: 0.6362, Loss: 0.3299
-    Epoch  29 Batch 1500/2536 - Train Accuracy: 0.9663, Validation Accuracy: 0.6406, Loss: 0.0856
-    Epoch  29 Batch 1600/2536 - Train Accuracy: 0.9766, Validation Accuracy: 0.6384, Loss: 0.0888
-    Epoch  29 Batch 1700/2536 - Train Accuracy: 0.9602, Validation Accuracy: 0.6384, Loss: 0.0977
-    Epoch  29 Batch 1800/2536 - Train Accuracy: 0.9943, Validation Accuracy: 0.6362, Loss: 0.0684
-    Epoch  29 Batch 1900/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6362, Loss: 0.1537
-    Epoch  29 Batch 2000/2536 - Train Accuracy: 0.9832, Validation Accuracy: 0.6384, Loss: 0.1134
-    Epoch  29 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6406, Loss: 0.0300
-    Epoch  29 Batch 2200/2536 - Train Accuracy: 0.9229, Validation Accuracy: 0.6362, Loss: 0.1668
-    Epoch  29 Batch 2300/2536 - Train Accuracy: 0.9038, Validation Accuracy: 0.6339, Loss: 0.2948
-    Epoch  29 Batch 2400/2536 - Train Accuracy: 0.9351, Validation Accuracy: 0.6384, Loss: 0.1857
-    Epoch  29 Batch 2500/2536 - Train Accuracy: 0.8942, Validation Accuracy: 0.6384, Loss: 0.2343
-    Epoch  30 Batch  100/2536 - Train Accuracy: 0.9858, Validation Accuracy: 0.6384, Loss: 0.0564
-    Epoch  30 Batch  200/2536 - Train Accuracy: 0.9464, Validation Accuracy: 0.6384, Loss: 0.1034
-    Epoch  30 Batch  300/2536 - Train Accuracy: 0.9353, Validation Accuracy: 0.6384, Loss: 0.1607
-    Epoch  30 Batch  400/2536 - Train Accuracy: 0.9277, Validation Accuracy: 0.6384, Loss: 0.1622
-    Epoch  30 Batch  500/2536 - Train Accuracy: 0.9062, Validation Accuracy: 0.6384, Loss: 0.2097
-    Epoch  30 Batch  600/2536 - Train Accuracy: 0.9271, Validation Accuracy: 0.6384, Loss: 0.2409
-    Epoch  30 Batch  700/2536 - Train Accuracy: 0.9399, Validation Accuracy: 0.6384, Loss: 0.2225
-    Epoch  30 Batch  800/2536 - Train Accuracy: 0.9207, Validation Accuracy: 0.6384, Loss: 0.2181
-    Epoch  30 Batch  900/2536 - Train Accuracy: 0.8817, Validation Accuracy: 0.6362, Loss: 0.2531
-    Epoch  30 Batch 1000/2536 - Train Accuracy: 0.8250, Validation Accuracy: 0.6362, Loss: 0.3637
-    Epoch  30 Batch 1100/2536 - Train Accuracy: 0.8125, Validation Accuracy: 0.6362, Loss: 0.3783
-    Epoch  30 Batch 1200/2536 - Train Accuracy: 0.8750, Validation Accuracy: 0.6384, Loss: 0.3113
-    Epoch  30 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0168
-    Epoch  30 Batch 1400/2536 - Train Accuracy: 0.8479, Validation Accuracy: 0.6362, Loss: 0.2978
-    Epoch  30 Batch 1500/2536 - Train Accuracy: 0.9591, Validation Accuracy: 0.6339, Loss: 0.0800
-    Epoch  30 Batch 1600/2536 - Train Accuracy: 0.9792, Validation Accuracy: 0.6384, Loss: 0.0828
-    Epoch  30 Batch 1700/2536 - Train Accuracy: 0.9716, Validation Accuracy: 0.6384, Loss: 0.0838
-    Epoch  30 Batch 1800/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6406, Loss: 0.0665
-    Epoch  30 Batch 1900/2536 - Train Accuracy: 0.9531, Validation Accuracy: 0.6362, Loss: 0.1200
-    Epoch  30 Batch 2000/2536 - Train Accuracy: 0.9447, Validation Accuracy: 0.6362, Loss: 0.1042
-    Epoch  30 Batch 2100/2536 - Train Accuracy: 0.9948, Validation Accuracy: 0.6406, Loss: 0.0291
-    Epoch  30 Batch 2200/2536 - Train Accuracy: 0.9333, Validation Accuracy: 0.6406, Loss: 0.1868
-    Epoch  30 Batch 2300/2536 - Train Accuracy: 0.8966, Validation Accuracy: 0.6362, Loss: 0.2401
-    Epoch  30 Batch 2400/2536 - Train Accuracy: 0.9327, Validation Accuracy: 0.6384, Loss: 0.1999
-    Epoch  30 Batch 2500/2536 - Train Accuracy: 0.8966, Validation Accuracy: 0.6406, Loss: 0.2520
-    Epoch  31 Batch  100/2536 - Train Accuracy: 0.9716, Validation Accuracy: 0.6406, Loss: 0.0709
-    Epoch  31 Batch  200/2536 - Train Accuracy: 0.9509, Validation Accuracy: 0.6384, Loss: 0.0875
-    Epoch  31 Batch  300/2536 - Train Accuracy: 0.9420, Validation Accuracy: 0.6384, Loss: 0.1173
-    Epoch  31 Batch  400/2536 - Train Accuracy: 0.9434, Validation Accuracy: 0.6362, Loss: 0.1640
-    Epoch  31 Batch  500/2536 - Train Accuracy: 0.9104, Validation Accuracy: 0.6384, Loss: 0.2176
-    Epoch  31 Batch  600/2536 - Train Accuracy: 0.9479, Validation Accuracy: 0.6384, Loss: 0.2243
-    Epoch  31 Batch  700/2536 - Train Accuracy: 0.8966, Validation Accuracy: 0.6362, Loss: 0.1931
-    Epoch  31 Batch  800/2536 - Train Accuracy: 0.9111, Validation Accuracy: 0.6384, Loss: 0.2261
-    Epoch  31 Batch  900/2536 - Train Accuracy: 0.9129, Validation Accuracy: 0.6362, Loss: 0.2199
-    Epoch  31 Batch 1000/2536 - Train Accuracy: 0.8521, Validation Accuracy: 0.6384, Loss: 0.3585
-    Epoch  31 Batch 1100/2536 - Train Accuracy: 0.8728, Validation Accuracy: 0.6384, Loss: 0.3762
-    Epoch  31 Batch 1200/2536 - Train Accuracy: 0.8535, Validation Accuracy: 0.6384, Loss: 0.2674
-    Epoch  31 Batch 1300/2536 - Train Accuracy: 0.9904, Validation Accuracy: 0.6362, Loss: 0.0272
-    Epoch  31 Batch 1400/2536 - Train Accuracy: 0.8917, Validation Accuracy: 0.6362, Loss: 0.2443
-    Epoch  31 Batch 1500/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6362, Loss: 0.0883
-    Epoch  31 Batch 1600/2536 - Train Accuracy: 0.9792, Validation Accuracy: 0.6406, Loss: 0.0783
-    Epoch  31 Batch 1700/2536 - Train Accuracy: 0.9517, Validation Accuracy: 0.6384, Loss: 0.0917
-    Epoch  31 Batch 1800/2536 - Train Accuracy: 0.9773, Validation Accuracy: 0.6362, Loss: 0.0516
-    Epoch  31 Batch 1900/2536 - Train Accuracy: 0.9453, Validation Accuracy: 0.6362, Loss: 0.1277
-    Epoch  31 Batch 2000/2536 - Train Accuracy: 0.9760, Validation Accuracy: 0.6384, Loss: 0.0945
-    Epoch  31 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0221
-    Epoch  31 Batch 2200/2536 - Train Accuracy: 0.9333, Validation Accuracy: 0.6362, Loss: 0.1685
-    Epoch  31 Batch 2300/2536 - Train Accuracy: 0.8702, Validation Accuracy: 0.6384, Loss: 0.2255
-    Epoch  31 Batch 2400/2536 - Train Accuracy: 0.9111, Validation Accuracy: 0.6384, Loss: 0.1735
-    Epoch  31 Batch 2500/2536 - Train Accuracy: 0.9135, Validation Accuracy: 0.6384, Loss: 0.2086
-    Epoch  32 Batch  100/2536 - Train Accuracy: 0.9801, Validation Accuracy: 0.6384, Loss: 0.0574
-    Epoch  32 Batch  200/2536 - Train Accuracy: 0.9286, Validation Accuracy: 0.6384, Loss: 0.1084
-    Epoch  32 Batch  300/2536 - Train Accuracy: 0.9665, Validation Accuracy: 0.6384, Loss: 0.1222
-    Epoch  32 Batch  400/2536 - Train Accuracy: 0.9316, Validation Accuracy: 0.6384, Loss: 0.1531
-    Epoch  32 Batch  500/2536 - Train Accuracy: 0.9187, Validation Accuracy: 0.6384, Loss: 0.1827
-    Epoch  32 Batch  600/2536 - Train Accuracy: 0.9250, Validation Accuracy: 0.6384, Loss: 0.2324
-    Epoch  32 Batch  700/2536 - Train Accuracy: 0.9279, Validation Accuracy: 0.6384, Loss: 0.1886
-    Epoch  32 Batch  800/2536 - Train Accuracy: 0.9279, Validation Accuracy: 0.6406, Loss: 0.1827
-    Epoch  32 Batch  900/2536 - Train Accuracy: 0.9196, Validation Accuracy: 0.6406, Loss: 0.2163
-    Epoch  32 Batch 1000/2536 - Train Accuracy: 0.8292, Validation Accuracy: 0.6384, Loss: 0.3601
-    Epoch  32 Batch 1100/2536 - Train Accuracy: 0.8304, Validation Accuracy: 0.6384, Loss: 0.3886
-    Epoch  32 Batch 1200/2536 - Train Accuracy: 0.8418, Validation Accuracy: 0.6406, Loss: 0.2619
-    Epoch  32 Batch 1300/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6384, Loss: 0.0152
-    Epoch  32 Batch 1400/2536 - Train Accuracy: 0.8875, Validation Accuracy: 0.6384, Loss: 0.2715
-    Epoch  32 Batch 1500/2536 - Train Accuracy: 0.9639, Validation Accuracy: 0.6362, Loss: 0.0634
-    Epoch  32 Batch 1600/2536 - Train Accuracy: 0.9844, Validation Accuracy: 0.6384, Loss: 0.0700
-    Epoch  32 Batch 1700/2536 - Train Accuracy: 0.9801, Validation Accuracy: 0.6362, Loss: 0.0839
-    Epoch  32 Batch 1800/2536 - Train Accuracy: 0.9744, Validation Accuracy: 0.6384, Loss: 0.0643
-    Epoch  32 Batch 1900/2536 - Train Accuracy: 0.9557, Validation Accuracy: 0.6362, Loss: 0.1220
-    Epoch  32 Batch 2000/2536 - Train Accuracy: 0.9471, Validation Accuracy: 0.6384, Loss: 0.1176
-    Epoch  32 Batch 2100/2536 - Train Accuracy: 0.9740, Validation Accuracy: 0.6406, Loss: 0.0206
-    Epoch  32 Batch 2200/2536 - Train Accuracy: 0.9250, Validation Accuracy: 0.6384, Loss: 0.1574
-    Epoch  32 Batch 2300/2536 - Train Accuracy: 0.8870, Validation Accuracy: 0.6362, Loss: 0.2216
-    Epoch  32 Batch 2400/2536 - Train Accuracy: 0.9495, Validation Accuracy: 0.6362, Loss: 0.1643
-    Epoch  32 Batch 2500/2536 - Train Accuracy: 0.9399, Validation Accuracy: 0.6384, Loss: 0.2335
-    Epoch  33 Batch  100/2536 - Train Accuracy: 0.9801, Validation Accuracy: 0.6362, Loss: 0.0547
-    Epoch  33 Batch  200/2536 - Train Accuracy: 0.9598, Validation Accuracy: 0.6362, Loss: 0.0986
-    Epoch  33 Batch  300/2536 - Train Accuracy: 0.9397, Validation Accuracy: 0.6384, Loss: 0.1237
-    Epoch  33 Batch  400/2536 - Train Accuracy: 0.9141, Validation Accuracy: 0.6384, Loss: 0.1752
-    Epoch  33 Batch  500/2536 - Train Accuracy: 0.9250, Validation Accuracy: 0.6384, Loss: 0.1813
-    Epoch  33 Batch  600/2536 - Train Accuracy: 0.9250, Validation Accuracy: 0.6384, Loss: 0.2453
-    Epoch  33 Batch  700/2536 - Train Accuracy: 0.9543, Validation Accuracy: 0.6384, Loss: 0.1606
-    Epoch  33 Batch  800/2536 - Train Accuracy: 0.9375, Validation Accuracy: 0.6384, Loss: 0.1672
-    Epoch  33 Batch  900/2536 - Train Accuracy: 0.8973, Validation Accuracy: 0.6384, Loss: 0.2542
-    Epoch  33 Batch 1000/2536 - Train Accuracy: 0.8479, Validation Accuracy: 0.6384, Loss: 0.3713
-    Epoch  33 Batch 1100/2536 - Train Accuracy: 0.8281, Validation Accuracy: 0.6384, Loss: 0.3700
-    Epoch  33 Batch 1200/2536 - Train Accuracy: 0.8555, Validation Accuracy: 0.6384, Loss: 0.2564
-    Epoch  33 Batch 1300/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6362, Loss: 0.0184
-    Epoch  33 Batch 1400/2536 - Train Accuracy: 0.8896, Validation Accuracy: 0.6384, Loss: 0.2508
-    Epoch  33 Batch 1500/2536 - Train Accuracy: 0.9784, Validation Accuracy: 0.6362, Loss: 0.0718
-    Epoch  33 Batch 1600/2536 - Train Accuracy: 0.9974, Validation Accuracy: 0.6384, Loss: 0.0592
-    Epoch  33 Batch 1700/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6384, Loss: 0.0621
-    Epoch  33 Batch 1800/2536 - Train Accuracy: 0.9801, Validation Accuracy: 0.6384, Loss: 0.0394
-    Epoch  33 Batch 1900/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6384, Loss: 0.1125
-    Epoch  33 Batch 2000/2536 - Train Accuracy: 0.9712, Validation Accuracy: 0.6384, Loss: 0.0930
-    Epoch  33 Batch 2100/2536 - Train Accuracy: 0.9870, Validation Accuracy: 0.6384, Loss: 0.0246
-    Epoch  33 Batch 2200/2536 - Train Accuracy: 0.9667, Validation Accuracy: 0.6362, Loss: 0.0983
-    Epoch  33 Batch 2300/2536 - Train Accuracy: 0.8822, Validation Accuracy: 0.6362, Loss: 0.2235
-    Epoch  33 Batch 2400/2536 - Train Accuracy: 0.9712, Validation Accuracy: 0.6362, Loss: 0.1399
-    Epoch  33 Batch 2500/2536 - Train Accuracy: 0.9327, Validation Accuracy: 0.6384, Loss: 0.1903
-    Epoch  34 Batch  100/2536 - Train Accuracy: 0.9830, Validation Accuracy: 0.6384, Loss: 0.0582
-    Epoch  34 Batch  200/2536 - Train Accuracy: 0.9710, Validation Accuracy: 0.6384, Loss: 0.0979
-    Epoch  34 Batch  300/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6362, Loss: 0.1185
-    Epoch  34 Batch  400/2536 - Train Accuracy: 0.9590, Validation Accuracy: 0.6362, Loss: 0.1413
-    Epoch  34 Batch  500/2536 - Train Accuracy: 0.9083, Validation Accuracy: 0.6384, Loss: 0.1693
-    Epoch  34 Batch  600/2536 - Train Accuracy: 0.9313, Validation Accuracy: 0.6362, Loss: 0.2050
-    Epoch  34 Batch  700/2536 - Train Accuracy: 0.9736, Validation Accuracy: 0.6384, Loss: 0.1353
-    Epoch  34 Batch  800/2536 - Train Accuracy: 0.9303, Validation Accuracy: 0.6384, Loss: 0.1364
-    Epoch  34 Batch  900/2536 - Train Accuracy: 0.9196, Validation Accuracy: 0.6384, Loss: 0.2028
-    Epoch  34 Batch 1000/2536 - Train Accuracy: 0.8812, Validation Accuracy: 0.6384, Loss: 0.3271
-    Epoch  34 Batch 1100/2536 - Train Accuracy: 0.8661, Validation Accuracy: 0.6384, Loss: 0.3311
-    Epoch  34 Batch 1200/2536 - Train Accuracy: 0.8418, Validation Accuracy: 0.6406, Loss: 0.2662
-    Epoch  34 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6406, Loss: 0.0098
-    Epoch  34 Batch 1400/2536 - Train Accuracy: 0.8896, Validation Accuracy: 0.6384, Loss: 0.2431
-    Epoch  34 Batch 1500/2536 - Train Accuracy: 0.9760, Validation Accuracy: 0.6406, Loss: 0.0776
-    Epoch  34 Batch 1600/2536 - Train Accuracy: 0.9922, Validation Accuracy: 0.6406, Loss: 0.0715
-    Epoch  34 Batch 1700/2536 - Train Accuracy: 0.9858, Validation Accuracy: 0.6384, Loss: 0.0542
-    Epoch  34 Batch 1800/2536 - Train Accuracy: 0.9858, Validation Accuracy: 0.6406, Loss: 0.0456
-    Epoch  34 Batch 1900/2536 - Train Accuracy: 0.9661, Validation Accuracy: 0.6406, Loss: 0.0994
-    Epoch  34 Batch 2000/2536 - Train Accuracy: 0.9471, Validation Accuracy: 0.6384, Loss: 0.0868
-    Epoch  34 Batch 2100/2536 - Train Accuracy: 0.9974, Validation Accuracy: 0.6429, Loss: 0.0138
-    Epoch  34 Batch 2200/2536 - Train Accuracy: 0.9563, Validation Accuracy: 0.6362, Loss: 0.0996
-    Epoch  34 Batch 2300/2536 - Train Accuracy: 0.9159, Validation Accuracy: 0.6362, Loss: 0.1912
-    Epoch  34 Batch 2400/2536 - Train Accuracy: 0.9183, Validation Accuracy: 0.6362, Loss: 0.1163
-    Epoch  34 Batch 2500/2536 - Train Accuracy: 0.9207, Validation Accuracy: 0.6362, Loss: 0.1847
-    Epoch  35 Batch  100/2536 - Train Accuracy: 0.9915, Validation Accuracy: 0.6384, Loss: 0.0387
-    Epoch  35 Batch  200/2536 - Train Accuracy: 0.9665, Validation Accuracy: 0.6362, Loss: 0.0903
-    Epoch  35 Batch  300/2536 - Train Accuracy: 0.9732, Validation Accuracy: 0.6362, Loss: 0.0931
-    Epoch  35 Batch  400/2536 - Train Accuracy: 0.9316, Validation Accuracy: 0.6362, Loss: 0.1329
-    Epoch  35 Batch  500/2536 - Train Accuracy: 0.9167, Validation Accuracy: 0.6384, Loss: 0.1422
-    Epoch  35 Batch  600/2536 - Train Accuracy: 0.9417, Validation Accuracy: 0.6362, Loss: 0.1898
-    Epoch  35 Batch  700/2536 - Train Accuracy: 0.9663, Validation Accuracy: 0.6362, Loss: 0.1103
-    Epoch  35 Batch  800/2536 - Train Accuracy: 0.9327, Validation Accuracy: 0.6384, Loss: 0.1756
-    Epoch  35 Batch  900/2536 - Train Accuracy: 0.9353, Validation Accuracy: 0.6362, Loss: 0.1832
-    Epoch  35 Batch 1000/2536 - Train Accuracy: 0.8479, Validation Accuracy: 0.6384, Loss: 0.3297
-    Epoch  35 Batch 1100/2536 - Train Accuracy: 0.8571, Validation Accuracy: 0.6384, Loss: 0.3195
-    Epoch  35 Batch 1200/2536 - Train Accuracy: 0.8711, Validation Accuracy: 0.6384, Loss: 0.2431
-    Epoch  35 Batch 1300/2536 - Train Accuracy: 0.9808, Validation Accuracy: 0.6362, Loss: 0.0161
-    Epoch  35 Batch 1400/2536 - Train Accuracy: 0.8833, Validation Accuracy: 0.6362, Loss: 0.2305
-    Epoch  35 Batch 1500/2536 - Train Accuracy: 0.9856, Validation Accuracy: 0.6384, Loss: 0.0711
-    Epoch  35 Batch 1600/2536 - Train Accuracy: 0.9844, Validation Accuracy: 0.6384, Loss: 0.0510
-    Epoch  35 Batch 1700/2536 - Train Accuracy: 0.9716, Validation Accuracy: 0.6384, Loss: 0.0581
-    Epoch  35 Batch 1800/2536 - Train Accuracy: 0.9915, Validation Accuracy: 0.6362, Loss: 0.0519
-    Epoch  35 Batch 1900/2536 - Train Accuracy: 0.9427, Validation Accuracy: 0.6362, Loss: 0.0839
-    Epoch  35 Batch 2000/2536 - Train Accuracy: 0.9904, Validation Accuracy: 0.6384, Loss: 0.0798
-    Epoch  35 Batch 2100/2536 - Train Accuracy: 0.9922, Validation Accuracy: 0.6406, Loss: 0.0122
-    Epoch  35 Batch 2200/2536 - Train Accuracy: 0.9604, Validation Accuracy: 0.6384, Loss: 0.1063
-    Epoch  35 Batch 2300/2536 - Train Accuracy: 0.9159, Validation Accuracy: 0.6339, Loss: 0.1984
-    Epoch  35 Batch 2400/2536 - Train Accuracy: 0.9423, Validation Accuracy: 0.6362, Loss: 0.1133
-    Epoch  35 Batch 2500/2536 - Train Accuracy: 0.9399, Validation Accuracy: 0.6384, Loss: 0.1695
-    Epoch  36 Batch  100/2536 - Train Accuracy: 0.9915, Validation Accuracy: 0.6384, Loss: 0.0455
-    Epoch  36 Batch  200/2536 - Train Accuracy: 0.9710, Validation Accuracy: 0.6384, Loss: 0.0846
-    Epoch  36 Batch  300/2536 - Train Accuracy: 0.9598, Validation Accuracy: 0.6384, Loss: 0.1029
-    Epoch  36 Batch  400/2536 - Train Accuracy: 0.9355, Validation Accuracy: 0.6362, Loss: 0.1111
-    Epoch  36 Batch  500/2536 - Train Accuracy: 0.9250, Validation Accuracy: 0.6384, Loss: 0.1624
-    Epoch  36 Batch  600/2536 - Train Accuracy: 0.9417, Validation Accuracy: 0.6362, Loss: 0.1828
-    Epoch  36 Batch  700/2536 - Train Accuracy: 0.9495, Validation Accuracy: 0.6384, Loss: 0.1216
-    Epoch  36 Batch  800/2536 - Train Accuracy: 0.9471, Validation Accuracy: 0.6362, Loss: 0.1410
-    Epoch  36 Batch  900/2536 - Train Accuracy: 0.9196, Validation Accuracy: 0.6362, Loss: 0.1841
-    Epoch  36 Batch 1000/2536 - Train Accuracy: 0.8500, Validation Accuracy: 0.6362, Loss: 0.2839
-    Epoch  36 Batch 1100/2536 - Train Accuracy: 0.8549, Validation Accuracy: 0.6384, Loss: 0.2850
-    Epoch  36 Batch 1200/2536 - Train Accuracy: 0.8867, Validation Accuracy: 0.6384, Loss: 0.2152
-    Epoch  36 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0071
-    Epoch  36 Batch 1400/2536 - Train Accuracy: 0.9250, Validation Accuracy: 0.6362, Loss: 0.1884
-    Epoch  36 Batch 1500/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6362, Loss: 0.0520
-    Epoch  36 Batch 1600/2536 - Train Accuracy: 0.9870, Validation Accuracy: 0.6362, Loss: 0.0529
-    Epoch  36 Batch 1700/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6362, Loss: 0.0805
-    Epoch  36 Batch 1800/2536 - Train Accuracy: 0.9972, Validation Accuracy: 0.6362, Loss: 0.0240
-    Epoch  36 Batch 1900/2536 - Train Accuracy: 0.9740, Validation Accuracy: 0.6362, Loss: 0.1120
-    Epoch  36 Batch 2000/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6362, Loss: 0.0798
-    Epoch  36 Batch 2100/2536 - Train Accuracy: 0.9948, Validation Accuracy: 0.6384, Loss: 0.0144
-    Epoch  36 Batch 2200/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6384, Loss: 0.0866
-    Epoch  36 Batch 2300/2536 - Train Accuracy: 0.9231, Validation Accuracy: 0.6362, Loss: 0.1774
-    Epoch  36 Batch 2400/2536 - Train Accuracy: 0.9591, Validation Accuracy: 0.6362, Loss: 0.1111
-    Epoch  36 Batch 2500/2536 - Train Accuracy: 0.9423, Validation Accuracy: 0.6384, Loss: 0.1796
-    Epoch  37 Batch  100/2536 - Train Accuracy: 0.9915, Validation Accuracy: 0.6384, Loss: 0.0272
-    Epoch  37 Batch  200/2536 - Train Accuracy: 0.9665, Validation Accuracy: 0.6362, Loss: 0.0625
-    Epoch  37 Batch  300/2536 - Train Accuracy: 0.9420, Validation Accuracy: 0.6384, Loss: 0.1182
-    Epoch  37 Batch  400/2536 - Train Accuracy: 0.9316, Validation Accuracy: 0.6362, Loss: 0.1166
-    Epoch  37 Batch  500/2536 - Train Accuracy: 0.9167, Validation Accuracy: 0.6406, Loss: 0.1662
-    Epoch  37 Batch  600/2536 - Train Accuracy: 0.9521, Validation Accuracy: 0.6384, Loss: 0.1951
-    Epoch  37 Batch  700/2536 - Train Accuracy: 0.9784, Validation Accuracy: 0.6384, Loss: 0.1204
-    Epoch  37 Batch  800/2536 - Train Accuracy: 0.9471, Validation Accuracy: 0.6406, Loss: 0.1374
-    Epoch  37 Batch  900/2536 - Train Accuracy: 0.8929, Validation Accuracy: 0.6384, Loss: 0.1980
-    Epoch  37 Batch 1000/2536 - Train Accuracy: 0.8708, Validation Accuracy: 0.6384, Loss: 0.2697
-    Epoch  37 Batch 1100/2536 - Train Accuracy: 0.8750, Validation Accuracy: 0.6384, Loss: 0.3085
-    Epoch  37 Batch 1200/2536 - Train Accuracy: 0.8809, Validation Accuracy: 0.6406, Loss: 0.2590
-    Epoch  37 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0074
-    Epoch  37 Batch 1400/2536 - Train Accuracy: 0.8688, Validation Accuracy: 0.6384, Loss: 0.1835
-    Epoch  37 Batch 1500/2536 - Train Accuracy: 0.9736, Validation Accuracy: 0.6384, Loss: 0.0594
-    Epoch  37 Batch 1600/2536 - Train Accuracy: 0.9896, Validation Accuracy: 0.6406, Loss: 0.0733
-    Epoch  37 Batch 1700/2536 - Train Accuracy: 0.9886, Validation Accuracy: 0.6384, Loss: 0.0487
-    Epoch  37 Batch 1800/2536 - Train Accuracy: 0.9972, Validation Accuracy: 0.6384, Loss: 0.0311
-    Epoch  37 Batch 1900/2536 - Train Accuracy: 0.9401, Validation Accuracy: 0.6384, Loss: 0.0932
-    Epoch  37 Batch 2000/2536 - Train Accuracy: 0.9808, Validation Accuracy: 0.6384, Loss: 0.0613
-    Epoch  37 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0103
-    Epoch  37 Batch 2200/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6362, Loss: 0.0987
-    Epoch  37 Batch 2300/2536 - Train Accuracy: 0.9255, Validation Accuracy: 0.6362, Loss: 0.1638
-    Epoch  37 Batch 2400/2536 - Train Accuracy: 0.9736, Validation Accuracy: 0.6384, Loss: 0.1168
-    Epoch  37 Batch 2500/2536 - Train Accuracy: 0.9663, Validation Accuracy: 0.6384, Loss: 0.1321
-    Epoch  38 Batch  100/2536 - Train Accuracy: 0.9915, Validation Accuracy: 0.6384, Loss: 0.0333
-    Epoch  38 Batch  200/2536 - Train Accuracy: 0.9754, Validation Accuracy: 0.6384, Loss: 0.0515
-    Epoch  38 Batch  300/2536 - Train Accuracy: 0.9576, Validation Accuracy: 0.6384, Loss: 0.1118
-    Epoch  38 Batch  400/2536 - Train Accuracy: 0.9355, Validation Accuracy: 0.6384, Loss: 0.1298
-    Epoch  38 Batch  500/2536 - Train Accuracy: 0.9417, Validation Accuracy: 0.6384, Loss: 0.1307
-    Epoch  38 Batch  600/2536 - Train Accuracy: 0.9563, Validation Accuracy: 0.6384, Loss: 0.1720
-    Epoch  38 Batch  700/2536 - Train Accuracy: 0.9760, Validation Accuracy: 0.6384, Loss: 0.1122
-    Epoch  38 Batch  800/2536 - Train Accuracy: 0.9519, Validation Accuracy: 0.6384, Loss: 0.1112
-    Epoch  38 Batch  900/2536 - Train Accuracy: 0.9040, Validation Accuracy: 0.6384, Loss: 0.1345
-    Epoch  38 Batch 1000/2536 - Train Accuracy: 0.8667, Validation Accuracy: 0.6406, Loss: 0.2639
-    Epoch  38 Batch 1100/2536 - Train Accuracy: 0.8326, Validation Accuracy: 0.6384, Loss: 0.3031
-    Epoch  38 Batch 1200/2536 - Train Accuracy: 0.8516, Validation Accuracy: 0.6384, Loss: 0.2247
-    Epoch  38 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0105
-    Epoch  38 Batch 1400/2536 - Train Accuracy: 0.9167, Validation Accuracy: 0.6384, Loss: 0.1938
-    Epoch  38 Batch 1500/2536 - Train Accuracy: 0.9784, Validation Accuracy: 0.6384, Loss: 0.0553
-    Epoch  38 Batch 1600/2536 - Train Accuracy: 0.9948, Validation Accuracy: 0.6384, Loss: 0.0654
-    Epoch  38 Batch 1700/2536 - Train Accuracy: 0.9915, Validation Accuracy: 0.6384, Loss: 0.0457
-    Epoch  38 Batch 1800/2536 - Train Accuracy: 0.9943, Validation Accuracy: 0.6384, Loss: 0.0325
-    Epoch  38 Batch 1900/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6384, Loss: 0.0968
-    Epoch  38 Batch 2000/2536 - Train Accuracy: 0.9760, Validation Accuracy: 0.6384, Loss: 0.0585
-    Epoch  38 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6406, Loss: 0.0207
-    Epoch  38 Batch 2200/2536 - Train Accuracy: 0.9500, Validation Accuracy: 0.6362, Loss: 0.0817
-    Epoch  38 Batch 2300/2536 - Train Accuracy: 0.9087, Validation Accuracy: 0.6384, Loss: 0.1734
-    Epoch  38 Batch 2400/2536 - Train Accuracy: 0.9760, Validation Accuracy: 0.6384, Loss: 0.0909
-    Epoch  38 Batch 2500/2536 - Train Accuracy: 0.9639, Validation Accuracy: 0.6406, Loss: 0.1380
-    Epoch  39 Batch  100/2536 - Train Accuracy: 0.9886, Validation Accuracy: 0.6384, Loss: 0.0376
-    Epoch  39 Batch  200/2536 - Train Accuracy: 0.9621, Validation Accuracy: 0.6384, Loss: 0.0587
-    Epoch  39 Batch  300/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6384, Loss: 0.0849
-    Epoch  39 Batch  400/2536 - Train Accuracy: 0.9629, Validation Accuracy: 0.6384, Loss: 0.1114
-    Epoch  39 Batch  500/2536 - Train Accuracy: 0.9292, Validation Accuracy: 0.6406, Loss: 0.1066
-    Epoch  39 Batch  600/2536 - Train Accuracy: 0.9354, Validation Accuracy: 0.6384, Loss: 0.1710
-    Epoch  39 Batch  700/2536 - Train Accuracy: 0.9736, Validation Accuracy: 0.6384, Loss: 0.0807
-    Epoch  39 Batch  800/2536 - Train Accuracy: 0.9591, Validation Accuracy: 0.6384, Loss: 0.1359
-    Epoch  39 Batch  900/2536 - Train Accuracy: 0.9040, Validation Accuracy: 0.6384, Loss: 0.1552
-    Epoch  39 Batch 1000/2536 - Train Accuracy: 0.9042, Validation Accuracy: 0.6384, Loss: 0.2652
-    Epoch  39 Batch 1100/2536 - Train Accuracy: 0.8594, Validation Accuracy: 0.6384, Loss: 0.2587
-    Epoch  39 Batch 1200/2536 - Train Accuracy: 0.8789, Validation Accuracy: 0.6384, Loss: 0.2172
-    Epoch  39 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0082
-    Epoch  39 Batch 1400/2536 - Train Accuracy: 0.8938, Validation Accuracy: 0.6384, Loss: 0.1778
-    Epoch  39 Batch 1500/2536 - Train Accuracy: 0.9856, Validation Accuracy: 0.6384, Loss: 0.0498
-    Epoch  39 Batch 1600/2536 - Train Accuracy: 0.9948, Validation Accuracy: 0.6384, Loss: 0.0411
-    Epoch  39 Batch 1700/2536 - Train Accuracy: 0.9858, Validation Accuracy: 0.6384, Loss: 0.0427
-    Epoch  39 Batch 1800/2536 - Train Accuracy: 0.9744, Validation Accuracy: 0.6384, Loss: 0.0456
-    Epoch  39 Batch 1900/2536 - Train Accuracy: 0.9609, Validation Accuracy: 0.6362, Loss: 0.0913
-    Epoch  39 Batch 2000/2536 - Train Accuracy: 0.9928, Validation Accuracy: 0.6384, Loss: 0.0490
-    Epoch  39 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0107
-    Epoch  39 Batch 2200/2536 - Train Accuracy: 0.9333, Validation Accuracy: 0.6362, Loss: 0.0851
-    Epoch  39 Batch 2300/2536 - Train Accuracy: 0.9062, Validation Accuracy: 0.6384, Loss: 0.1367
-    Epoch  39 Batch 2400/2536 - Train Accuracy: 0.9591, Validation Accuracy: 0.6384, Loss: 0.0906
-    Epoch  39 Batch 2500/2536 - Train Accuracy: 0.9471, Validation Accuracy: 0.6384, Loss: 0.1237
-    Epoch  40 Batch  100/2536 - Train Accuracy: 0.9915, Validation Accuracy: 0.6384, Loss: 0.0238
-    Epoch  40 Batch  200/2536 - Train Accuracy: 0.9888, Validation Accuracy: 0.6384, Loss: 0.0545
-    Epoch  40 Batch  300/2536 - Train Accuracy: 0.9754, Validation Accuracy: 0.6384, Loss: 0.0906
-    Epoch  40 Batch  400/2536 - Train Accuracy: 0.9512, Validation Accuracy: 0.6384, Loss: 0.1325
-    Epoch  40 Batch  500/2536 - Train Accuracy: 0.9250, Validation Accuracy: 0.6384, Loss: 0.1347
-    Epoch  40 Batch  600/2536 - Train Accuracy: 0.9437, Validation Accuracy: 0.6384, Loss: 0.1618
-    Epoch  40 Batch  700/2536 - Train Accuracy: 0.9880, Validation Accuracy: 0.6384, Loss: 0.0789
-    Epoch  40 Batch  800/2536 - Train Accuracy: 0.9639, Validation Accuracy: 0.6384, Loss: 0.1037
-    Epoch  40 Batch  900/2536 - Train Accuracy: 0.9263, Validation Accuracy: 0.6384, Loss: 0.1632
-    Epoch  40 Batch 1000/2536 - Train Accuracy: 0.8917, Validation Accuracy: 0.6384, Loss: 0.2278
-    Epoch  40 Batch 1100/2536 - Train Accuracy: 0.8549, Validation Accuracy: 0.6406, Loss: 0.2533
-    Epoch  40 Batch 1200/2536 - Train Accuracy: 0.8887, Validation Accuracy: 0.6384, Loss: 0.2437
-    Epoch  40 Batch 1300/2536 - Train Accuracy: 0.9880, Validation Accuracy: 0.6362, Loss: 0.0097
-    Epoch  40 Batch 1400/2536 - Train Accuracy: 0.9458, Validation Accuracy: 0.6384, Loss: 0.1700
-    Epoch  40 Batch 1500/2536 - Train Accuracy: 0.9784, Validation Accuracy: 0.6384, Loss: 0.0400
-    Epoch  40 Batch 1600/2536 - Train Accuracy: 0.9974, Validation Accuracy: 0.6384, Loss: 0.0420
-    Epoch  40 Batch 1700/2536 - Train Accuracy: 0.9801, Validation Accuracy: 0.6384, Loss: 0.0481
-    Epoch  40 Batch 1800/2536 - Train Accuracy: 0.9773, Validation Accuracy: 0.6384, Loss: 0.0292
-    Epoch  40 Batch 1900/2536 - Train Accuracy: 0.9714, Validation Accuracy: 0.6384, Loss: 0.0886
-    Epoch  40 Batch 2000/2536 - Train Accuracy: 0.9856, Validation Accuracy: 0.6384, Loss: 0.0512
-    Epoch  40 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0085
-    Epoch  40 Batch 2200/2536 - Train Accuracy: 0.9771, Validation Accuracy: 0.6384, Loss: 0.0692
-    Epoch  40 Batch 2300/2536 - Train Accuracy: 0.9303, Validation Accuracy: 0.6384, Loss: 0.1422
-    Epoch  40 Batch 2400/2536 - Train Accuracy: 0.9784, Validation Accuracy: 0.6362, Loss: 0.0832
-    Epoch  40 Batch 2500/2536 - Train Accuracy: 0.9663, Validation Accuracy: 0.6384, Loss: 0.1315
-    Epoch  41 Batch  100/2536 - Train Accuracy: 0.9858, Validation Accuracy: 0.6406, Loss: 0.0501
-    Epoch  41 Batch  200/2536 - Train Accuracy: 0.9777, Validation Accuracy: 0.6384, Loss: 0.0434
-    Epoch  41 Batch  300/2536 - Train Accuracy: 0.9732, Validation Accuracy: 0.6384, Loss: 0.0587
-    Epoch  41 Batch  400/2536 - Train Accuracy: 0.9609, Validation Accuracy: 0.6384, Loss: 0.0945
-    Epoch  41 Batch  500/2536 - Train Accuracy: 0.9354, Validation Accuracy: 0.6406, Loss: 0.1042
-    Epoch  41 Batch  600/2536 - Train Accuracy: 0.9396, Validation Accuracy: 0.6384, Loss: 0.1500
-    Epoch  41 Batch  700/2536 - Train Accuracy: 0.9567, Validation Accuracy: 0.6384, Loss: 0.0903
-    Epoch  41 Batch  800/2536 - Train Accuracy: 0.9615, Validation Accuracy: 0.6384, Loss: 0.1034
-    Epoch  41 Batch  900/2536 - Train Accuracy: 0.9085, Validation Accuracy: 0.6384, Loss: 0.1104
-    Epoch  41 Batch 1000/2536 - Train Accuracy: 0.8625, Validation Accuracy: 0.6406, Loss: 0.2465
-    Epoch  41 Batch 1100/2536 - Train Accuracy: 0.8304, Validation Accuracy: 0.6384, Loss: 0.2336
-    Epoch  41 Batch 1200/2536 - Train Accuracy: 0.8926, Validation Accuracy: 0.6384, Loss: 0.1871
-    Epoch  41 Batch 1300/2536 - Train Accuracy: 0.9904, Validation Accuracy: 0.6384, Loss: 0.0107
-    Epoch  41 Batch 1400/2536 - Train Accuracy: 0.9375, Validation Accuracy: 0.6384, Loss: 0.1681
-    Epoch  41 Batch 1500/2536 - Train Accuracy: 0.9880, Validation Accuracy: 0.6429, Loss: 0.0493
-    Epoch  41 Batch 1600/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0497
-    Epoch  41 Batch 1700/2536 - Train Accuracy: 0.9886, Validation Accuracy: 0.6362, Loss: 0.0413
-    Epoch  41 Batch 1800/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0315
-    Epoch  41 Batch 1900/2536 - Train Accuracy: 0.9818, Validation Accuracy: 0.6339, Loss: 0.0805
-    Epoch  41 Batch 2000/2536 - Train Accuracy: 0.9928, Validation Accuracy: 0.6384, Loss: 0.0477
-    Epoch  41 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6406, Loss: 0.0096
-    Epoch  41 Batch 2200/2536 - Train Accuracy: 0.9875, Validation Accuracy: 0.6384, Loss: 0.0767
-    Epoch  41 Batch 2300/2536 - Train Accuracy: 0.9351, Validation Accuracy: 0.6384, Loss: 0.1480
-    Epoch  41 Batch 2400/2536 - Train Accuracy: 0.9591, Validation Accuracy: 0.6384, Loss: 0.0940
-    Epoch  41 Batch 2500/2536 - Train Accuracy: 0.9615, Validation Accuracy: 0.6384, Loss: 0.1255
-    Epoch  42 Batch  100/2536 - Train Accuracy: 0.9915, Validation Accuracy: 0.6406, Loss: 0.0527
-    Epoch  42 Batch  200/2536 - Train Accuracy: 0.9933, Validation Accuracy: 0.6384, Loss: 0.0516
-    Epoch  42 Batch  300/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6384, Loss: 0.0645
-    Epoch  42 Batch  400/2536 - Train Accuracy: 0.9160, Validation Accuracy: 0.6384, Loss: 0.1031
-    Epoch  42 Batch  500/2536 - Train Accuracy: 0.9354, Validation Accuracy: 0.6384, Loss: 0.0996
-    Epoch  42 Batch  600/2536 - Train Accuracy: 0.9458, Validation Accuracy: 0.6384, Loss: 0.1485
-    Epoch  42 Batch  700/2536 - Train Accuracy: 0.9447, Validation Accuracy: 0.6384, Loss: 0.0920
-    Epoch  42 Batch  800/2536 - Train Accuracy: 0.9663, Validation Accuracy: 0.6406, Loss: 0.1404
-    Epoch  42 Batch  900/2536 - Train Accuracy: 0.9598, Validation Accuracy: 0.6384, Loss: 0.1176
-    Epoch  42 Batch 1000/2536 - Train Accuracy: 0.8688, Validation Accuracy: 0.6384, Loss: 0.2100
-    Epoch  42 Batch 1100/2536 - Train Accuracy: 0.8996, Validation Accuracy: 0.6384, Loss: 0.2342
-    Epoch  42 Batch 1200/2536 - Train Accuracy: 0.8887, Validation Accuracy: 0.6384, Loss: 0.1972
-    Epoch  42 Batch 1300/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6384, Loss: 0.0156
-    Epoch  42 Batch 1400/2536 - Train Accuracy: 0.9542, Validation Accuracy: 0.6384, Loss: 0.1533
-    Epoch  42 Batch 1500/2536 - Train Accuracy: 0.9928, Validation Accuracy: 0.6406, Loss: 0.0380
-    Epoch  42 Batch 1600/2536 - Train Accuracy: 0.9974, Validation Accuracy: 0.6362, Loss: 0.0309
-    Epoch  42 Batch 1700/2536 - Train Accuracy: 0.9943, Validation Accuracy: 0.6362, Loss: 0.0209
-    Epoch  42 Batch 1800/2536 - Train Accuracy: 0.9744, Validation Accuracy: 0.6384, Loss: 0.0518
-    Epoch  42 Batch 1900/2536 - Train Accuracy: 0.9818, Validation Accuracy: 0.6362, Loss: 0.0639
-    Epoch  42 Batch 2000/2536 - Train Accuracy: 0.9712, Validation Accuracy: 0.6362, Loss: 0.0519
-    Epoch  42 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0138
-    Epoch  42 Batch 2200/2536 - Train Accuracy: 0.9646, Validation Accuracy: 0.6384, Loss: 0.0818
-    Epoch  42 Batch 2300/2536 - Train Accuracy: 0.9447, Validation Accuracy: 0.6384, Loss: 0.1517
-    Epoch  42 Batch 2400/2536 - Train Accuracy: 0.9663, Validation Accuracy: 0.6384, Loss: 0.0725
-    Epoch  42 Batch 2500/2536 - Train Accuracy: 0.9712, Validation Accuracy: 0.6362, Loss: 0.1173
-    Epoch  43 Batch  100/2536 - Train Accuracy: 0.9886, Validation Accuracy: 0.6384, Loss: 0.0190
-    Epoch  43 Batch  200/2536 - Train Accuracy: 0.9821, Validation Accuracy: 0.6384, Loss: 0.0701
-    Epoch  43 Batch  300/2536 - Train Accuracy: 0.9621, Validation Accuracy: 0.6384, Loss: 0.0594
-    Epoch  43 Batch  400/2536 - Train Accuracy: 0.9473, Validation Accuracy: 0.6384, Loss: 0.1060
-    Epoch  43 Batch  500/2536 - Train Accuracy: 0.9521, Validation Accuracy: 0.6384, Loss: 0.0943
-    Epoch  43 Batch  600/2536 - Train Accuracy: 0.9396, Validation Accuracy: 0.6384, Loss: 0.1525
-    Epoch  43 Batch  700/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6384, Loss: 0.0631
-    Epoch  43 Batch  800/2536 - Train Accuracy: 0.9663, Validation Accuracy: 0.6384, Loss: 0.0957
-    Epoch  43 Batch  900/2536 - Train Accuracy: 0.9598, Validation Accuracy: 0.6406, Loss: 0.1164
-    Epoch  43 Batch 1000/2536 - Train Accuracy: 0.9062, Validation Accuracy: 0.6384, Loss: 0.2199
-    Epoch  43 Batch 1100/2536 - Train Accuracy: 0.9263, Validation Accuracy: 0.6384, Loss: 0.2280
-    Epoch  43 Batch 1200/2536 - Train Accuracy: 0.9004, Validation Accuracy: 0.6384, Loss: 0.1724
-    Epoch  43 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0073
-    Epoch  43 Batch 1400/2536 - Train Accuracy: 0.9271, Validation Accuracy: 0.6384, Loss: 0.1248
-    Epoch  43 Batch 1500/2536 - Train Accuracy: 0.9736, Validation Accuracy: 0.6384, Loss: 0.0423
-    Epoch  43 Batch 1600/2536 - Train Accuracy: 0.9948, Validation Accuracy: 0.6384, Loss: 0.0397
-    Epoch  43 Batch 1700/2536 - Train Accuracy: 0.9943, Validation Accuracy: 0.6384, Loss: 0.0275
-    Epoch  43 Batch 1800/2536 - Train Accuracy: 0.9830, Validation Accuracy: 0.6384, Loss: 0.0390
-    Epoch  43 Batch 1900/2536 - Train Accuracy: 0.9818, Validation Accuracy: 0.6384, Loss: 0.0666
-    Epoch  43 Batch 2000/2536 - Train Accuracy: 0.9736, Validation Accuracy: 0.6384, Loss: 0.0354
-    Epoch  43 Batch 2100/2536 - Train Accuracy: 0.9974, Validation Accuracy: 0.6406, Loss: 0.0104
-    Epoch  43 Batch 2200/2536 - Train Accuracy: 0.9625, Validation Accuracy: 0.6406, Loss: 0.0594
-    Epoch  43 Batch 2300/2536 - Train Accuracy: 0.9543, Validation Accuracy: 0.6362, Loss: 0.1222
-    Epoch  43 Batch 2400/2536 - Train Accuracy: 0.9447, Validation Accuracy: 0.6384, Loss: 0.0747
-    Epoch  43 Batch 2500/2536 - Train Accuracy: 0.9591, Validation Accuracy: 0.6384, Loss: 0.1001
-    Epoch  44 Batch  100/2536 - Train Accuracy: 0.9830, Validation Accuracy: 0.6384, Loss: 0.0478
-    Epoch  44 Batch  200/2536 - Train Accuracy: 0.9888, Validation Accuracy: 0.6384, Loss: 0.0385
-    Epoch  44 Batch  300/2536 - Train Accuracy: 0.9598, Validation Accuracy: 0.6384, Loss: 0.0650
-    Epoch  44 Batch  400/2536 - Train Accuracy: 0.9355, Validation Accuracy: 0.6384, Loss: 0.1008
-    Epoch  44 Batch  500/2536 - Train Accuracy: 0.9396, Validation Accuracy: 0.6384, Loss: 0.1031
-    Epoch  44 Batch  600/2536 - Train Accuracy: 0.9542, Validation Accuracy: 0.6384, Loss: 0.1330
-    Epoch  44 Batch  700/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6384, Loss: 0.0662
-    Epoch  44 Batch  800/2536 - Train Accuracy: 0.9760, Validation Accuracy: 0.6384, Loss: 0.0989
-    Epoch  44 Batch  900/2536 - Train Accuracy: 0.9219, Validation Accuracy: 0.6384, Loss: 0.1233
-    Epoch  44 Batch 1000/2536 - Train Accuracy: 0.8750, Validation Accuracy: 0.6384, Loss: 0.2282
-    Epoch  44 Batch 1100/2536 - Train Accuracy: 0.9085, Validation Accuracy: 0.6384, Loss: 0.2059
-    Epoch  44 Batch 1200/2536 - Train Accuracy: 0.8848, Validation Accuracy: 0.6406, Loss: 0.1653
-    Epoch  44 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0066
-    Epoch  44 Batch 1400/2536 - Train Accuracy: 0.9375, Validation Accuracy: 0.6384, Loss: 0.1516
-    Epoch  44 Batch 1500/2536 - Train Accuracy: 0.9880, Validation Accuracy: 0.6406, Loss: 0.0444
-    Epoch  44 Batch 1600/2536 - Train Accuracy: 0.9844, Validation Accuracy: 0.6384, Loss: 0.0434
-    Epoch  44 Batch 1700/2536 - Train Accuracy: 0.9972, Validation Accuracy: 0.6384, Loss: 0.0290
-    Epoch  44 Batch 1800/2536 - Train Accuracy: 0.9858, Validation Accuracy: 0.6384, Loss: 0.0230
-    Epoch  44 Batch 1900/2536 - Train Accuracy: 0.9714, Validation Accuracy: 0.6362, Loss: 0.0588
-    Epoch  44 Batch 2000/2536 - Train Accuracy: 0.9760, Validation Accuracy: 0.6362, Loss: 0.0446
-    Epoch  44 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0119
-    Epoch  44 Batch 2200/2536 - Train Accuracy: 0.9771, Validation Accuracy: 0.6362, Loss: 0.0534
-    Epoch  44 Batch 2300/2536 - Train Accuracy: 0.9399, Validation Accuracy: 0.6362, Loss: 0.1490
-    Epoch  44 Batch 2400/2536 - Train Accuracy: 0.9712, Validation Accuracy: 0.6384, Loss: 0.0791
-    Epoch  44 Batch 2500/2536 - Train Accuracy: 0.9663, Validation Accuracy: 0.6384, Loss: 0.1135
-    Epoch  45 Batch  100/2536 - Train Accuracy: 0.9915, Validation Accuracy: 0.6384, Loss: 0.0262
-    Epoch  45 Batch  200/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6384, Loss: 0.0422
-    Epoch  45 Batch  300/2536 - Train Accuracy: 0.9598, Validation Accuracy: 0.6384, Loss: 0.0473
-    Epoch  45 Batch  400/2536 - Train Accuracy: 0.9453, Validation Accuracy: 0.6362, Loss: 0.0703
-    Epoch  45 Batch  500/2536 - Train Accuracy: 0.9583, Validation Accuracy: 0.6362, Loss: 0.0964
-    Epoch  45 Batch  600/2536 - Train Accuracy: 0.9437, Validation Accuracy: 0.6362, Loss: 0.1357
-    Epoch  45 Batch  700/2536 - Train Accuracy: 0.9591, Validation Accuracy: 0.6384, Loss: 0.0675
-    Epoch  45 Batch  800/2536 - Train Accuracy: 0.9760, Validation Accuracy: 0.6384, Loss: 0.0824
-    Epoch  45 Batch  900/2536 - Train Accuracy: 0.9598, Validation Accuracy: 0.6362, Loss: 0.1179
-    Epoch  45 Batch 1000/2536 - Train Accuracy: 0.8979, Validation Accuracy: 0.6384, Loss: 0.1849
-    Epoch  45 Batch 1100/2536 - Train Accuracy: 0.9129, Validation Accuracy: 0.6406, Loss: 0.1890
-    Epoch  45 Batch 1200/2536 - Train Accuracy: 0.8984, Validation Accuracy: 0.6384, Loss: 0.1769
-    Epoch  45 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0092
-    Epoch  45 Batch 1400/2536 - Train Accuracy: 0.9333, Validation Accuracy: 0.6384, Loss: 0.1222
-    Epoch  45 Batch 1500/2536 - Train Accuracy: 0.9832, Validation Accuracy: 0.6362, Loss: 0.0319
-    Epoch  45 Batch 1600/2536 - Train Accuracy: 0.9922, Validation Accuracy: 0.6339, Loss: 0.0312
-    Epoch  45 Batch 1700/2536 - Train Accuracy: 0.9972, Validation Accuracy: 0.6339, Loss: 0.0338
-    Epoch  45 Batch 1800/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0149
-    Epoch  45 Batch 1900/2536 - Train Accuracy: 0.9635, Validation Accuracy: 0.6339, Loss: 0.0660
-    Epoch  45 Batch 2000/2536 - Train Accuracy: 0.9880, Validation Accuracy: 0.6339, Loss: 0.0508
-    Epoch  45 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0068
-    Epoch  45 Batch 2200/2536 - Train Accuracy: 0.9938, Validation Accuracy: 0.6339, Loss: 0.0474
-    Epoch  45 Batch 2300/2536 - Train Accuracy: 0.9928, Validation Accuracy: 0.6339, Loss: 0.1205
-    Epoch  45 Batch 2400/2536 - Train Accuracy: 0.9591, Validation Accuracy: 0.6384, Loss: 0.0782
-    Epoch  45 Batch 2500/2536 - Train Accuracy: 0.9832, Validation Accuracy: 0.6339, Loss: 0.1029
-    Epoch  46 Batch  100/2536 - Train Accuracy: 0.9915, Validation Accuracy: 0.6362, Loss: 0.0349
-    Epoch  46 Batch  200/2536 - Train Accuracy: 0.9844, Validation Accuracy: 0.6362, Loss: 0.0516
-    Epoch  46 Batch  300/2536 - Train Accuracy: 0.9866, Validation Accuracy: 0.6362, Loss: 0.0533
-    Epoch  46 Batch  400/2536 - Train Accuracy: 0.9492, Validation Accuracy: 0.6362, Loss: 0.0744
-    Epoch  46 Batch  500/2536 - Train Accuracy: 0.9583, Validation Accuracy: 0.6362, Loss: 0.0828
-    Epoch  46 Batch  600/2536 - Train Accuracy: 0.9625, Validation Accuracy: 0.6339, Loss: 0.1399
-    Epoch  46 Batch  700/2536 - Train Accuracy: 0.9904, Validation Accuracy: 0.6384, Loss: 0.0783
-    Epoch  46 Batch  800/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6384, Loss: 0.0902
-    Epoch  46 Batch  900/2536 - Train Accuracy: 0.9732, Validation Accuracy: 0.6384, Loss: 0.0839
-    Epoch  46 Batch 1000/2536 - Train Accuracy: 0.9146, Validation Accuracy: 0.6384, Loss: 0.1882
-    Epoch  46 Batch 1100/2536 - Train Accuracy: 0.9241, Validation Accuracy: 0.6384, Loss: 0.1728
-    Epoch  46 Batch 1200/2536 - Train Accuracy: 0.9023, Validation Accuracy: 0.6384, Loss: 0.1701
-    Epoch  46 Batch 1300/2536 - Train Accuracy: 0.9856, Validation Accuracy: 0.6362, Loss: 0.0059
-    Epoch  46 Batch 1400/2536 - Train Accuracy: 0.9563, Validation Accuracy: 0.6362, Loss: 0.1370
-    Epoch  46 Batch 1500/2536 - Train Accuracy: 0.9904, Validation Accuracy: 0.6362, Loss: 0.0255
-    Epoch  46 Batch 1600/2536 - Train Accuracy: 0.9922, Validation Accuracy: 0.6362, Loss: 0.0408
-    Epoch  46 Batch 1700/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0262
-    Epoch  46 Batch 1800/2536 - Train Accuracy: 0.9801, Validation Accuracy: 0.6384, Loss: 0.0149
-    Epoch  46 Batch 1900/2536 - Train Accuracy: 0.9922, Validation Accuracy: 0.6362, Loss: 0.0575
-    Epoch  46 Batch 2000/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6384, Loss: 0.0588
-    Epoch  46 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0129
-    Epoch  46 Batch 2200/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6362, Loss: 0.0597
-    Epoch  46 Batch 2300/2536 - Train Accuracy: 0.9255, Validation Accuracy: 0.6384, Loss: 0.1005
-    Epoch  46 Batch 2400/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6362, Loss: 0.0543
-    Epoch  46 Batch 2500/2536 - Train Accuracy: 0.9639, Validation Accuracy: 0.6362, Loss: 0.1321
-    Epoch  47 Batch  100/2536 - Train Accuracy: 0.9858, Validation Accuracy: 0.6384, Loss: 0.0245
-    Epoch  47 Batch  200/2536 - Train Accuracy: 0.9933, Validation Accuracy: 0.6384, Loss: 0.0336
-    Epoch  47 Batch  300/2536 - Train Accuracy: 0.9710, Validation Accuracy: 0.6384, Loss: 0.0554
-    Epoch  47 Batch  400/2536 - Train Accuracy: 0.9902, Validation Accuracy: 0.6362, Loss: 0.0662
-    Epoch  47 Batch  500/2536 - Train Accuracy: 0.9792, Validation Accuracy: 0.6384, Loss: 0.0643
-    Epoch  47 Batch  600/2536 - Train Accuracy: 0.9563, Validation Accuracy: 0.6362, Loss: 0.1084
-    Epoch  47 Batch  700/2536 - Train Accuracy: 0.9615, Validation Accuracy: 0.6384, Loss: 0.0524
-    Epoch  47 Batch  800/2536 - Train Accuracy: 0.9784, Validation Accuracy: 0.6384, Loss: 0.0915
-    Epoch  47 Batch  900/2536 - Train Accuracy: 0.9598, Validation Accuracy: 0.6406, Loss: 0.1063
-    Epoch  47 Batch 1000/2536 - Train Accuracy: 0.8958, Validation Accuracy: 0.6384, Loss: 0.1750
-    Epoch  47 Batch 1100/2536 - Train Accuracy: 0.9397, Validation Accuracy: 0.6384, Loss: 0.2023
-    Epoch  47 Batch 1200/2536 - Train Accuracy: 0.9492, Validation Accuracy: 0.6406, Loss: 0.1379
-    Epoch  47 Batch 1300/2536 - Train Accuracy: 0.9832, Validation Accuracy: 0.6362, Loss: 0.0068
-    Epoch  47 Batch 1400/2536 - Train Accuracy: 0.9500, Validation Accuracy: 0.6384, Loss: 0.1153
-    Epoch  47 Batch 1500/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6384, Loss: 0.0319
-    Epoch  47 Batch 1600/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0354
-    Epoch  47 Batch 1700/2536 - Train Accuracy: 0.9972, Validation Accuracy: 0.6362, Loss: 0.0294
-    Epoch  47 Batch 1800/2536 - Train Accuracy: 0.9773, Validation Accuracy: 0.6362, Loss: 0.0201
-    Epoch  47 Batch 1900/2536 - Train Accuracy: 0.9714, Validation Accuracy: 0.6362, Loss: 0.0764
-    Epoch  47 Batch 2000/2536 - Train Accuracy: 0.9591, Validation Accuracy: 0.6384, Loss: 0.0403
-    Epoch  47 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0095
-    Epoch  47 Batch 2200/2536 - Train Accuracy: 0.9708, Validation Accuracy: 0.6362, Loss: 0.0449
-    Epoch  47 Batch 2300/2536 - Train Accuracy: 0.9447, Validation Accuracy: 0.6362, Loss: 0.0990
-    Epoch  47 Batch 2400/2536 - Train Accuracy: 0.9712, Validation Accuracy: 0.6362, Loss: 0.0786
-    Epoch  47 Batch 2500/2536 - Train Accuracy: 0.9663, Validation Accuracy: 0.6339, Loss: 0.0744
-    Epoch  48 Batch  100/2536 - Train Accuracy: 0.9915, Validation Accuracy: 0.6362, Loss: 0.0307
-    Epoch  48 Batch  200/2536 - Train Accuracy: 0.9754, Validation Accuracy: 0.6384, Loss: 0.0395
-    Epoch  48 Batch  300/2536 - Train Accuracy: 0.9710, Validation Accuracy: 0.6384, Loss: 0.0574
-    Epoch  48 Batch  400/2536 - Train Accuracy: 0.9609, Validation Accuracy: 0.6384, Loss: 0.0705
-    Epoch  48 Batch  500/2536 - Train Accuracy: 0.9479, Validation Accuracy: 0.6362, Loss: 0.0712
-    Epoch  48 Batch  600/2536 - Train Accuracy: 0.9479, Validation Accuracy: 0.6362, Loss: 0.0999
-    Epoch  48 Batch  700/2536 - Train Accuracy: 0.9447, Validation Accuracy: 0.6362, Loss: 0.0664
-    Epoch  48 Batch  800/2536 - Train Accuracy: 0.9615, Validation Accuracy: 0.6362, Loss: 0.0983
-    Epoch  48 Batch  900/2536 - Train Accuracy: 0.9665, Validation Accuracy: 0.6362, Loss: 0.0907
-    Epoch  48 Batch 1000/2536 - Train Accuracy: 0.9042, Validation Accuracy: 0.6384, Loss: 0.1619
-    Epoch  48 Batch 1100/2536 - Train Accuracy: 0.9330, Validation Accuracy: 0.6384, Loss: 0.2033
-    Epoch  48 Batch 1200/2536 - Train Accuracy: 0.9043, Validation Accuracy: 0.6406, Loss: 0.1350
-    Epoch  48 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0055
-    Epoch  48 Batch 1400/2536 - Train Accuracy: 0.9313, Validation Accuracy: 0.6384, Loss: 0.1195
-    Epoch  48 Batch 1500/2536 - Train Accuracy: 0.9832, Validation Accuracy: 0.6362, Loss: 0.0246
-    Epoch  48 Batch 1600/2536 - Train Accuracy: 0.9974, Validation Accuracy: 0.6362, Loss: 0.0314
-    Epoch  48 Batch 1700/2536 - Train Accuracy: 0.9830, Validation Accuracy: 0.6406, Loss: 0.0312
-    Epoch  48 Batch 1800/2536 - Train Accuracy: 0.9773, Validation Accuracy: 0.6362, Loss: 0.0238
-    Epoch  48 Batch 1900/2536 - Train Accuracy: 0.9766, Validation Accuracy: 0.6384, Loss: 0.0580
-    Epoch  48 Batch 2000/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6384, Loss: 0.0390
-    Epoch  48 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0107
-    Epoch  48 Batch 2200/2536 - Train Accuracy: 0.9917, Validation Accuracy: 0.6384, Loss: 0.0598
-    Epoch  48 Batch 2300/2536 - Train Accuracy: 0.9303, Validation Accuracy: 0.6362, Loss: 0.0952
-    Epoch  48 Batch 2400/2536 - Train Accuracy: 0.9856, Validation Accuracy: 0.6362, Loss: 0.0663
-    Epoch  48 Batch 2500/2536 - Train Accuracy: 0.9663, Validation Accuracy: 0.6362, Loss: 0.1049
-    Epoch  49 Batch  100/2536 - Train Accuracy: 0.9915, Validation Accuracy: 0.6384, Loss: 0.0248
-    Epoch  49 Batch  200/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6362, Loss: 0.0347
-    Epoch  49 Batch  300/2536 - Train Accuracy: 0.9710, Validation Accuracy: 0.6384, Loss: 0.0672
-    Epoch  49 Batch  400/2536 - Train Accuracy: 0.9492, Validation Accuracy: 0.6339, Loss: 0.0807
-    Epoch  49 Batch  500/2536 - Train Accuracy: 0.9500, Validation Accuracy: 0.6362, Loss: 0.0593
-    Epoch  49 Batch  600/2536 - Train Accuracy: 0.9500, Validation Accuracy: 0.6384, Loss: 0.1066
-    Epoch  49 Batch  700/2536 - Train Accuracy: 0.9808, Validation Accuracy: 0.6384, Loss: 0.0558
-    Epoch  49 Batch  800/2536 - Train Accuracy: 0.9784, Validation Accuracy: 0.6362, Loss: 0.0932
-    Epoch  49 Batch  900/2536 - Train Accuracy: 0.9420, Validation Accuracy: 0.6384, Loss: 0.0960
-    Epoch  49 Batch 1000/2536 - Train Accuracy: 0.9187, Validation Accuracy: 0.6384, Loss: 0.1802
-    Epoch  49 Batch 1100/2536 - Train Accuracy: 0.8817, Validation Accuracy: 0.6384, Loss: 0.1867
-    Epoch  49 Batch 1200/2536 - Train Accuracy: 0.9199, Validation Accuracy: 0.6384, Loss: 0.1366
-    Epoch  49 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0062
-    Epoch  49 Batch 1400/2536 - Train Accuracy: 0.9542, Validation Accuracy: 0.6384, Loss: 0.1182
-    Epoch  49 Batch 1500/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6362, Loss: 0.0322
-    Epoch  49 Batch 1600/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0316
-    Epoch  49 Batch 1700/2536 - Train Accuracy: 0.9943, Validation Accuracy: 0.6362, Loss: 0.0316
-    Epoch  49 Batch 1800/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0216
-    Epoch  49 Batch 1900/2536 - Train Accuracy: 0.9844, Validation Accuracy: 0.6384, Loss: 0.0643
-    Epoch  49 Batch 2000/2536 - Train Accuracy: 0.9928, Validation Accuracy: 0.6384, Loss: 0.0438
-    Epoch  49 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0043
-    Epoch  49 Batch 2200/2536 - Train Accuracy: 0.9854, Validation Accuracy: 0.6362, Loss: 0.0497
-    Epoch  49 Batch 2300/2536 - Train Accuracy: 0.9591, Validation Accuracy: 0.6362, Loss: 0.0980
-    Epoch  49 Batch 2400/2536 - Train Accuracy: 0.9712, Validation Accuracy: 0.6384, Loss: 0.0674
-    Epoch  49 Batch 2500/2536 - Train Accuracy: 0.9567, Validation Accuracy: 0.6362, Loss: 0.0626
-    Epoch  50 Batch  100/2536 - Train Accuracy: 0.9972, Validation Accuracy: 0.6384, Loss: 0.0232
-    Epoch  50 Batch  200/2536 - Train Accuracy: 0.9844, Validation Accuracy: 0.6406, Loss: 0.0312
-    Epoch  50 Batch  300/2536 - Train Accuracy: 0.9777, Validation Accuracy: 0.6384, Loss: 0.0522
-    Epoch  50 Batch  400/2536 - Train Accuracy: 0.9395, Validation Accuracy: 0.6406, Loss: 0.0658
-    Epoch  50 Batch  500/2536 - Train Accuracy: 0.9750, Validation Accuracy: 0.6384, Loss: 0.0708
-    Epoch  50 Batch  600/2536 - Train Accuracy: 0.9437, Validation Accuracy: 0.6362, Loss: 0.1046
-    Epoch  50 Batch  700/2536 - Train Accuracy: 0.9784, Validation Accuracy: 0.6362, Loss: 0.0487
-    Epoch  50 Batch  800/2536 - Train Accuracy: 0.9880, Validation Accuracy: 0.6362, Loss: 0.0822
-    Epoch  50 Batch  900/2536 - Train Accuracy: 0.9643, Validation Accuracy: 0.6362, Loss: 0.0799
-    Epoch  50 Batch 1000/2536 - Train Accuracy: 0.8938, Validation Accuracy: 0.6362, Loss: 0.1926
-    Epoch  50 Batch 1100/2536 - Train Accuracy: 0.9219, Validation Accuracy: 0.6384, Loss: 0.1994
-    Epoch  50 Batch 1200/2536 - Train Accuracy: 0.9512, Validation Accuracy: 0.6384, Loss: 0.1234
-    Epoch  50 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0100
-    Epoch  50 Batch 1400/2536 - Train Accuracy: 0.9625, Validation Accuracy: 0.6362, Loss: 0.0916
-    Epoch  50 Batch 1500/2536 - Train Accuracy: 0.9760, Validation Accuracy: 0.6362, Loss: 0.0226
-    Epoch  50 Batch 1600/2536 - Train Accuracy: 0.9792, Validation Accuracy: 0.6362, Loss: 0.0245
-    Epoch  50 Batch 1700/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0195
-    Epoch  50 Batch 1800/2536 - Train Accuracy: 0.9972, Validation Accuracy: 0.6362, Loss: 0.0153
-    Epoch  50 Batch 1900/2536 - Train Accuracy: 0.9635, Validation Accuracy: 0.6384, Loss: 0.0497
-    Epoch  50 Batch 2000/2536 - Train Accuracy: 0.9663, Validation Accuracy: 0.6362, Loss: 0.0270
-    Epoch  50 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0105
-    Epoch  50 Batch 2200/2536 - Train Accuracy: 0.9896, Validation Accuracy: 0.6339, Loss: 0.0387
-    Epoch  50 Batch 2300/2536 - Train Accuracy: 0.9495, Validation Accuracy: 0.6384, Loss: 0.1016
-    Epoch  50 Batch 2400/2536 - Train Accuracy: 0.9832, Validation Accuracy: 0.6362, Loss: 0.0632
-    Epoch  50 Batch 2500/2536 - Train Accuracy: 0.9760, Validation Accuracy: 0.6362, Loss: 0.0612
-    Epoch  51 Batch  100/2536 - Train Accuracy: 0.9915, Validation Accuracy: 0.6362, Loss: 0.0203
-    Epoch  51 Batch  200/2536 - Train Accuracy: 0.9844, Validation Accuracy: 0.6362, Loss: 0.0386
-    Epoch  51 Batch  300/2536 - Train Accuracy: 0.9643, Validation Accuracy: 0.6384, Loss: 0.0511
-    Epoch  51 Batch  400/2536 - Train Accuracy: 0.9375, Validation Accuracy: 0.6362, Loss: 0.0670
-    Epoch  51 Batch  500/2536 - Train Accuracy: 0.9500, Validation Accuracy: 0.6362, Loss: 0.0792
-    Epoch  51 Batch  600/2536 - Train Accuracy: 0.9479, Validation Accuracy: 0.6362, Loss: 0.1028
-    Epoch  51 Batch  700/2536 - Train Accuracy: 0.9880, Validation Accuracy: 0.6384, Loss: 0.0433
-    Epoch  51 Batch  800/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6362, Loss: 0.0757
-    Epoch  51 Batch  900/2536 - Train Accuracy: 0.9777, Validation Accuracy: 0.6384, Loss: 0.0764
-    Epoch  51 Batch 1000/2536 - Train Accuracy: 0.9104, Validation Accuracy: 0.6384, Loss: 0.1672
-    Epoch  51 Batch 1100/2536 - Train Accuracy: 0.8951, Validation Accuracy: 0.6406, Loss: 0.1660
-    Epoch  51 Batch 1200/2536 - Train Accuracy: 0.9219, Validation Accuracy: 0.6384, Loss: 0.1343
-    Epoch  51 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0066
-    Epoch  51 Batch 1400/2536 - Train Accuracy: 0.9583, Validation Accuracy: 0.6384, Loss: 0.1039
-    Epoch  51 Batch 1500/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6384, Loss: 0.0363
-    Epoch  51 Batch 1600/2536 - Train Accuracy: 0.9870, Validation Accuracy: 0.6384, Loss: 0.0293
-    Epoch  51 Batch 1700/2536 - Train Accuracy: 0.9830, Validation Accuracy: 0.6384, Loss: 0.0414
-    Epoch  51 Batch 1800/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0221
-    Epoch  51 Batch 1900/2536 - Train Accuracy: 0.9792, Validation Accuracy: 0.6406, Loss: 0.0570
-    Epoch  51 Batch 2000/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0339
-    Epoch  51 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6406, Loss: 0.0055
-    Epoch  51 Batch 2200/2536 - Train Accuracy: 0.9437, Validation Accuracy: 0.6429, Loss: 0.0440
-    Epoch  51 Batch 2300/2536 - Train Accuracy: 0.9567, Validation Accuracy: 0.6384, Loss: 0.0927
-    Epoch  51 Batch 2400/2536 - Train Accuracy: 0.9880, Validation Accuracy: 0.6384, Loss: 0.0596
-    Epoch  51 Batch 2500/2536 - Train Accuracy: 0.9663, Validation Accuracy: 0.6362, Loss: 0.0662
-    Epoch  52 Batch  100/2536 - Train Accuracy: 0.9801, Validation Accuracy: 0.6384, Loss: 0.0262
-    Epoch  52 Batch  200/2536 - Train Accuracy: 0.9754, Validation Accuracy: 0.6406, Loss: 0.0389
-    Epoch  52 Batch  300/2536 - Train Accuracy: 0.9754, Validation Accuracy: 0.6406, Loss: 0.0653
-    Epoch  52 Batch  400/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6362, Loss: 0.0674
-    Epoch  52 Batch  500/2536 - Train Accuracy: 0.9479, Validation Accuracy: 0.6384, Loss: 0.0730
-    Epoch  52 Batch  600/2536 - Train Accuracy: 0.9563, Validation Accuracy: 0.6362, Loss: 0.0870
-    Epoch  52 Batch  700/2536 - Train Accuracy: 0.9663, Validation Accuracy: 0.6384, Loss: 0.0564
-    Epoch  52 Batch  800/2536 - Train Accuracy: 0.9712, Validation Accuracy: 0.6384, Loss: 0.0784
-    Epoch  52 Batch  900/2536 - Train Accuracy: 0.9754, Validation Accuracy: 0.6362, Loss: 0.0808
-    Epoch  52 Batch 1000/2536 - Train Accuracy: 0.9146, Validation Accuracy: 0.6406, Loss: 0.1858
-    Epoch  52 Batch 1100/2536 - Train Accuracy: 0.9286, Validation Accuracy: 0.6406, Loss: 0.1743
-    Epoch  52 Batch 1200/2536 - Train Accuracy: 0.9395, Validation Accuracy: 0.6384, Loss: 0.1345
-    Epoch  52 Batch 1300/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6384, Loss: 0.0039
-    Epoch  52 Batch 1400/2536 - Train Accuracy: 0.9542, Validation Accuracy: 0.6362, Loss: 0.1036
-    Epoch  52 Batch 1500/2536 - Train Accuracy: 0.9832, Validation Accuracy: 0.6362, Loss: 0.0225
-    Epoch  52 Batch 1600/2536 - Train Accuracy: 0.9948, Validation Accuracy: 0.6384, Loss: 0.0240
-    Epoch  52 Batch 1700/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0173
-    Epoch  52 Batch 1800/2536 - Train Accuracy: 0.9773, Validation Accuracy: 0.6384, Loss: 0.0206
-    Epoch  52 Batch 1900/2536 - Train Accuracy: 0.9948, Validation Accuracy: 0.6384, Loss: 0.0939
-    Epoch  52 Batch 2000/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6384, Loss: 0.0559
-    Epoch  52 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6406, Loss: 0.0067
-    Epoch  52 Batch 2200/2536 - Train Accuracy: 0.9833, Validation Accuracy: 0.6406, Loss: 0.0380
-    Epoch  52 Batch 2300/2536 - Train Accuracy: 0.9399, Validation Accuracy: 0.6362, Loss: 0.0808
-    Epoch  52 Batch 2400/2536 - Train Accuracy: 0.9760, Validation Accuracy: 0.6384, Loss: 0.0643
-    Epoch  52 Batch 2500/2536 - Train Accuracy: 0.9591, Validation Accuracy: 0.6406, Loss: 0.0652
-    Epoch  53 Batch  100/2536 - Train Accuracy: 0.9943, Validation Accuracy: 0.6384, Loss: 0.0220
-    Epoch  53 Batch  200/2536 - Train Accuracy: 0.9844, Validation Accuracy: 0.6384, Loss: 0.0329
-    Epoch  53 Batch  300/2536 - Train Accuracy: 0.9799, Validation Accuracy: 0.6384, Loss: 0.0548
-    Epoch  53 Batch  400/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6406, Loss: 0.0638
-    Epoch  53 Batch  500/2536 - Train Accuracy: 0.9771, Validation Accuracy: 0.6362, Loss: 0.0646
-    Epoch  53 Batch  600/2536 - Train Accuracy: 0.9792, Validation Accuracy: 0.6362, Loss: 0.1011
-    Epoch  53 Batch  700/2536 - Train Accuracy: 0.9808, Validation Accuracy: 0.6384, Loss: 0.0621
-    Epoch  53 Batch  800/2536 - Train Accuracy: 0.9856, Validation Accuracy: 0.6362, Loss: 0.0666
-    Epoch  53 Batch  900/2536 - Train Accuracy: 0.9866, Validation Accuracy: 0.6384, Loss: 0.0805
-    Epoch  53 Batch 1000/2536 - Train Accuracy: 0.9146, Validation Accuracy: 0.6406, Loss: 0.1708
-    Epoch  53 Batch 1100/2536 - Train Accuracy: 0.9353, Validation Accuracy: 0.6384, Loss: 0.1240
-    Epoch  53 Batch 1200/2536 - Train Accuracy: 0.9336, Validation Accuracy: 0.6362, Loss: 0.1284
-    Epoch  53 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0029
-    Epoch  53 Batch 1400/2536 - Train Accuracy: 0.9479, Validation Accuracy: 0.6384, Loss: 0.0818
-    Epoch  53 Batch 1500/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0196
-    Epoch  53 Batch 1600/2536 - Train Accuracy: 0.9922, Validation Accuracy: 0.6362, Loss: 0.0316
-    Epoch  53 Batch 1700/2536 - Train Accuracy: 0.9943, Validation Accuracy: 0.6339, Loss: 0.0212
-    Epoch  53 Batch 1800/2536 - Train Accuracy: 0.9972, Validation Accuracy: 0.6429, Loss: 0.0117
-    Epoch  53 Batch 1900/2536 - Train Accuracy: 0.9922, Validation Accuracy: 0.6362, Loss: 0.0510
-    Epoch  53 Batch 2000/2536 - Train Accuracy: 0.9928, Validation Accuracy: 0.6384, Loss: 0.0442
-    Epoch  53 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0113
-    Epoch  53 Batch 2200/2536 - Train Accuracy: 0.9875, Validation Accuracy: 0.6384, Loss: 0.0518
-    Epoch  53 Batch 2300/2536 - Train Accuracy: 0.9423, Validation Accuracy: 0.6339, Loss: 0.1194
-    Epoch  53 Batch 2400/2536 - Train Accuracy: 0.9784, Validation Accuracy: 0.6362, Loss: 0.0521
-    Epoch  53 Batch 2500/2536 - Train Accuracy: 0.9375, Validation Accuracy: 0.6362, Loss: 0.0629
-    Epoch  54 Batch  100/2536 - Train Accuracy: 0.9972, Validation Accuracy: 0.6384, Loss: 0.0202
-    Epoch  54 Batch  200/2536 - Train Accuracy: 0.9888, Validation Accuracy: 0.6384, Loss: 0.0381
-    Epoch  54 Batch  300/2536 - Train Accuracy: 0.9799, Validation Accuracy: 0.6384, Loss: 0.0620
-    Epoch  54 Batch  400/2536 - Train Accuracy: 0.9336, Validation Accuracy: 0.6362, Loss: 0.0649
-    Epoch  54 Batch  500/2536 - Train Accuracy: 0.9792, Validation Accuracy: 0.6362, Loss: 0.0584
-    Epoch  54 Batch  600/2536 - Train Accuracy: 0.9563, Validation Accuracy: 0.6362, Loss: 0.0747
-    Epoch  54 Batch  700/2536 - Train Accuracy: 0.9928, Validation Accuracy: 0.6362, Loss: 0.0415
-    Epoch  54 Batch  800/2536 - Train Accuracy: 0.9832, Validation Accuracy: 0.6384, Loss: 0.0683
-    Epoch  54 Batch  900/2536 - Train Accuracy: 0.9375, Validation Accuracy: 0.6406, Loss: 0.0667
-    Epoch  54 Batch 1000/2536 - Train Accuracy: 0.9500, Validation Accuracy: 0.6384, Loss: 0.1033
-    Epoch  54 Batch 1100/2536 - Train Accuracy: 0.9241, Validation Accuracy: 0.6384, Loss: 0.1352
-    Epoch  54 Batch 1200/2536 - Train Accuracy: 0.9277, Validation Accuracy: 0.6384, Loss: 0.0848
-    Epoch  54 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0041
-    Epoch  54 Batch 1400/2536 - Train Accuracy: 0.9417, Validation Accuracy: 0.6362, Loss: 0.0794
-    Epoch  54 Batch 1500/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0236
-    Epoch  54 Batch 1600/2536 - Train Accuracy: 0.9818, Validation Accuracy: 0.6362, Loss: 0.0198
-    Epoch  54 Batch 1700/2536 - Train Accuracy: 0.9886, Validation Accuracy: 0.6339, Loss: 0.0189
-    Epoch  54 Batch 1800/2536 - Train Accuracy: 0.9915, Validation Accuracy: 0.6384, Loss: 0.0106
-    Epoch  54 Batch 1900/2536 - Train Accuracy: 0.9948, Validation Accuracy: 0.6339, Loss: 0.0519
-    Epoch  54 Batch 2000/2536 - Train Accuracy: 0.9880, Validation Accuracy: 0.6384, Loss: 0.0432
-    Epoch  54 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0112
-    Epoch  54 Batch 2200/2536 - Train Accuracy: 0.9812, Validation Accuracy: 0.6384, Loss: 0.0338
-    Epoch  54 Batch 2300/2536 - Train Accuracy: 0.9591, Validation Accuracy: 0.6362, Loss: 0.0843
-    Epoch  54 Batch 2400/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6362, Loss: 0.0741
-    Epoch  54 Batch 2500/2536 - Train Accuracy: 0.9832, Validation Accuracy: 0.6384, Loss: 0.0567
-    Epoch  55 Batch  100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0127
-    Epoch  55 Batch  200/2536 - Train Accuracy: 0.9844, Validation Accuracy: 0.6406, Loss: 0.0432
-    Epoch  55 Batch  300/2536 - Train Accuracy: 0.9821, Validation Accuracy: 0.6384, Loss: 0.0507
-    Epoch  55 Batch  400/2536 - Train Accuracy: 0.9707, Validation Accuracy: 0.6406, Loss: 0.0672
-    Epoch  55 Batch  500/2536 - Train Accuracy: 0.9771, Validation Accuracy: 0.6406, Loss: 0.0609
-    Epoch  55 Batch  600/2536 - Train Accuracy: 0.9375, Validation Accuracy: 0.6362, Loss: 0.0717
-    Epoch  55 Batch  700/2536 - Train Accuracy: 0.9832, Validation Accuracy: 0.6362, Loss: 0.0576
-    Epoch  55 Batch  800/2536 - Train Accuracy: 0.9808, Validation Accuracy: 0.6384, Loss: 0.0908
-    Epoch  55 Batch  900/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6384, Loss: 0.0655
-    Epoch  55 Batch 1000/2536 - Train Accuracy: 0.9208, Validation Accuracy: 0.6384, Loss: 0.1225
-    Epoch  55 Batch 1100/2536 - Train Accuracy: 0.9353, Validation Accuracy: 0.6384, Loss: 0.1270
-    Epoch  55 Batch 1200/2536 - Train Accuracy: 0.9629, Validation Accuracy: 0.6406, Loss: 0.0907
-    Epoch  55 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0033
-    Epoch  55 Batch 1400/2536 - Train Accuracy: 0.9792, Validation Accuracy: 0.6384, Loss: 0.0863
-    Epoch  55 Batch 1500/2536 - Train Accuracy: 0.9880, Validation Accuracy: 0.6384, Loss: 0.0172
-    Epoch  55 Batch 1600/2536 - Train Accuracy: 0.9974, Validation Accuracy: 0.6384, Loss: 0.0354
-    Epoch  55 Batch 1700/2536 - Train Accuracy: 0.9858, Validation Accuracy: 0.6362, Loss: 0.0424
-    Epoch  55 Batch 1800/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0205
-    Epoch  55 Batch 1900/2536 - Train Accuracy: 0.9948, Validation Accuracy: 0.6362, Loss: 0.0303
-    Epoch  55 Batch 2000/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0305
-    Epoch  55 Batch 2100/2536 - Train Accuracy: 0.9974, Validation Accuracy: 0.6384, Loss: 0.0045
-    Epoch  55 Batch 2200/2536 - Train Accuracy: 0.9792, Validation Accuracy: 0.6384, Loss: 0.0411
-    Epoch  55 Batch 2300/2536 - Train Accuracy: 0.9567, Validation Accuracy: 0.6362, Loss: 0.1097
-    Epoch  55 Batch 2400/2536 - Train Accuracy: 0.9856, Validation Accuracy: 0.6362, Loss: 0.0401
-    Epoch  55 Batch 2500/2536 - Train Accuracy: 0.9832, Validation Accuracy: 0.6362, Loss: 0.0569
-    Epoch  56 Batch  100/2536 - Train Accuracy: 0.9972, Validation Accuracy: 0.6362, Loss: 0.0161
-    Epoch  56 Batch  200/2536 - Train Accuracy: 0.9821, Validation Accuracy: 0.6362, Loss: 0.0260
-    Epoch  56 Batch  300/2536 - Train Accuracy: 0.9799, Validation Accuracy: 0.6339, Loss: 0.0700
-    Epoch  56 Batch  400/2536 - Train Accuracy: 0.9648, Validation Accuracy: 0.6339, Loss: 0.0546
-    Epoch  56 Batch  500/2536 - Train Accuracy: 0.9604, Validation Accuracy: 0.6339, Loss: 0.0640
-    Epoch  56 Batch  600/2536 - Train Accuracy: 0.9708, Validation Accuracy: 0.6362, Loss: 0.0881
-    Epoch  56 Batch  700/2536 - Train Accuracy: 0.9928, Validation Accuracy: 0.6362, Loss: 0.0352
-    Epoch  56 Batch  800/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6362, Loss: 0.0493
-    Epoch  56 Batch  900/2536 - Train Accuracy: 0.9732, Validation Accuracy: 0.6384, Loss: 0.0584
-    Epoch  56 Batch 1000/2536 - Train Accuracy: 0.9375, Validation Accuracy: 0.6384, Loss: 0.1112
-    Epoch  56 Batch 1100/2536 - Train Accuracy: 0.9330, Validation Accuracy: 0.6362, Loss: 0.1409
-    Epoch  56 Batch 1200/2536 - Train Accuracy: 0.9395, Validation Accuracy: 0.6339, Loss: 0.0824
-    Epoch  56 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0036
-    Epoch  56 Batch 1400/2536 - Train Accuracy: 0.9604, Validation Accuracy: 0.6362, Loss: 0.0875
-    Epoch  56 Batch 1500/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0271
-    Epoch  56 Batch 1600/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0182
-    Epoch  56 Batch 1700/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0159
-    Epoch  56 Batch 1800/2536 - Train Accuracy: 0.9943, Validation Accuracy: 0.6362, Loss: 0.0157
-    Epoch  56 Batch 1900/2536 - Train Accuracy: 0.9818, Validation Accuracy: 0.6362, Loss: 0.0313
-    Epoch  56 Batch 2000/2536 - Train Accuracy: 0.9591, Validation Accuracy: 0.6339, Loss: 0.0300
-    Epoch  56 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0036
-    Epoch  56 Batch 2200/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0386
-    Epoch  56 Batch 2300/2536 - Train Accuracy: 0.9423, Validation Accuracy: 0.6339, Loss: 0.0874
-    Epoch  56 Batch 2400/2536 - Train Accuracy: 0.9471, Validation Accuracy: 0.6339, Loss: 0.0357
-    Epoch  56 Batch 2500/2536 - Train Accuracy: 0.9808, Validation Accuracy: 0.6339, Loss: 0.0556
-    Epoch  57 Batch  100/2536 - Train Accuracy: 0.9972, Validation Accuracy: 0.6384, Loss: 0.0116
-    Epoch  57 Batch  200/2536 - Train Accuracy: 0.9799, Validation Accuracy: 0.6362, Loss: 0.0346
-    Epoch  57 Batch  300/2536 - Train Accuracy: 0.9754, Validation Accuracy: 0.6339, Loss: 0.0537
-    Epoch  57 Batch  400/2536 - Train Accuracy: 0.9375, Validation Accuracy: 0.6362, Loss: 0.0470
-    Epoch  57 Batch  500/2536 - Train Accuracy: 0.9479, Validation Accuracy: 0.6384, Loss: 0.0485
-    Epoch  57 Batch  600/2536 - Train Accuracy: 0.9563, Validation Accuracy: 0.6362, Loss: 0.0880
-    Epoch  57 Batch  700/2536 - Train Accuracy: 0.9856, Validation Accuracy: 0.6339, Loss: 0.0356
-    Epoch  57 Batch  800/2536 - Train Accuracy: 0.9880, Validation Accuracy: 0.6339, Loss: 0.0454
-    Epoch  57 Batch  900/2536 - Train Accuracy: 0.9554, Validation Accuracy: 0.6339, Loss: 0.0702
-    Epoch  57 Batch 1000/2536 - Train Accuracy: 0.9187, Validation Accuracy: 0.6362, Loss: 0.1307
-    Epoch  57 Batch 1100/2536 - Train Accuracy: 0.9576, Validation Accuracy: 0.6362, Loss: 0.1393
-    Epoch  57 Batch 1200/2536 - Train Accuracy: 0.9297, Validation Accuracy: 0.6384, Loss: 0.1071
-    Epoch  57 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0035
-    Epoch  57 Batch 1400/2536 - Train Accuracy: 0.9458, Validation Accuracy: 0.6339, Loss: 0.0947
-    Epoch  57 Batch 1500/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0155
-    Epoch  57 Batch 1600/2536 - Train Accuracy: 0.9922, Validation Accuracy: 0.6362, Loss: 0.0535
-    Epoch  57 Batch 1700/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0197
-    Epoch  57 Batch 1800/2536 - Train Accuracy: 0.9972, Validation Accuracy: 0.6384, Loss: 0.0098
-    Epoch  57 Batch 1900/2536 - Train Accuracy: 0.9792, Validation Accuracy: 0.6362, Loss: 0.0524
-    Epoch  57 Batch 2000/2536 - Train Accuracy: 0.9880, Validation Accuracy: 0.6362, Loss: 0.0327
-    Epoch  57 Batch 2100/2536 - Train Accuracy: 0.9974, Validation Accuracy: 0.6384, Loss: 0.0035
-    Epoch  57 Batch 2200/2536 - Train Accuracy: 0.9750, Validation Accuracy: 0.6384, Loss: 0.0456
-    Epoch  57 Batch 2300/2536 - Train Accuracy: 0.9519, Validation Accuracy: 0.6362, Loss: 0.0606
-    Epoch  57 Batch 2400/2536 - Train Accuracy: 0.9928, Validation Accuracy: 0.6384, Loss: 0.0431
-    Epoch  57 Batch 2500/2536 - Train Accuracy: 0.9760, Validation Accuracy: 0.6362, Loss: 0.0822
-    Epoch  58 Batch  100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0207
-    Epoch  58 Batch  200/2536 - Train Accuracy: 0.9978, Validation Accuracy: 0.6362, Loss: 0.0505
-    Epoch  58 Batch  300/2536 - Train Accuracy: 0.9888, Validation Accuracy: 0.6362, Loss: 0.0425
-    Epoch  58 Batch  400/2536 - Train Accuracy: 0.9668, Validation Accuracy: 0.6362, Loss: 0.0697
-    Epoch  58 Batch  500/2536 - Train Accuracy: 0.9771, Validation Accuracy: 0.6339, Loss: 0.0678
-    Epoch  58 Batch  600/2536 - Train Accuracy: 0.9729, Validation Accuracy: 0.6362, Loss: 0.0937
-    Epoch  58 Batch  700/2536 - Train Accuracy: 0.9928, Validation Accuracy: 0.6339, Loss: 0.0480
-    Epoch  58 Batch  800/2536 - Train Accuracy: 0.9736, Validation Accuracy: 0.6339, Loss: 0.0628
-    Epoch  58 Batch  900/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6339, Loss: 0.0606
-    Epoch  58 Batch 1000/2536 - Train Accuracy: 0.9167, Validation Accuracy: 0.6362, Loss: 0.1465
-    Epoch  58 Batch 1100/2536 - Train Accuracy: 0.9420, Validation Accuracy: 0.6362, Loss: 0.1180
-    Epoch  58 Batch 1200/2536 - Train Accuracy: 0.9062, Validation Accuracy: 0.6384, Loss: 0.0938
-    Epoch  58 Batch 1300/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6339, Loss: 0.0033
-    Epoch  58 Batch 1400/2536 - Train Accuracy: 0.9896, Validation Accuracy: 0.6339, Loss: 0.0761
-    Epoch  58 Batch 1500/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6339, Loss: 0.0178
-    Epoch  58 Batch 1600/2536 - Train Accuracy: 0.9818, Validation Accuracy: 0.6384, Loss: 0.0153
-    Epoch  58 Batch 1700/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0180
-    Epoch  58 Batch 1800/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0211
-    Epoch  58 Batch 1900/2536 - Train Accuracy: 0.9948, Validation Accuracy: 0.6362, Loss: 0.0630
-    Epoch  58 Batch 2000/2536 - Train Accuracy: 0.9784, Validation Accuracy: 0.6362, Loss: 0.0438
-    Epoch  58 Batch 2100/2536 - Train Accuracy: 0.9974, Validation Accuracy: 0.6362, Loss: 0.0056
-    Epoch  58 Batch 2200/2536 - Train Accuracy: 0.9875, Validation Accuracy: 0.6362, Loss: 0.0401
-    Epoch  58 Batch 2300/2536 - Train Accuracy: 0.9471, Validation Accuracy: 0.6339, Loss: 0.0660
-    Epoch  58 Batch 2400/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6339, Loss: 0.0501
-    Epoch  58 Batch 2500/2536 - Train Accuracy: 0.9736, Validation Accuracy: 0.6339, Loss: 0.0540
-    Epoch  59 Batch  100/2536 - Train Accuracy: 0.9972, Validation Accuracy: 0.6362, Loss: 0.0211
-    Epoch  59 Batch  200/2536 - Train Accuracy: 0.9978, Validation Accuracy: 0.6339, Loss: 0.0233
-    Epoch  59 Batch  300/2536 - Train Accuracy: 0.9933, Validation Accuracy: 0.6362, Loss: 0.0406
-    Epoch  59 Batch  400/2536 - Train Accuracy: 0.9980, Validation Accuracy: 0.6362, Loss: 0.0441
-    Epoch  59 Batch  500/2536 - Train Accuracy: 0.9437, Validation Accuracy: 0.6339, Loss: 0.0345
-    Epoch  59 Batch  600/2536 - Train Accuracy: 0.9542, Validation Accuracy: 0.6339, Loss: 0.0808
-    Epoch  59 Batch  700/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0466
-    Epoch  59 Batch  800/2536 - Train Accuracy: 0.9808, Validation Accuracy: 0.6339, Loss: 0.0442
-    Epoch  59 Batch  900/2536 - Train Accuracy: 0.9665, Validation Accuracy: 0.6339, Loss: 0.0638
-    Epoch  59 Batch 1000/2536 - Train Accuracy: 0.8896, Validation Accuracy: 0.6362, Loss: 0.1193
-    Epoch  59 Batch 1100/2536 - Train Accuracy: 0.9420, Validation Accuracy: 0.6384, Loss: 0.1095
-    Epoch  59 Batch 1200/2536 - Train Accuracy: 0.9590, Validation Accuracy: 0.6384, Loss: 0.0829
-    Epoch  59 Batch 1300/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6339, Loss: 0.0054
-    Epoch  59 Batch 1400/2536 - Train Accuracy: 0.9542, Validation Accuracy: 0.6339, Loss: 0.0758
-    Epoch  59 Batch 1500/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0221
-    Epoch  59 Batch 1600/2536 - Train Accuracy: 0.9974, Validation Accuracy: 0.6339, Loss: 0.0329
-    Epoch  59 Batch 1700/2536 - Train Accuracy: 0.9915, Validation Accuracy: 0.6384, Loss: 0.0366
-    Epoch  59 Batch 1800/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0164
-    Epoch  59 Batch 1900/2536 - Train Accuracy: 0.9896, Validation Accuracy: 0.6339, Loss: 0.0408
-    Epoch  59 Batch 2000/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0263
-    Epoch  59 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6406, Loss: 0.0033
-    Epoch  59 Batch 2200/2536 - Train Accuracy: 0.9854, Validation Accuracy: 0.6362, Loss: 0.0255
-    Epoch  59 Batch 2300/2536 - Train Accuracy: 0.9567, Validation Accuracy: 0.6339, Loss: 0.0652
-    Epoch  59 Batch 2400/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6339, Loss: 0.0370
-    Epoch  59 Batch 2500/2536 - Train Accuracy: 0.9808, Validation Accuracy: 0.6339, Loss: 0.0558
-    Epoch  60 Batch  100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0169
-    Epoch  60 Batch  200/2536 - Train Accuracy: 0.9933, Validation Accuracy: 0.6362, Loss: 0.0369
-    Epoch  60 Batch  300/2536 - Train Accuracy: 0.9911, Validation Accuracy: 0.6362, Loss: 0.0315
-    Epoch  60 Batch  400/2536 - Train Accuracy: 0.9746, Validation Accuracy: 0.6339, Loss: 0.0363
-    Epoch  60 Batch  500/2536 - Train Accuracy: 0.9646, Validation Accuracy: 0.6339, Loss: 0.0607
-    Epoch  60 Batch  600/2536 - Train Accuracy: 0.9750, Validation Accuracy: 0.6362, Loss: 0.0681
-    Epoch  60 Batch  700/2536 - Train Accuracy: 0.9784, Validation Accuracy: 0.6339, Loss: 0.0435
-    Epoch  60 Batch  800/2536 - Train Accuracy: 0.9784, Validation Accuracy: 0.6339, Loss: 0.0532
-    Epoch  60 Batch  900/2536 - Train Accuracy: 0.9955, Validation Accuracy: 0.6339, Loss: 0.0741
-    Epoch  60 Batch 1000/2536 - Train Accuracy: 0.9333, Validation Accuracy: 0.6362, Loss: 0.1015
-    Epoch  60 Batch 1100/2536 - Train Accuracy: 0.9665, Validation Accuracy: 0.6362, Loss: 0.1168
-    Epoch  60 Batch 1200/2536 - Train Accuracy: 0.9453, Validation Accuracy: 0.6362, Loss: 0.0978
-    Epoch  60 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0041
-    Epoch  60 Batch 1400/2536 - Train Accuracy: 0.9604, Validation Accuracy: 0.6339, Loss: 0.0950
-    Epoch  60 Batch 1500/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6339, Loss: 0.0194
-    Epoch  60 Batch 1600/2536 - Train Accuracy: 0.9974, Validation Accuracy: 0.6362, Loss: 0.0206
-    Epoch  60 Batch 1700/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0179
-    Epoch  60 Batch 1800/2536 - Train Accuracy: 0.9801, Validation Accuracy: 0.6339, Loss: 0.0138
-    Epoch  60 Batch 1900/2536 - Train Accuracy: 0.9792, Validation Accuracy: 0.6384, Loss: 0.0434
-    Epoch  60 Batch 2000/2536 - Train Accuracy: 0.9880, Validation Accuracy: 0.6362, Loss: 0.0221
-    Epoch  60 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0067
-    Epoch  60 Batch 2200/2536 - Train Accuracy: 0.9938, Validation Accuracy: 0.6384, Loss: 0.0374
-    Epoch  60 Batch 2300/2536 - Train Accuracy: 0.9784, Validation Accuracy: 0.6339, Loss: 0.0655
-    Epoch  60 Batch 2400/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0511
-    Epoch  60 Batch 2500/2536 - Train Accuracy: 0.9928, Validation Accuracy: 0.6339, Loss: 0.0558
-    Epoch  61 Batch  100/2536 - Train Accuracy: 0.9943, Validation Accuracy: 0.6362, Loss: 0.0114
-    Epoch  61 Batch  200/2536 - Train Accuracy: 0.9911, Validation Accuracy: 0.6339, Loss: 0.0240
-    Epoch  61 Batch  300/2536 - Train Accuracy: 0.9844, Validation Accuracy: 0.6384, Loss: 0.0257
-    Epoch  61 Batch  400/2536 - Train Accuracy: 0.9609, Validation Accuracy: 0.6362, Loss: 0.0753
-    Epoch  61 Batch  500/2536 - Train Accuracy: 0.9750, Validation Accuracy: 0.6362, Loss: 0.0461
-    Epoch  61 Batch  600/2536 - Train Accuracy: 0.9750, Validation Accuracy: 0.6339, Loss: 0.0605
-    Epoch  61 Batch  700/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0334
-    Epoch  61 Batch  800/2536 - Train Accuracy: 0.9904, Validation Accuracy: 0.6339, Loss: 0.0409
-    Epoch  61 Batch  900/2536 - Train Accuracy: 0.9554, Validation Accuracy: 0.6362, Loss: 0.0515
-    Epoch  61 Batch 1000/2536 - Train Accuracy: 0.9396, Validation Accuracy: 0.6362, Loss: 0.0857
-    Epoch  61 Batch 1100/2536 - Train Accuracy: 0.9330, Validation Accuracy: 0.6406, Loss: 0.1085
-    Epoch  61 Batch 1200/2536 - Train Accuracy: 0.9512, Validation Accuracy: 0.6362, Loss: 0.0929
-    Epoch  61 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0029
-    Epoch  61 Batch 1400/2536 - Train Accuracy: 0.9792, Validation Accuracy: 0.6362, Loss: 0.0852
-    Epoch  61 Batch 1500/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6339, Loss: 0.0181
-    Epoch  61 Batch 1600/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0253
-    Epoch  61 Batch 1700/2536 - Train Accuracy: 0.9886, Validation Accuracy: 0.6339, Loss: 0.0157
-    Epoch  61 Batch 1800/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0109
-    Epoch  61 Batch 1900/2536 - Train Accuracy: 0.9948, Validation Accuracy: 0.6339, Loss: 0.0262
-    Epoch  61 Batch 2000/2536 - Train Accuracy: 0.9856, Validation Accuracy: 0.6362, Loss: 0.0271
-    Epoch  61 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0080
-    Epoch  61 Batch 2200/2536 - Train Accuracy: 0.9854, Validation Accuracy: 0.6339, Loss: 0.0380
-    Epoch  61 Batch 2300/2536 - Train Accuracy: 0.9567, Validation Accuracy: 0.6362, Loss: 0.0655
-    Epoch  61 Batch 2400/2536 - Train Accuracy: 0.9856, Validation Accuracy: 0.6339, Loss: 0.0315
-    Epoch  61 Batch 2500/2536 - Train Accuracy: 0.9639, Validation Accuracy: 0.6339, Loss: 0.0497
-    Epoch  62 Batch  100/2536 - Train Accuracy: 0.9972, Validation Accuracy: 0.6362, Loss: 0.0078
-    Epoch  62 Batch  200/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0358
-    Epoch  62 Batch  300/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6384, Loss: 0.0325
-    Epoch  62 Batch  400/2536 - Train Accuracy: 0.9355, Validation Accuracy: 0.6339, Loss: 0.0650
-    Epoch  62 Batch  500/2536 - Train Accuracy: 0.9729, Validation Accuracy: 0.6362, Loss: 0.0410
-    Epoch  62 Batch  600/2536 - Train Accuracy: 0.9708, Validation Accuracy: 0.6339, Loss: 0.0774
-    Epoch  62 Batch  700/2536 - Train Accuracy: 0.9904, Validation Accuracy: 0.6362, Loss: 0.0410
-    Epoch  62 Batch  800/2536 - Train Accuracy: 0.9880, Validation Accuracy: 0.6339, Loss: 0.0364
-    Epoch  62 Batch  900/2536 - Train Accuracy: 0.9509, Validation Accuracy: 0.6362, Loss: 0.0521
-    Epoch  62 Batch 1000/2536 - Train Accuracy: 0.9812, Validation Accuracy: 0.6406, Loss: 0.1085
-    Epoch  62 Batch 1100/2536 - Train Accuracy: 0.9710, Validation Accuracy: 0.6406, Loss: 0.1004
-    Epoch  62 Batch 1200/2536 - Train Accuracy: 0.9785, Validation Accuracy: 0.6384, Loss: 0.0957
-    Epoch  62 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0016
-    Epoch  62 Batch 1400/2536 - Train Accuracy: 0.9875, Validation Accuracy: 0.6362, Loss: 0.0746
-    Epoch  62 Batch 1500/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0223
-    Epoch  62 Batch 1600/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0189
-    Epoch  62 Batch 1700/2536 - Train Accuracy: 0.9915, Validation Accuracy: 0.6362, Loss: 0.0097
-    Epoch  62 Batch 1800/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6406, Loss: 0.0111
-    Epoch  62 Batch 1900/2536 - Train Accuracy: 0.9974, Validation Accuracy: 0.6362, Loss: 0.0257
-    Epoch  62 Batch 2000/2536 - Train Accuracy: 0.9928, Validation Accuracy: 0.6362, Loss: 0.0297
-    Epoch  62 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0028
-    Epoch  62 Batch 2200/2536 - Train Accuracy: 0.9958, Validation Accuracy: 0.6362, Loss: 0.0555
-    Epoch  62 Batch 2300/2536 - Train Accuracy: 0.9760, Validation Accuracy: 0.6362, Loss: 0.0710
-    Epoch  62 Batch 2400/2536 - Train Accuracy: 0.9880, Validation Accuracy: 0.6384, Loss: 0.0476
-    Epoch  62 Batch 2500/2536 - Train Accuracy: 0.9639, Validation Accuracy: 0.6362, Loss: 0.0485
-    Epoch  63 Batch  100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0297
-    Epoch  63 Batch  200/2536 - Train Accuracy: 0.9955, Validation Accuracy: 0.6362, Loss: 0.0254
-    Epoch  63 Batch  300/2536 - Train Accuracy: 0.9821, Validation Accuracy: 0.6384, Loss: 0.0452
-    Epoch  63 Batch  400/2536 - Train Accuracy: 0.9668, Validation Accuracy: 0.6362, Loss: 0.0509
-    Epoch  63 Batch  500/2536 - Train Accuracy: 0.9750, Validation Accuracy: 0.6339, Loss: 0.0404
-    Epoch  63 Batch  600/2536 - Train Accuracy: 0.9771, Validation Accuracy: 0.6362, Loss: 0.0792
-    Epoch  63 Batch  700/2536 - Train Accuracy: 0.9808, Validation Accuracy: 0.6362, Loss: 0.0480
-    Epoch  63 Batch  800/2536 - Train Accuracy: 0.9712, Validation Accuracy: 0.6339, Loss: 0.0400
-    Epoch  63 Batch  900/2536 - Train Accuracy: 0.9442, Validation Accuracy: 0.6384, Loss: 0.0666
-    Epoch  63 Batch 1000/2536 - Train Accuracy: 0.9042, Validation Accuracy: 0.6429, Loss: 0.0948
-    Epoch  63 Batch 1100/2536 - Train Accuracy: 0.9821, Validation Accuracy: 0.6384, Loss: 0.0968
-    Epoch  63 Batch 1200/2536 - Train Accuracy: 0.9355, Validation Accuracy: 0.6362, Loss: 0.0769
-    Epoch  63 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0045
-    Epoch  63 Batch 1400/2536 - Train Accuracy: 0.9646, Validation Accuracy: 0.6339, Loss: 0.0713
-    Epoch  63 Batch 1500/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0168
-    Epoch  63 Batch 1600/2536 - Train Accuracy: 0.9948, Validation Accuracy: 0.6384, Loss: 0.0372
-    Epoch  63 Batch 1700/2536 - Train Accuracy: 0.9943, Validation Accuracy: 0.6384, Loss: 0.0170
-    Epoch  63 Batch 1800/2536 - Train Accuracy: 0.9943, Validation Accuracy: 0.6362, Loss: 0.0161
-    Epoch  63 Batch 1900/2536 - Train Accuracy: 0.9896, Validation Accuracy: 0.6384, Loss: 0.0336
-    Epoch  63 Batch 2000/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0314
-    Epoch  63 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0050
-    Epoch  63 Batch 2200/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0297
-    Epoch  63 Batch 2300/2536 - Train Accuracy: 0.9663, Validation Accuracy: 0.6339, Loss: 0.0635
-    Epoch  63 Batch 2400/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0354
-    Epoch  63 Batch 2500/2536 - Train Accuracy: 0.9760, Validation Accuracy: 0.6339, Loss: 0.0797
-    Epoch  64 Batch  100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0156
-    Epoch  64 Batch  200/2536 - Train Accuracy: 0.9888, Validation Accuracy: 0.6339, Loss: 0.0259
-    Epoch  64 Batch  300/2536 - Train Accuracy: 0.9866, Validation Accuracy: 0.6362, Loss: 0.0378
-    Epoch  64 Batch  400/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6362, Loss: 0.0441
-    Epoch  64 Batch  500/2536 - Train Accuracy: 0.9417, Validation Accuracy: 0.6362, Loss: 0.0467
-    Epoch  73 Batch  400/2536 - Train Accuracy: 0.9805, Validation Accuracy: 0.6362, Loss: 0.0254
-    Epoch  73 Batch  500/2536 - Train Accuracy: 0.9792, Validation Accuracy: 0.6362, Loss: 0.0359
-    Epoch  73 Batch  600/2536 - Train Accuracy: 0.9667, Validation Accuracy: 0.6339, Loss: 0.0562
-    Epoch  73 Batch  700/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6406, Loss: 0.0395
-    Epoch  73 Batch  800/2536 - Train Accuracy: 0.9712, Validation Accuracy: 0.6362, Loss: 0.0613
-    Epoch  73 Batch  900/2536 - Train Accuracy: 0.9866, Validation Accuracy: 0.6362, Loss: 0.0318
-    Epoch  73 Batch 1000/2536 - Train Accuracy: 0.9313, Validation Accuracy: 0.6362, Loss: 0.0638
-    Epoch  73 Batch 1100/2536 - Train Accuracy: 0.9554, Validation Accuracy: 0.6362, Loss: 0.0990
-    Epoch  73 Batch 1200/2536 - Train Accuracy: 0.9805, Validation Accuracy: 0.6384, Loss: 0.0593
-    Epoch  73 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0023
-    Epoch  73 Batch 1400/2536 - Train Accuracy: 0.9583, Validation Accuracy: 0.6362, Loss: 0.0575
-    Epoch  73 Batch 1500/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6339, Loss: 0.0087
-    Epoch  73 Batch 1600/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0123
-    Epoch  73 Batch 1700/2536 - Train Accuracy: 0.9972, Validation Accuracy: 0.6339, Loss: 0.0167
-    Epoch  73 Batch 1800/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0049
-    Epoch  73 Batch 1900/2536 - Train Accuracy: 0.9948, Validation Accuracy: 0.6362, Loss: 0.0229
-    Epoch  73 Batch 2000/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6362, Loss: 0.0204
-    Epoch  73 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0023
-    Epoch  73 Batch 2200/2536 - Train Accuracy: 0.9833, Validation Accuracy: 0.6384, Loss: 0.0329
-    Epoch  73 Batch 2300/2536 - Train Accuracy: 0.9880, Validation Accuracy: 0.6362, Loss: 0.0350
-    Epoch  73 Batch 2400/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0164
-    Epoch  73 Batch 2500/2536 - Train Accuracy: 0.9808, Validation Accuracy: 0.6384, Loss: 0.0374
-    Epoch  74 Batch  100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0130
-    Epoch  74 Batch  200/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0192
-    Epoch  74 Batch  300/2536 - Train Accuracy: 0.9911, Validation Accuracy: 0.6339, Loss: 0.0344
-    Epoch  74 Batch  400/2536 - Train Accuracy: 0.9863, Validation Accuracy: 0.6339, Loss: 0.0399
-    Epoch  74 Batch  500/2536 - Train Accuracy: 0.9958, Validation Accuracy: 0.6339, Loss: 0.0322
-    Epoch  74 Batch  600/2536 - Train Accuracy: 0.9854, Validation Accuracy: 0.6339, Loss: 0.0364
-    Epoch  74 Batch  700/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0237
-    Epoch  74 Batch  800/2536 - Train Accuracy: 0.9760, Validation Accuracy: 0.6362, Loss: 0.0285
-    Epoch  74 Batch  900/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6339, Loss: 0.0557
-    Epoch  74 Batch 1000/2536 - Train Accuracy: 0.9479, Validation Accuracy: 0.6362, Loss: 0.0896
-    Epoch  74 Batch 1100/2536 - Train Accuracy: 0.9710, Validation Accuracy: 0.6384, Loss: 0.0919
-    Epoch  74 Batch 1200/2536 - Train Accuracy: 0.9746, Validation Accuracy: 0.6362, Loss: 0.0776
-    Epoch  74 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0025
-    Epoch  74 Batch 1400/2536 - Train Accuracy: 0.9771, Validation Accuracy: 0.6339, Loss: 0.0353
-    Epoch  74 Batch 1500/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6339, Loss: 0.0123
-    Epoch  74 Batch 1600/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0109
-    Epoch  74 Batch 1700/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0084
-    Epoch  74 Batch 1800/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0089
-    Epoch  74 Batch 1900/2536 - Train Accuracy: 0.9974, Validation Accuracy: 0.6362, Loss: 0.0179
-    Epoch  74 Batch 2000/2536 - Train Accuracy: 0.9928, Validation Accuracy: 0.6406, Loss: 0.0203
-    Epoch  74 Batch 2100/2536 - Train Accuracy: 0.9974, Validation Accuracy: 0.6384, Loss: 0.0033
-    Epoch  74 Batch 2200/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0259
-    Epoch  74 Batch 2300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0405
-    Epoch  74 Batch 2400/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0257
-    Epoch  74 Batch 2500/2536 - Train Accuracy: 0.9856, Validation Accuracy: 0.6362, Loss: 0.0266
-    Epoch  75 Batch  100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0146
-    Epoch  75 Batch  200/2536 - Train Accuracy: 0.9955, Validation Accuracy: 0.6362, Loss: 0.0181
-    Epoch  75 Batch  300/2536 - Train Accuracy: 0.9955, Validation Accuracy: 0.6362, Loss: 0.0173
-    Epoch  75 Batch  400/2536 - Train Accuracy: 0.9434, Validation Accuracy: 0.6362, Loss: 0.0337
-    Epoch  75 Batch  500/2536 - Train Accuracy: 0.9792, Validation Accuracy: 0.6362, Loss: 0.0492
-    Epoch  75 Batch  600/2536 - Train Accuracy: 0.9854, Validation Accuracy: 0.6339, Loss: 0.0421
-    Epoch  75 Batch  700/2536 - Train Accuracy: 0.9736, Validation Accuracy: 0.6362, Loss: 0.0320
-    Epoch  75 Batch  800/2536 - Train Accuracy: 0.9880, Validation Accuracy: 0.6339, Loss: 0.0234
-    Epoch  75 Batch  900/2536 - Train Accuracy: 0.9710, Validation Accuracy: 0.6384, Loss: 0.0399
-    Epoch  75 Batch 1000/2536 - Train Accuracy: 0.9417, Validation Accuracy: 0.6384, Loss: 0.0791
-    Epoch  75 Batch 1100/2536 - Train Accuracy: 0.9754, Validation Accuracy: 0.6384, Loss: 0.0963
-    Epoch  75 Batch 1200/2536 - Train Accuracy: 0.9824, Validation Accuracy: 0.6384, Loss: 0.0702
-    Epoch  75 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0040
-    Epoch  75 Batch 1400/2536 - Train Accuracy: 0.9750, Validation Accuracy: 0.6362, Loss: 0.0315
-    Epoch  75 Batch 1500/2536 - Train Accuracy: 0.9904, Validation Accuracy: 0.6339, Loss: 0.0140
-    Epoch  75 Batch 1600/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0309
-    Epoch  75 Batch 1700/2536 - Train Accuracy: 0.9972, Validation Accuracy: 0.6384, Loss: 0.0125
-    Epoch  75 Batch 1800/2536 - Train Accuracy: 0.9972, Validation Accuracy: 0.6384, Loss: 0.0123
-    Epoch  75 Batch 1900/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0163
-    Epoch  75 Batch 2000/2536 - Train Accuracy: 0.9856, Validation Accuracy: 0.6362, Loss: 0.0180
-    Epoch  75 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0046
-    Epoch  75 Batch 2200/2536 - Train Accuracy: 0.9938, Validation Accuracy: 0.6384, Loss: 0.0165
-    Epoch  75 Batch 2300/2536 - Train Accuracy: 0.9904, Validation Accuracy: 0.6362, Loss: 0.0434
-    Epoch  75 Batch 2400/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0256
-    Epoch  75 Batch 2500/2536 - Train Accuracy: 0.9808, Validation Accuracy: 0.6362, Loss: 0.0453
-    Epoch  76 Batch  100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0082
-    Epoch  76 Batch  200/2536 - Train Accuracy: 0.9955, Validation Accuracy: 0.6384, Loss: 0.0091
-    Epoch  76 Batch  300/2536 - Train Accuracy: 0.9621, Validation Accuracy: 0.6362, Loss: 0.0370
-    Epoch  76 Batch  400/2536 - Train Accuracy: 0.9648, Validation Accuracy: 0.6362, Loss: 0.0355
-    Epoch  76 Batch  500/2536 - Train Accuracy: 0.9979, Validation Accuracy: 0.6339, Loss: 0.0331
-    Epoch  76 Batch  600/2536 - Train Accuracy: 0.9771, Validation Accuracy: 0.6339, Loss: 0.0291
-    Epoch  76 Batch  700/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0251
-    Epoch  76 Batch  800/2536 - Train Accuracy: 0.9760, Validation Accuracy: 0.6339, Loss: 0.0279
-    Epoch  76 Batch  900/2536 - Train Accuracy: 0.9554, Validation Accuracy: 0.6339, Loss: 0.0514
-    Epoch  76 Batch 1000/2536 - Train Accuracy: 0.9542, Validation Accuracy: 0.6362, Loss: 0.0563
-    Epoch  76 Batch 1100/2536 - Train Accuracy: 0.9554, Validation Accuracy: 0.6362, Loss: 0.0603
-    Epoch  76 Batch 1200/2536 - Train Accuracy: 0.9844, Validation Accuracy: 0.6384, Loss: 0.0814
-    Epoch  76 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0035
-    Epoch  76 Batch 1400/2536 - Train Accuracy: 0.9729, Validation Accuracy: 0.6339, Loss: 0.0530
-    Epoch  76 Batch 1500/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6339, Loss: 0.0143
-    Epoch  76 Batch 1600/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0112
-    Epoch  76 Batch 1700/2536 - Train Accuracy: 0.9886, Validation Accuracy: 0.6339, Loss: 0.0243
-    Epoch  76 Batch 1800/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0103
-    Epoch  76 Batch 1900/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0270
-    Epoch  76 Batch 2000/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0152
-    Epoch  76 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6406, Loss: 0.0026
-    Epoch  76 Batch 2200/2536 - Train Accuracy: 0.9833, Validation Accuracy: 0.6362, Loss: 0.0156
-    Epoch  76 Batch 2300/2536 - Train Accuracy: 0.9856, Validation Accuracy: 0.6362, Loss: 0.0494
-    Epoch  76 Batch 2400/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6362, Loss: 0.0179
-    Epoch  76 Batch 2500/2536 - Train Accuracy: 0.9928, Validation Accuracy: 0.6339, Loss: 0.0287
-    Epoch  77 Batch  100/2536 - Train Accuracy: 0.9943, Validation Accuracy: 0.6339, Loss: 0.0067
-    Epoch  77 Batch  200/2536 - Train Accuracy: 0.9866, Validation Accuracy: 0.6339, Loss: 0.0233
-    Epoch  77 Batch  300/2536 - Train Accuracy: 0.9710, Validation Accuracy: 0.6339, Loss: 0.0414
-    Epoch  77 Batch  400/2536 - Train Accuracy: 0.9727, Validation Accuracy: 0.6362, Loss: 0.0317
-    Epoch  77 Batch  500/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0285
-    Epoch  77 Batch  600/2536 - Train Accuracy: 0.9708, Validation Accuracy: 0.6362, Loss: 0.0715
-    Epoch  77 Batch  700/2536 - Train Accuracy: 0.9736, Validation Accuracy: 0.6339, Loss: 0.0251
-    Epoch  77 Batch  800/2536 - Train Accuracy: 0.9904, Validation Accuracy: 0.6339, Loss: 0.0418
-    Epoch  77 Batch  900/2536 - Train Accuracy: 0.9888, Validation Accuracy: 0.6362, Loss: 0.0332
-    Epoch  77 Batch 1000/2536 - Train Accuracy: 0.9583, Validation Accuracy: 0.6384, Loss: 0.0583
-    Epoch  77 Batch 1100/2536 - Train Accuracy: 0.9621, Validation Accuracy: 0.6384, Loss: 0.0813
-    Epoch  77 Batch 1200/2536 - Train Accuracy: 0.9746, Validation Accuracy: 0.6406, Loss: 0.0510
-    Epoch  77 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0023
-    Epoch  77 Batch 1400/2536 - Train Accuracy: 0.9875, Validation Accuracy: 0.6384, Loss: 0.0414
-    Epoch  77 Batch 1500/2536 - Train Accuracy: 0.9904, Validation Accuracy: 0.6339, Loss: 0.0097
-    Epoch  77 Batch 1600/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0137
-    Epoch  77 Batch 1700/2536 - Train Accuracy: 0.9972, Validation Accuracy: 0.6362, Loss: 0.0060
-    Epoch  77 Batch 1800/2536 - Train Accuracy: 0.9943, Validation Accuracy: 0.6384, Loss: 0.0096
-    Epoch  77 Batch 1900/2536 - Train Accuracy: 0.9870, Validation Accuracy: 0.6362, Loss: 0.0280
-    Epoch  77 Batch 2000/2536 - Train Accuracy: 0.9904, Validation Accuracy: 0.6406, Loss: 0.0124
-    Epoch  77 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6406, Loss: 0.0039
-    Epoch  77 Batch 2200/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6406, Loss: 0.0151
-    Epoch  77 Batch 2300/2536 - Train Accuracy: 0.9567, Validation Accuracy: 0.6406, Loss: 0.0326
-    Epoch  77 Batch 2400/2536 - Train Accuracy: 0.9856, Validation Accuracy: 0.6339, Loss: 0.0255
-    Epoch  77 Batch 2500/2536 - Train Accuracy: 0.9760, Validation Accuracy: 0.6339, Loss: 0.0350
-    Epoch  78 Batch  100/2536 - Train Accuracy: 0.9915, Validation Accuracy: 0.6339, Loss: 0.0077
-    Epoch  78 Batch  200/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0208
-    Epoch  78 Batch  300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0259
-    Epoch  78 Batch  400/2536 - Train Accuracy: 0.9766, Validation Accuracy: 0.6406, Loss: 0.0384
-    Epoch  78 Batch  500/2536 - Train Accuracy: 0.9854, Validation Accuracy: 0.6339, Loss: 0.0302
-    Epoch  78 Batch  600/2536 - Train Accuracy: 0.9896, Validation Accuracy: 0.6362, Loss: 0.0336
-    Epoch  78 Batch  700/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6339, Loss: 0.0162
-    Epoch  78 Batch  800/2536 - Train Accuracy: 0.9832, Validation Accuracy: 0.6362, Loss: 0.0335
-    Epoch  78 Batch  900/2536 - Train Accuracy: 0.9799, Validation Accuracy: 0.6339, Loss: 0.0318
-    Epoch  78 Batch 1000/2536 - Train Accuracy: 0.9396, Validation Accuracy: 0.6339, Loss: 0.0683
-    Epoch  78 Batch 1100/2536 - Train Accuracy: 0.9888, Validation Accuracy: 0.6362, Loss: 0.0631
-    Epoch  78 Batch 1200/2536 - Train Accuracy: 0.9668, Validation Accuracy: 0.6384, Loss: 0.0672
-    Epoch  78 Batch 1300/2536 - Train Accuracy: 0.9904, Validation Accuracy: 0.6362, Loss: 0.0021
-    Epoch  78 Batch 1400/2536 - Train Accuracy: 0.9604, Validation Accuracy: 0.6362, Loss: 0.0577
-    Epoch  78 Batch 1500/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6406, Loss: 0.0079
-    Epoch  78 Batch 1600/2536 - Train Accuracy: 0.9948, Validation Accuracy: 0.6384, Loss: 0.0360
-    Epoch  78 Batch 1700/2536 - Train Accuracy: 0.9943, Validation Accuracy: 0.6429, Loss: 0.0143
-    Epoch  78 Batch 1800/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0058
-    Epoch  78 Batch 1900/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6429, Loss: 0.0236
-    Epoch  78 Batch 2000/2536 - Train Accuracy: 0.9928, Validation Accuracy: 0.6384, Loss: 0.0140
-    Epoch  78 Batch 2100/2536 - Train Accuracy: 0.9974, Validation Accuracy: 0.6429, Loss: 0.0022
-    Epoch  78 Batch 2200/2536 - Train Accuracy: 0.9917, Validation Accuracy: 0.6384, Loss: 0.0250
-    Epoch  78 Batch 2300/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6362, Loss: 0.0624
-    Epoch  78 Batch 2400/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6384, Loss: 0.0155
-    Epoch  78 Batch 2500/2536 - Train Accuracy: 0.9784, Validation Accuracy: 0.6384, Loss: 0.0374
-    Epoch  79 Batch  100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0143
-    Epoch  79 Batch  200/2536 - Train Accuracy: 0.9933, Validation Accuracy: 0.6384, Loss: 0.0147
-    Epoch  79 Batch  300/2536 - Train Accuracy: 0.9754, Validation Accuracy: 0.6384, Loss: 0.0225
-    Epoch  79 Batch  400/2536 - Train Accuracy: 0.9980, Validation Accuracy: 0.6339, Loss: 0.0224
-    Epoch  79 Batch  500/2536 - Train Accuracy: 0.9833, Validation Accuracy: 0.6339, Loss: 0.0198
-    Epoch  79 Batch  600/2536 - Train Accuracy: 0.9812, Validation Accuracy: 0.6362, Loss: 0.0534
-    Epoch  79 Batch  700/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6339, Loss: 0.0231
-    Epoch  79 Batch  800/2536 - Train Accuracy: 0.9880, Validation Accuracy: 0.6339, Loss: 0.0330
-    Epoch  79 Batch  900/2536 - Train Accuracy: 0.9978, Validation Accuracy: 0.6339, Loss: 0.0456
-    Epoch  79 Batch 1000/2536 - Train Accuracy: 0.9437, Validation Accuracy: 0.6339, Loss: 0.0517
-    Epoch  79 Batch 1100/2536 - Train Accuracy: 0.9665, Validation Accuracy: 0.6339, Loss: 0.0661
-    Epoch  79 Batch 1200/2536 - Train Accuracy: 0.9727, Validation Accuracy: 0.6339, Loss: 0.0552
-    Epoch  79 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0025
-    Epoch  79 Batch 1400/2536 - Train Accuracy: 0.9667, Validation Accuracy: 0.6362, Loss: 0.0501
-    Epoch  79 Batch 1500/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6339, Loss: 0.0084
-    Epoch  79 Batch 1600/2536 - Train Accuracy: 0.9974, Validation Accuracy: 0.6339, Loss: 0.0075
-    Epoch  79 Batch 1700/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0065
-    Epoch  79 Batch 1800/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0093
-    Epoch  79 Batch 1900/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0211
-    Epoch  79 Batch 2000/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0217
-    Epoch  79 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6429, Loss: 0.0017
-    Epoch  79 Batch 2200/2536 - Train Accuracy: 0.9938, Validation Accuracy: 0.6406, Loss: 0.0293
-    Epoch  79 Batch 2300/2536 - Train Accuracy: 0.9639, Validation Accuracy: 0.6362, Loss: 0.0446
-    Epoch  79 Batch 2400/2536 - Train Accuracy: 0.9904, Validation Accuracy: 0.6339, Loss: 0.0207
-    Epoch  79 Batch 2500/2536 - Train Accuracy: 0.9808, Validation Accuracy: 0.6362, Loss: 0.0554
-    Epoch  80 Batch  100/2536 - Train Accuracy: 0.9943, Validation Accuracy: 0.6362, Loss: 0.0153
-    Epoch  80 Batch  200/2536 - Train Accuracy: 0.9955, Validation Accuracy: 0.6339, Loss: 0.0187
-    Epoch  80 Batch  300/2536 - Train Accuracy: 0.9777, Validation Accuracy: 0.6362, Loss: 0.0224
-    Epoch  80 Batch  400/2536 - Train Accuracy: 0.9707, Validation Accuracy: 0.6339, Loss: 0.0284
-    Epoch  80 Batch  500/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0224
-    Epoch  80 Batch  600/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6362, Loss: 0.0412
-    Epoch  80 Batch  700/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0225
-    Epoch  80 Batch  800/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0334
-    Epoch  80 Batch  900/2536 - Train Accuracy: 0.9821, Validation Accuracy: 0.6339, Loss: 0.0315
-    Epoch  80 Batch 1000/2536 - Train Accuracy: 0.9667, Validation Accuracy: 0.6339, Loss: 0.0534
-    Epoch  80 Batch 1100/2536 - Train Accuracy: 0.9777, Validation Accuracy: 0.6362, Loss: 0.0566
-    Epoch  80 Batch 1200/2536 - Train Accuracy: 0.9629, Validation Accuracy: 0.6384, Loss: 0.0522
-    Epoch  80 Batch 1300/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6339, Loss: 0.0022
-    Epoch  80 Batch 1400/2536 - Train Accuracy: 0.9854, Validation Accuracy: 0.6339, Loss: 0.0527
-    Epoch  80 Batch 1500/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0138
-    Epoch  80 Batch 1600/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0095
-    Epoch  80 Batch 1700/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0194
-    Epoch  80 Batch 1800/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0099
-    Epoch  80 Batch 1900/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0265
-    Epoch  80 Batch 2000/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0152
-    Epoch  80 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6429, Loss: 0.0050
-    Epoch  80 Batch 2200/2536 - Train Accuracy: 0.9646, Validation Accuracy: 0.6384, Loss: 0.0220
-    Epoch  80 Batch 2300/2536 - Train Accuracy: 0.9856, Validation Accuracy: 0.6362, Loss: 0.0532
-    Epoch  80 Batch 2400/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0261
-    Epoch  80 Batch 2500/2536 - Train Accuracy: 0.9808, Validation Accuracy: 0.6339, Loss: 0.0294
-    Epoch  81 Batch  100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0120
-    Epoch  81 Batch  200/2536 - Train Accuracy: 0.9888, Validation Accuracy: 0.6384, Loss: 0.0279
-    Epoch  81 Batch  300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0237
-    Epoch  81 Batch  400/2536 - Train Accuracy: 0.9844, Validation Accuracy: 0.6339, Loss: 0.0238
-    Epoch  81 Batch  500/2536 - Train Accuracy: 0.9854, Validation Accuracy: 0.6362, Loss: 0.0368
-    Epoch  81 Batch  600/2536 - Train Accuracy: 0.9479, Validation Accuracy: 0.6362, Loss: 0.0408
-    Epoch  81 Batch  700/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0253
-    Epoch  81 Batch  800/2536 - Train Accuracy: 0.9928, Validation Accuracy: 0.6339, Loss: 0.0383
-    Epoch  81 Batch  900/2536 - Train Accuracy: 0.9844, Validation Accuracy: 0.6362, Loss: 0.0411
-    Epoch  81 Batch 1000/2536 - Train Accuracy: 0.9771, Validation Accuracy: 0.6362, Loss: 0.0694
-    Epoch  81 Batch 1100/2536 - Train Accuracy: 0.9598, Validation Accuracy: 0.6384, Loss: 0.0604
-    Epoch  81 Batch 1200/2536 - Train Accuracy: 0.9766, Validation Accuracy: 0.6384, Loss: 0.0695
-    Epoch  81 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0080
-    Epoch  81 Batch 1400/2536 - Train Accuracy: 0.9875, Validation Accuracy: 0.6339, Loss: 0.0397
-    Epoch  81 Batch 1500/2536 - Train Accuracy: 0.9856, Validation Accuracy: 0.6362, Loss: 0.0153
-    Epoch  81 Batch 1600/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0155
-    Epoch  81 Batch 1700/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0089
-    Epoch  81 Batch 1800/2536 - Train Accuracy: 0.9972, Validation Accuracy: 0.6362, Loss: 0.0164
-    Epoch  81 Batch 1900/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0204
-    Epoch  81 Batch 2000/2536 - Train Accuracy: 0.9808, Validation Accuracy: 0.6339, Loss: 0.0176
-    Epoch  81 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0051
-    Epoch  81 Batch 2200/2536 - Train Accuracy: 0.9875, Validation Accuracy: 0.6384, Loss: 0.0154
-    Epoch  81 Batch 2300/2536 - Train Accuracy: 0.9471, Validation Accuracy: 0.6362, Loss: 0.0313
-    Epoch  81 Batch 2400/2536 - Train Accuracy: 0.9928, Validation Accuracy: 0.6362, Loss: 0.0186
-    Epoch  81 Batch 2500/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6362, Loss: 0.0425
-    Epoch  82 Batch  100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0128
-    Epoch  82 Batch  200/2536 - Train Accuracy: 0.9866, Validation Accuracy: 0.6339, Loss: 0.0112
-    Epoch  82 Batch  300/2536 - Train Accuracy: 0.9777, Validation Accuracy: 0.6362, Loss: 0.0204
-    Epoch  82 Batch  400/2536 - Train Accuracy: 0.9531, Validation Accuracy: 0.6339, Loss: 0.0212
-    Epoch  82 Batch  500/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0309
-    Epoch  82 Batch  600/2536 - Train Accuracy: 0.9854, Validation Accuracy: 0.6339, Loss: 0.0342
-    Epoch  82 Batch  700/2536 - Train Accuracy: 0.9928, Validation Accuracy: 0.6362, Loss: 0.0228
-    Epoch  82 Batch  800/2536 - Train Accuracy: 0.9856, Validation Accuracy: 0.6339, Loss: 0.0281
-    Epoch  82 Batch  900/2536 - Train Accuracy: 0.9933, Validation Accuracy: 0.6339, Loss: 0.0254
-    Epoch  82 Batch 1000/2536 - Train Accuracy: 0.9646, Validation Accuracy: 0.6362, Loss: 0.0915
-    Epoch  82 Batch 1100/2536 - Train Accuracy: 0.9844, Validation Accuracy: 0.6384, Loss: 0.0917
-    Epoch  82 Batch 1200/2536 - Train Accuracy: 0.9805, Validation Accuracy: 0.6384, Loss: 0.0578
-    Epoch  82 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0009
-    Epoch  82 Batch 1400/2536 - Train Accuracy: 0.9917, Validation Accuracy: 0.6339, Loss: 0.0446
-    Epoch  82 Batch 1500/2536 - Train Accuracy: 0.9904, Validation Accuracy: 0.6339, Loss: 0.0104
-    Epoch  82 Batch 1600/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0092
-    Epoch  82 Batch 1700/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0078
-    Epoch  82 Batch 1800/2536 - Train Accuracy: 0.9858, Validation Accuracy: 0.6362, Loss: 0.0056
-    Epoch  82 Batch 1900/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6406, Loss: 0.0087
-    Epoch  82 Batch 2000/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0175
-    Epoch  82 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0019
-    Epoch  82 Batch 2200/2536 - Train Accuracy: 0.9896, Validation Accuracy: 0.6384, Loss: 0.0209
-    Epoch  82 Batch 2300/2536 - Train Accuracy: 0.9760, Validation Accuracy: 0.6362, Loss: 0.0459
-    Epoch  82 Batch 2400/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6362, Loss: 0.0352
-    Epoch  82 Batch 2500/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0391
-    Epoch  83 Batch  100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0027
-    Epoch  83 Batch  200/2536 - Train Accuracy: 0.9978, Validation Accuracy: 0.6384, Loss: 0.0077
-    Epoch  83 Batch  300/2536 - Train Accuracy: 0.9888, Validation Accuracy: 0.6384, Loss: 0.0459
-    Epoch  83 Batch  400/2536 - Train Accuracy: 0.9980, Validation Accuracy: 0.6406, Loss: 0.0274
-    Epoch  83 Batch  500/2536 - Train Accuracy: 0.9979, Validation Accuracy: 0.6384, Loss: 0.0243
-    Epoch  83 Batch  600/2536 - Train Accuracy: 0.9646, Validation Accuracy: 0.6384, Loss: 0.0280
-    Epoch  83 Batch  700/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6362, Loss: 0.0249
-    Epoch  83 Batch  800/2536 - Train Accuracy: 0.9760, Validation Accuracy: 0.6384, Loss: 0.0209
-    Epoch  83 Batch  900/2536 - Train Accuracy: 0.9888, Validation Accuracy: 0.6362, Loss: 0.0252
-    Epoch  83 Batch 1000/2536 - Train Accuracy: 0.9521, Validation Accuracy: 0.6384, Loss: 0.0604
-    Epoch  83 Batch 1100/2536 - Train Accuracy: 0.9621, Validation Accuracy: 0.6362, Loss: 0.0512
-    Epoch  83 Batch 1200/2536 - Train Accuracy: 0.9707, Validation Accuracy: 0.6362, Loss: 0.0459
-    Epoch  83 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0022
-    Epoch  83 Batch 1400/2536 - Train Accuracy: 0.9708, Validation Accuracy: 0.6362, Loss: 0.0355
-    Epoch  83 Batch 1500/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0166
-    Epoch  83 Batch 1600/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0082
-    Epoch  83 Batch 1700/2536 - Train Accuracy: 0.9943, Validation Accuracy: 0.6339, Loss: 0.0150
-    Epoch  83 Batch 1800/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6406, Loss: 0.0081
-    Epoch  83 Batch 1900/2536 - Train Accuracy: 0.9948, Validation Accuracy: 0.6384, Loss: 0.0217
-    Epoch  83 Batch 2000/2536 - Train Accuracy: 0.9928, Validation Accuracy: 0.6384, Loss: 0.0237
-    Epoch  83 Batch 2100/2536 - Train Accuracy: 0.9948, Validation Accuracy: 0.6406, Loss: 0.0048
-    Epoch  83 Batch 2200/2536 - Train Accuracy: 0.9979, Validation Accuracy: 0.6406, Loss: 0.0200
-    Epoch  83 Batch 2300/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6384, Loss: 0.0525
-    Epoch  83 Batch 2400/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6362, Loss: 0.0284
-    Epoch  83 Batch 2500/2536 - Train Accuracy: 0.9736, Validation Accuracy: 0.6384, Loss: 0.0401
-    Epoch  84 Batch  100/2536 - Train Accuracy: 0.9972, Validation Accuracy: 0.6406, Loss: 0.0067
-    Epoch  84 Batch  200/2536 - Train Accuracy: 0.9777, Validation Accuracy: 0.6384, Loss: 0.0066
-    Epoch  84 Batch  300/2536 - Train Accuracy: 0.9978, Validation Accuracy: 0.6362, Loss: 0.0219
-    Epoch  84 Batch  400/2536 - Train Accuracy: 0.9727, Validation Accuracy: 0.6384, Loss: 0.0367
-    Epoch  84 Batch  500/2536 - Train Accuracy: 0.9875, Validation Accuracy: 0.6339, Loss: 0.0591
-    Epoch  84 Batch  600/2536 - Train Accuracy: 0.9875, Validation Accuracy: 0.6339, Loss: 0.0425
-    Epoch  84 Batch  700/2536 - Train Accuracy: 0.9928, Validation Accuracy: 0.6339, Loss: 0.0121
-    Epoch  84 Batch  800/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6339, Loss: 0.0170
-    Epoch  84 Batch  900/2536 - Train Accuracy: 0.9866, Validation Accuracy: 0.6339, Loss: 0.0210
-    Epoch  84 Batch 1000/2536 - Train Accuracy: 0.9375, Validation Accuracy: 0.6362, Loss: 0.0708
-    Epoch  84 Batch 1100/2536 - Train Accuracy: 0.9732, Validation Accuracy: 0.6384, Loss: 0.0641
-    Epoch  84 Batch 1200/2536 - Train Accuracy: 0.9570, Validation Accuracy: 0.6362, Loss: 0.0590
-    Epoch  84 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0015
-    Epoch  84 Batch 1400/2536 - Train Accuracy: 0.9917, Validation Accuracy: 0.6339, Loss: 0.0302
-    Epoch  84 Batch 1500/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6339, Loss: 0.0134
-    Epoch  84 Batch 1600/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0209
-    Epoch  84 Batch 1700/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0281
-    Epoch  84 Batch 1800/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0092
-    Epoch  84 Batch 1900/2536 - Train Accuracy: 0.9870, Validation Accuracy: 0.6384, Loss: 0.0181
-    Epoch  84 Batch 2000/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6384, Loss: 0.0084
-    Epoch  84 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6406, Loss: 0.0019
-    Epoch  84 Batch 2200/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6429, Loss: 0.0277
-    Epoch  84 Batch 2300/2536 - Train Accuracy: 0.9784, Validation Accuracy: 0.6362, Loss: 0.0370
-    Epoch  84 Batch 2400/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6362, Loss: 0.0080
-    Epoch  84 Batch 2500/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6362, Loss: 0.0294
-    Epoch  85 Batch  100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0086
-    Epoch  85 Batch  200/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0181
-    Epoch  85 Batch  300/2536 - Train Accuracy: 0.9821, Validation Accuracy: 0.6384, Loss: 0.0218
-    Epoch  85 Batch  400/2536 - Train Accuracy: 0.9980, Validation Accuracy: 0.6384, Loss: 0.0233
-    Epoch  85 Batch  500/2536 - Train Accuracy: 0.9979, Validation Accuracy: 0.6384, Loss: 0.0265
-    Epoch  85 Batch  600/2536 - Train Accuracy: 0.9938, Validation Accuracy: 0.6362, Loss: 0.0341
-    Epoch  85 Batch  700/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6362, Loss: 0.0150
-    Epoch  85 Batch  800/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6339, Loss: 0.0169
-    Epoch  85 Batch  900/2536 - Train Accuracy: 0.9710, Validation Accuracy: 0.6339, Loss: 0.0379
-    Epoch  85 Batch 1000/2536 - Train Accuracy: 0.9646, Validation Accuracy: 0.6362, Loss: 0.0630
-    Epoch  85 Batch 1100/2536 - Train Accuracy: 0.9487, Validation Accuracy: 0.6362, Loss: 0.0683
-    Epoch  85 Batch 1200/2536 - Train Accuracy: 0.9805, Validation Accuracy: 0.6362, Loss: 0.0593
-    Epoch  85 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0032
-    Epoch  85 Batch 1400/2536 - Train Accuracy: 0.9875, Validation Accuracy: 0.6339, Loss: 0.0526
-    Epoch  85 Batch 1500/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0129
-    Epoch  85 Batch 1600/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0161
-    Epoch  85 Batch 1700/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0153
-    Epoch  85 Batch 1800/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0082
-    Epoch  85 Batch 1900/2536 - Train Accuracy: 0.9948, Validation Accuracy: 0.6406, Loss: 0.0117
-    Epoch  85 Batch 2000/2536 - Train Accuracy: 0.9856, Validation Accuracy: 0.6384, Loss: 0.0263
-    Epoch  85 Batch 2100/2536 - Train Accuracy: 0.9948, Validation Accuracy: 0.6406, Loss: 0.0011
-    Epoch  85 Batch 2200/2536 - Train Accuracy: 0.9792, Validation Accuracy: 0.6406, Loss: 0.0228
-    Epoch  85 Batch 2300/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6384, Loss: 0.0450
-    Epoch  85 Batch 2400/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0195
-    Epoch  85 Batch 2500/2536 - Train Accuracy: 0.9832, Validation Accuracy: 0.6362, Loss: 0.0285
-    Epoch  86 Batch  100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0050
-    Epoch  86 Batch  200/2536 - Train Accuracy: 0.9955, Validation Accuracy: 0.6339, Loss: 0.0165
-    Epoch  86 Batch  300/2536 - Train Accuracy: 0.9911, Validation Accuracy: 0.6339, Loss: 0.0267
-    Epoch  86 Batch  400/2536 - Train Accuracy: 0.9863, Validation Accuracy: 0.6339, Loss: 0.0302
-    Epoch  86 Batch  500/2536 - Train Accuracy: 0.9812, Validation Accuracy: 0.6339, Loss: 0.0292
-    Epoch  86 Batch  600/2536 - Train Accuracy: 0.9896, Validation Accuracy: 0.6362, Loss: 0.0287
-    Epoch  86 Batch  700/2536 - Train Accuracy: 0.9880, Validation Accuracy: 0.6362, Loss: 0.0272
-    Epoch  86 Batch  800/2536 - Train Accuracy: 0.9904, Validation Accuracy: 0.6339, Loss: 0.0220
-    Epoch  86 Batch  900/2536 - Train Accuracy: 0.9911, Validation Accuracy: 0.6362, Loss: 0.0281
-    Epoch  86 Batch 1000/2536 - Train Accuracy: 0.9917, Validation Accuracy: 0.6339, Loss: 0.0857
-    Epoch  86 Batch 1100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0527
-    Epoch  86 Batch 1200/2536 - Train Accuracy: 0.9648, Validation Accuracy: 0.6384, Loss: 0.0529
-    Epoch  86 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0014
-    Epoch  86 Batch 1400/2536 - Train Accuracy: 0.9854, Validation Accuracy: 0.6362, Loss: 0.0522
-    Epoch  86 Batch 1500/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6339, Loss: 0.0127
-    Epoch  86 Batch 1600/2536 - Train Accuracy: 0.9922, Validation Accuracy: 0.6362, Loss: 0.0086
-    Epoch  86 Batch 1700/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0116
-    Epoch  86 Batch 1800/2536 - Train Accuracy: 0.9972, Validation Accuracy: 0.6339, Loss: 0.0137
-    Epoch  86 Batch 1900/2536 - Train Accuracy: 0.9922, Validation Accuracy: 0.6339, Loss: 0.0176
-    Epoch  86 Batch 2000/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0149
-    Epoch  86 Batch 2100/2536 - Train Accuracy: 0.9974, Validation Accuracy: 0.6406, Loss: 0.0007
-    Epoch  86 Batch 2200/2536 - Train Accuracy: 0.9938, Validation Accuracy: 0.6406, Loss: 0.0170
-    Epoch  86 Batch 2300/2536 - Train Accuracy: 0.9904, Validation Accuracy: 0.6362, Loss: 0.0360
-    Epoch  86 Batch 2400/2536 - Train Accuracy: 0.9856, Validation Accuracy: 0.6362, Loss: 0.0206
-    Epoch  86 Batch 2500/2536 - Train Accuracy: 0.9663, Validation Accuracy: 0.6362, Loss: 0.0448
-    Epoch  87 Batch  100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0135
-    Epoch  87 Batch  200/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0122
-    Epoch  87 Batch  300/2536 - Train Accuracy: 0.9777, Validation Accuracy: 0.6362, Loss: 0.0249
-    Epoch  87 Batch  400/2536 - Train Accuracy: 0.9785, Validation Accuracy: 0.6362, Loss: 0.0190
-    Epoch  87 Batch  500/2536 - Train Accuracy: 0.9958, Validation Accuracy: 0.6339, Loss: 0.0238
-    Epoch  87 Batch  600/2536 - Train Accuracy: 0.9771, Validation Accuracy: 0.6339, Loss: 0.0375
-    Epoch  87 Batch  700/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6362, Loss: 0.0441
-    Epoch  87 Batch  800/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0185
-    Epoch  87 Batch  900/2536 - Train Accuracy: 0.9911, Validation Accuracy: 0.6339, Loss: 0.0392
-    Epoch  87 Batch 1000/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0406
-    Epoch  87 Batch 1100/2536 - Train Accuracy: 0.9866, Validation Accuracy: 0.6362, Loss: 0.0549
-    Epoch  87 Batch 1200/2536 - Train Accuracy: 0.9531, Validation Accuracy: 0.6362, Loss: 0.0654
-    Epoch  87 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0025
-    Epoch  87 Batch 1400/2536 - Train Accuracy: 0.9792, Validation Accuracy: 0.6362, Loss: 0.0454
-    Epoch  87 Batch 1500/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6362, Loss: 0.0098
-    Epoch  87 Batch 1600/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0104
-    Epoch  87 Batch 1700/2536 - Train Accuracy: 0.9972, Validation Accuracy: 0.6339, Loss: 0.0118
-    Epoch  87 Batch 1800/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0060
-    Epoch  87 Batch 1900/2536 - Train Accuracy: 0.9948, Validation Accuracy: 0.6362, Loss: 0.0232
-    Epoch  87 Batch 2000/2536 - Train Accuracy: 0.9808, Validation Accuracy: 0.6362, Loss: 0.0184
-    Epoch  87 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6406, Loss: 0.0027
-    Epoch  87 Batch 2200/2536 - Train Accuracy: 0.9958, Validation Accuracy: 0.6384, Loss: 0.0218
-    Epoch  87 Batch 2300/2536 - Train Accuracy: 0.9615, Validation Accuracy: 0.6362, Loss: 0.0383
-    Epoch  87 Batch 2400/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6362, Loss: 0.0201
-    Epoch  87 Batch 2500/2536 - Train Accuracy: 0.9928, Validation Accuracy: 0.6362, Loss: 0.0318
-    Epoch  88 Batch  100/2536 - Train Accuracy: 0.9943, Validation Accuracy: 0.6362, Loss: 0.0089
-    Epoch  88 Batch  200/2536 - Train Accuracy: 0.9955, Validation Accuracy: 0.6406, Loss: 0.0109
-    Epoch  88 Batch  300/2536 - Train Accuracy: 0.9911, Validation Accuracy: 0.6362, Loss: 0.0297
-    Epoch  88 Batch  400/2536 - Train Accuracy: 0.9883, Validation Accuracy: 0.6362, Loss: 0.0331
-    Epoch  88 Batch  500/2536 - Train Accuracy: 0.9938, Validation Accuracy: 0.6339, Loss: 0.0265
-    Epoch  88 Batch  600/2536 - Train Accuracy: 0.9875, Validation Accuracy: 0.6362, Loss: 0.0302
-    Epoch  88 Batch  700/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6362, Loss: 0.0141
-    Epoch  88 Batch  800/2536 - Train Accuracy: 0.9784, Validation Accuracy: 0.6362, Loss: 0.0139
-    Epoch  88 Batch  900/2536 - Train Accuracy: 0.9866, Validation Accuracy: 0.6384, Loss: 0.0302
-    Epoch  88 Batch 1000/2536 - Train Accuracy: 0.9667, Validation Accuracy: 0.6384, Loss: 0.0528
-    Epoch  88 Batch 1100/2536 - Train Accuracy: 0.9531, Validation Accuracy: 0.6406, Loss: 0.0517
-    Epoch  88 Batch 1200/2536 - Train Accuracy: 0.9609, Validation Accuracy: 0.6384, Loss: 0.0488
-    Epoch  88 Batch 1300/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6384, Loss: 0.0005
-    Epoch  88 Batch 1400/2536 - Train Accuracy: 0.9750, Validation Accuracy: 0.6362, Loss: 0.0551
-    Epoch  88 Batch 1500/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0089
-    Epoch  88 Batch 1600/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0068
-    Epoch  88 Batch 1700/2536 - Train Accuracy: 0.9972, Validation Accuracy: 0.6406, Loss: 0.0150
-    Epoch  88 Batch 1800/2536 - Train Accuracy: 0.9972, Validation Accuracy: 0.6362, Loss: 0.0121
-    Epoch  88 Batch 1900/2536 - Train Accuracy: 0.9974, Validation Accuracy: 0.6384, Loss: 0.0183
-    Epoch  88 Batch 2000/2536 - Train Accuracy: 0.9904, Validation Accuracy: 0.6406, Loss: 0.0200
-    Epoch  88 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0056
-    Epoch  88 Batch 2200/2536 - Train Accuracy: 0.9958, Validation Accuracy: 0.6406, Loss: 0.0262
-    Epoch  88 Batch 2300/2536 - Train Accuracy: 0.9856, Validation Accuracy: 0.6384, Loss: 0.0334
-    Epoch  88 Batch 2400/2536 - Train Accuracy: 0.9880, Validation Accuracy: 0.6362, Loss: 0.0118
-    Epoch  88 Batch 2500/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6362, Loss: 0.0307
-    Epoch  89 Batch  100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0039
-    Epoch  89 Batch  200/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0080
-    Epoch  89 Batch  300/2536 - Train Accuracy: 0.9866, Validation Accuracy: 0.6384, Loss: 0.0231
-    Epoch  89 Batch  400/2536 - Train Accuracy: 0.9902, Validation Accuracy: 0.6384, Loss: 0.0433
-    Epoch  89 Batch  500/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6384, Loss: 0.0361
-    Epoch  89 Batch  600/2536 - Train Accuracy: 0.9792, Validation Accuracy: 0.6384, Loss: 0.0317
-    Epoch  89 Batch  700/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0236
-    Epoch  89 Batch  800/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0265
-    Epoch  89 Batch  900/2536 - Train Accuracy: 0.9821, Validation Accuracy: 0.6384, Loss: 0.0262
-    Epoch  89 Batch 1000/2536 - Train Accuracy: 0.9792, Validation Accuracy: 0.6384, Loss: 0.0527
-    Epoch  89 Batch 1100/2536 - Train Accuracy: 0.9978, Validation Accuracy: 0.6384, Loss: 0.0476
-    Epoch  89 Batch 1200/2536 - Train Accuracy: 0.9590, Validation Accuracy: 0.6362, Loss: 0.0642
-    Epoch  89 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0013
-    Epoch  89 Batch 1400/2536 - Train Accuracy: 0.9646, Validation Accuracy: 0.6362, Loss: 0.0576
-    Epoch  89 Batch 1500/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0101
-    Epoch  89 Batch 1600/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0176
-    Epoch  89 Batch 1700/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0076
-    Epoch  89 Batch 1800/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0097
-    Epoch  89 Batch 1900/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0272
-    Epoch  89 Batch 2000/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0233
-    Epoch  89 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0034
-    Epoch  89 Batch 2200/2536 - Train Accuracy: 0.9875, Validation Accuracy: 0.6384, Loss: 0.0159
-    Epoch  89 Batch 2300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0268
-    Epoch  89 Batch 2400/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0138
-    Epoch  89 Batch 2500/2536 - Train Accuracy: 0.9904, Validation Accuracy: 0.6362, Loss: 0.0331
-    Epoch  90 Batch  100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0096
-    Epoch  90 Batch  200/2536 - Train Accuracy: 0.9933, Validation Accuracy: 0.6384, Loss: 0.0296
-    Epoch  90 Batch  300/2536 - Train Accuracy: 0.9866, Validation Accuracy: 0.6362, Loss: 0.0208
-    Epoch  90 Batch  400/2536 - Train Accuracy: 0.9805, Validation Accuracy: 0.6384, Loss: 0.0443
-    Epoch  90 Batch  500/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6406, Loss: 0.0208
-    Epoch  90 Batch  600/2536 - Train Accuracy: 0.9875, Validation Accuracy: 0.6406, Loss: 0.0256
-    Epoch  90 Batch  700/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6362, Loss: 0.0309
-    Epoch  90 Batch  800/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0181
-    Epoch  90 Batch  900/2536 - Train Accuracy: 0.9933, Validation Accuracy: 0.6384, Loss: 0.0283
-    Epoch  90 Batch 1000/2536 - Train Accuracy: 0.9812, Validation Accuracy: 0.6384, Loss: 0.0465
-    Epoch  90 Batch 1100/2536 - Train Accuracy: 0.9777, Validation Accuracy: 0.6384, Loss: 0.0634
-    Epoch  90 Batch 1200/2536 - Train Accuracy: 0.9980, Validation Accuracy: 0.6362, Loss: 0.0375
-    Epoch  90 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0052
-    Epoch  90 Batch 1400/2536 - Train Accuracy: 0.9646, Validation Accuracy: 0.6384, Loss: 0.0462
-    Epoch  90 Batch 1500/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0105
-    Epoch  90 Batch 1600/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6406, Loss: 0.0084
-    Epoch  90 Batch 1700/2536 - Train Accuracy: 0.9886, Validation Accuracy: 0.6406, Loss: 0.0117
-    Epoch  90 Batch 1800/2536 - Train Accuracy: 0.9915, Validation Accuracy: 0.6429, Loss: 0.0047
-    Epoch  90 Batch 1900/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0323
-    Epoch  90 Batch 2000/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6362, Loss: 0.0143
-    Epoch  90 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0022
-    Epoch  90 Batch 2200/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0098
-    Epoch  90 Batch 2300/2536 - Train Accuracy: 0.9639, Validation Accuracy: 0.6384, Loss: 0.0271
-    Epoch  90 Batch 2400/2536 - Train Accuracy: 0.9928, Validation Accuracy: 0.6384, Loss: 0.0174
-    Epoch  90 Batch 2500/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0344
-    Epoch  91 Batch  100/2536 - Train Accuracy: 0.9915, Validation Accuracy: 0.6384, Loss: 0.0049
-    Epoch  91 Batch  200/2536 - Train Accuracy: 0.9933, Validation Accuracy: 0.6384, Loss: 0.0174
-    Epoch  91 Batch  300/2536 - Train Accuracy: 0.9866, Validation Accuracy: 0.6384, Loss: 0.0375
-    Epoch  91 Batch  400/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6362, Loss: 0.0375
-    Epoch  91 Batch  500/2536 - Train Accuracy: 0.9792, Validation Accuracy: 0.6362, Loss: 0.0272
-    Epoch  91 Batch  600/2536 - Train Accuracy: 0.9604, Validation Accuracy: 0.6362, Loss: 0.0294
-    Epoch  91 Batch  700/2536 - Train Accuracy: 0.9928, Validation Accuracy: 0.6362, Loss: 0.0324
-    Epoch  91 Batch  800/2536 - Train Accuracy: 0.9856, Validation Accuracy: 0.6362, Loss: 0.0196
-    Epoch  91 Batch  900/2536 - Train Accuracy: 0.9754, Validation Accuracy: 0.6362, Loss: 0.0215
-    Epoch  91 Batch 1000/2536 - Train Accuracy: 0.9938, Validation Accuracy: 0.6384, Loss: 0.0430
-    Epoch  91 Batch 1100/2536 - Train Accuracy: 0.9621, Validation Accuracy: 0.6384, Loss: 0.0507
-    Epoch  91 Batch 1200/2536 - Train Accuracy: 0.9785, Validation Accuracy: 0.6406, Loss: 0.0430
-    Epoch  91 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0019
-    Epoch  91 Batch 1400/2536 - Train Accuracy: 0.9708, Validation Accuracy: 0.6362, Loss: 0.0349
-    Epoch  91 Batch 1500/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0095
-    Epoch  91 Batch 1600/2536 - Train Accuracy: 0.9974, Validation Accuracy: 0.6384, Loss: 0.0077
-    Epoch  91 Batch 1700/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0091
-    Epoch  91 Batch 1800/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0089
-    Epoch  91 Batch 1900/2536 - Train Accuracy: 0.9974, Validation Accuracy: 0.6362, Loss: 0.0152
-    Epoch  91 Batch 2000/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6429, Loss: 0.0091
-    Epoch  91 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0144
-    Epoch  91 Batch 2200/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0183
-    Epoch  91 Batch 2300/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6384, Loss: 0.0308
-    Epoch  91 Batch 2400/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6362, Loss: 0.0140
-    Epoch  91 Batch 2500/2536 - Train Accuracy: 0.9856, Validation Accuracy: 0.6384, Loss: 0.0232
-    Epoch  92 Batch  100/2536 - Train Accuracy: 0.9915, Validation Accuracy: 0.6384, Loss: 0.0182
-    Epoch  92 Batch  200/2536 - Train Accuracy: 0.9978, Validation Accuracy: 0.6384, Loss: 0.0152
-    Epoch  92 Batch  300/2536 - Train Accuracy: 0.9911, Validation Accuracy: 0.6384, Loss: 0.0200
-    Epoch  92 Batch  400/2536 - Train Accuracy: 0.9922, Validation Accuracy: 0.6384, Loss: 0.0206
-    Epoch  92 Batch  500/2536 - Train Accuracy: 0.9812, Validation Accuracy: 0.6384, Loss: 0.0149
-    Epoch  92 Batch  600/2536 - Train Accuracy: 0.9708, Validation Accuracy: 0.6406, Loss: 0.0410
-    Epoch  92 Batch  700/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6384, Loss: 0.0248
-    Epoch  92 Batch  800/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6362, Loss: 0.0165
-    Epoch  92 Batch  900/2536 - Train Accuracy: 0.9933, Validation Accuracy: 0.6384, Loss: 0.0334
-    Epoch  92 Batch 1000/2536 - Train Accuracy: 0.9896, Validation Accuracy: 0.6406, Loss: 0.0433
-    Epoch  92 Batch 1100/2536 - Train Accuracy: 0.9643, Validation Accuracy: 0.6406, Loss: 0.0642
-    Epoch  92 Batch 1200/2536 - Train Accuracy: 0.9688, Validation Accuracy: 0.6406, Loss: 0.0545
-    Epoch  92 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0047
-    Epoch  92 Batch 1400/2536 - Train Accuracy: 0.9625, Validation Accuracy: 0.6362, Loss: 0.0648
-    Epoch  92 Batch 1500/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0159
-    Epoch  92 Batch 1600/2536 - Train Accuracy: 0.9948, Validation Accuracy: 0.6362, Loss: 0.0079
-    Epoch  92 Batch 1700/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0081
-    Epoch  92 Batch 1800/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0087
-    Epoch  92 Batch 1900/2536 - Train Accuracy: 0.9948, Validation Accuracy: 0.6362, Loss: 0.0131
-    Epoch  92 Batch 2000/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6362, Loss: 0.0212
-    Epoch  92 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6406, Loss: 0.0012
-    Epoch  92 Batch 2200/2536 - Train Accuracy: 0.9792, Validation Accuracy: 0.6384, Loss: 0.0303
-    Epoch  92 Batch 2300/2536 - Train Accuracy: 0.9832, Validation Accuracy: 0.6362, Loss: 0.0305
-    Epoch  92 Batch 2400/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0256
-    Epoch  92 Batch 2500/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6362, Loss: 0.0491
-    Epoch  93 Batch  100/2536 - Train Accuracy: 0.9943, Validation Accuracy: 0.6406, Loss: 0.0090
-    Epoch  93 Batch  200/2536 - Train Accuracy: 0.9866, Validation Accuracy: 0.6406, Loss: 0.0206
-    Epoch  93 Batch  300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0192
-    Epoch  93 Batch  400/2536 - Train Accuracy: 0.9883, Validation Accuracy: 0.6384, Loss: 0.0221
-    Epoch  93 Batch  500/2536 - Train Accuracy: 0.9979, Validation Accuracy: 0.6384, Loss: 0.0286
-    Epoch  93 Batch  600/2536 - Train Accuracy: 0.9917, Validation Accuracy: 0.6384, Loss: 0.0428
-    Epoch  93 Batch  700/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0097
-    Epoch  93 Batch  800/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0215
-    Epoch  93 Batch  900/2536 - Train Accuracy: 0.9911, Validation Accuracy: 0.6384, Loss: 0.0246
-    Epoch  93 Batch 1000/2536 - Train Accuracy: 0.9604, Validation Accuracy: 0.6406, Loss: 0.0483
-    Epoch  93 Batch 1100/2536 - Train Accuracy: 0.9911, Validation Accuracy: 0.6384, Loss: 0.0513
-    Epoch  93 Batch 1200/2536 - Train Accuracy: 0.9590, Validation Accuracy: 0.6384, Loss: 0.0424
-    Epoch  93 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0014
-    Epoch  93 Batch 1400/2536 - Train Accuracy: 0.9979, Validation Accuracy: 0.6406, Loss: 0.0312
-    Epoch  93 Batch 1500/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0073
-    Epoch  93 Batch 1600/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0102
-    Epoch  93 Batch 1700/2536 - Train Accuracy: 0.9972, Validation Accuracy: 0.6384, Loss: 0.0124
-    Epoch  93 Batch 1800/2536 - Train Accuracy: 0.9943, Validation Accuracy: 0.6362, Loss: 0.0112
-    Epoch  93 Batch 1900/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0161
-    Epoch  93 Batch 2000/2536 - Train Accuracy: 0.9904, Validation Accuracy: 0.6362, Loss: 0.0089
-    Epoch  93 Batch 2100/2536 - Train Accuracy: 0.9974, Validation Accuracy: 0.6384, Loss: 0.0018
-    Epoch  93 Batch 2200/2536 - Train Accuracy: 0.9938, Validation Accuracy: 0.6406, Loss: 0.0146
-    Epoch  93 Batch 2300/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6384, Loss: 0.0250
-    Epoch  93 Batch 2400/2536 - Train Accuracy: 0.9952, Validation Accuracy: 0.6362, Loss: 0.0338
-    Epoch  93 Batch 2500/2536 - Train Accuracy: 0.9904, Validation Accuracy: 0.6362, Loss: 0.0461
-    Epoch  94 Batch  100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0050
-    Epoch  94 Batch  200/2536 - Train Accuracy: 0.9888, Validation Accuracy: 0.6384, Loss: 0.0153
-    Epoch  94 Batch  300/2536 - Train Accuracy: 0.9821, Validation Accuracy: 0.6384, Loss: 0.0288
-    Epoch  94 Batch  400/2536 - Train Accuracy: 0.9668, Validation Accuracy: 0.6384, Loss: 0.0459
-    Epoch  94 Batch  500/2536 - Train Accuracy: 0.9958, Validation Accuracy: 0.6384, Loss: 0.0217
-    Epoch  94 Batch  600/2536 - Train Accuracy: 0.9958, Validation Accuracy: 0.6384, Loss: 0.0242
-    Epoch  94 Batch  700/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6406, Loss: 0.0260
-    Epoch  94 Batch  800/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6384, Loss: 0.0196
-    Epoch  94 Batch  900/2536 - Train Accuracy: 0.9732, Validation Accuracy: 0.6406, Loss: 0.0368
-    Epoch  94 Batch 1000/2536 - Train Accuracy: 0.9792, Validation Accuracy: 0.6384, Loss: 0.0361
-    Epoch  94 Batch 1100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6406, Loss: 0.0482
-    Epoch  94 Batch 1200/2536 - Train Accuracy: 0.9766, Validation Accuracy: 0.6384, Loss: 0.0509
-    Epoch  94 Batch 1300/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0012
-    Epoch  94 Batch 1400/2536 - Train Accuracy: 0.9729, Validation Accuracy: 0.6384, Loss: 0.0335
-    Epoch  94 Batch 1500/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6384, Loss: 0.0161
-    Epoch  94 Batch 1600/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0089
-    Epoch  94 Batch 1700/2536 - Train Accuracy: 0.9972, Validation Accuracy: 0.6362, Loss: 0.0166
-    Epoch  94 Batch 1800/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0077
-    Epoch  94 Batch 1900/2536 - Train Accuracy: 0.9948, Validation Accuracy: 0.6362, Loss: 0.0086
-    Epoch  94 Batch 2000/2536 - Train Accuracy: 0.9976, Validation Accuracy: 0.6362, Loss: 0.0154
-    Epoch  94 Batch 2100/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6384, Loss: 0.0055
-    Epoch  94 Batch 2200/2536 - Train Accuracy: 0.9979, Validation Accuracy: 0.6384, Loss: 0.0126
-    Epoch  94 Batch 2300/2536 - Train Accuracy: 0.9856, Validation Accuracy: 0.6384, Loss: 0.0289
-    Epoch  94 Batch 2400/2536 - Train Accuracy: 0.9904, Validation Accuracy: 0.6384, Loss: 0.0330
-    Epoch  94 Batch 2500/2536 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0121
+    Epoch   0 Batch  500/2400 - Train Accuracy: 0.5570, Validation Accuracy: 0.6339, Loss: 3.0404
+    Epoch   0 Batch 1000/2400 - Train Accuracy: 0.3839, Validation Accuracy: 0.6339, Loss: 4.5766
+    Epoch   0 Batch 1500/2400 - Train Accuracy: 0.6307, Validation Accuracy: 0.6339, Loss: 2.7718
+    Epoch   0 Batch 2000/2400 - Train Accuracy: 0.3582, Validation Accuracy: 0.6339, Loss: 4.4786
+    Epoch   1 Batch  500/2400 - Train Accuracy: 0.6232, Validation Accuracy: 0.6339, Loss: 2.5335
+    Epoch   1 Batch 1000/2400 - Train Accuracy: 0.4174, Validation Accuracy: 0.6339, Loss: 3.7214
+    Epoch   1 Batch 1500/2400 - Train Accuracy: 0.6705, Validation Accuracy: 0.6339, Loss: 2.1842
+    Epoch   1 Batch 2000/2400 - Train Accuracy: 0.4183, Validation Accuracy: 0.6339, Loss: 3.9006
+    Epoch   2 Batch  500/2400 - Train Accuracy: 0.6415, Validation Accuracy: 0.6339, Loss: 2.2166
+    Epoch   2 Batch 1000/2400 - Train Accuracy: 0.4576, Validation Accuracy: 0.6339, Loss: 3.2150
+    Epoch   2 Batch 1500/2400 - Train Accuracy: 0.6903, Validation Accuracy: 0.6339, Loss: 1.9266
+    Epoch   2 Batch 2000/2400 - Train Accuracy: 0.4495, Validation Accuracy: 0.6339, Loss: 3.4746
+    Epoch   3 Batch  500/2400 - Train Accuracy: 0.6728, Validation Accuracy: 0.6339, Loss: 2.0024
+    Epoch   3 Batch 1000/2400 - Train Accuracy: 0.4777, Validation Accuracy: 0.6339, Loss: 2.8544
+    Epoch   3 Batch 1500/2400 - Train Accuracy: 0.7216, Validation Accuracy: 0.6339, Loss: 1.6540
+    Epoch   3 Batch 2000/2400 - Train Accuracy: 0.4567, Validation Accuracy: 0.6339, Loss: 3.1523
+    Epoch   4 Batch  500/2400 - Train Accuracy: 0.6783, Validation Accuracy: 0.6339, Loss: 1.8692
+    Epoch   4 Batch 1000/2400 - Train Accuracy: 0.4777, Validation Accuracy: 0.6339, Loss: 2.5700
+    Epoch   4 Batch 1500/2400 - Train Accuracy: 0.7301, Validation Accuracy: 0.6339, Loss: 1.4682
+    Epoch   4 Batch 2000/2400 - Train Accuracy: 0.4736, Validation Accuracy: 0.6339, Loss: 2.8515
+    Epoch   5 Batch  500/2400 - Train Accuracy: 0.6893, Validation Accuracy: 0.6339, Loss: 1.7067
+    Epoch   5 Batch 1000/2400 - Train Accuracy: 0.4933, Validation Accuracy: 0.6339, Loss: 2.3715
+    Epoch   5 Batch 1500/2400 - Train Accuracy: 0.7500, Validation Accuracy: 0.6339, Loss: 1.2849
+    Epoch   5 Batch 2000/2400 - Train Accuracy: 0.4808, Validation Accuracy: 0.6339, Loss: 2.6013
+    Epoch   6 Batch  500/2400 - Train Accuracy: 0.6985, Validation Accuracy: 0.6339, Loss: 1.5452
+    Epoch   6 Batch 1000/2400 - Train Accuracy: 0.5379, Validation Accuracy: 0.6339, Loss: 2.1082
+    Epoch   6 Batch 1500/2400 - Train Accuracy: 0.7585, Validation Accuracy: 0.6339, Loss: 1.1517
+    Epoch   6 Batch 2000/2400 - Train Accuracy: 0.4928, Validation Accuracy: 0.6339, Loss: 2.3818
+    Epoch   7 Batch  500/2400 - Train Accuracy: 0.6912, Validation Accuracy: 0.6339, Loss: 1.4616
+    Epoch   7 Batch 1000/2400 - Train Accuracy: 0.5312, Validation Accuracy: 0.6339, Loss: 1.9536
+    Epoch   7 Batch 1500/2400 - Train Accuracy: 0.7699, Validation Accuracy: 0.6339, Loss: 1.0182
+    Epoch   7 Batch 2000/2400 - Train Accuracy: 0.5192, Validation Accuracy: 0.6339, Loss: 2.1623
+    Epoch   8 Batch  500/2400 - Train Accuracy: 0.6967, Validation Accuracy: 0.6362, Loss: 1.3247
+    Epoch   8 Batch 1000/2400 - Train Accuracy: 0.5781, Validation Accuracy: 0.6339, Loss: 1.7735
+    Epoch   8 Batch 1500/2400 - Train Accuracy: 0.7926, Validation Accuracy: 0.6339, Loss: 0.8861
+    Epoch   8 Batch 2000/2400 - Train Accuracy: 0.5433, Validation Accuracy: 0.6339, Loss: 1.9498
+    Epoch   9 Batch  500/2400 - Train Accuracy: 0.7096, Validation Accuracy: 0.6339, Loss: 1.2163
+    Epoch   9 Batch 1000/2400 - Train Accuracy: 0.6049, Validation Accuracy: 0.6339, Loss: 1.5981
+    Epoch   9 Batch 1500/2400 - Train Accuracy: 0.8125, Validation Accuracy: 0.6339, Loss: 0.7869
+    Epoch   9 Batch 2000/2400 - Train Accuracy: 0.5553, Validation Accuracy: 0.6339, Loss: 1.7822
+    Epoch  10 Batch  500/2400 - Train Accuracy: 0.7243, Validation Accuracy: 0.6339, Loss: 1.1307
+    Epoch  10 Batch 1000/2400 - Train Accuracy: 0.6406, Validation Accuracy: 0.6339, Loss: 1.4611
+    Epoch  10 Batch 1500/2400 - Train Accuracy: 0.8295, Validation Accuracy: 0.6339, Loss: 0.6797
+    Epoch  10 Batch 2000/2400 - Train Accuracy: 0.5938, Validation Accuracy: 0.6339, Loss: 1.6302
+    Epoch  11 Batch  500/2400 - Train Accuracy: 0.7463, Validation Accuracy: 0.6339, Loss: 1.0599
+    Epoch  11 Batch 1000/2400 - Train Accuracy: 0.6629, Validation Accuracy: 0.6339, Loss: 1.3507
+    Epoch  11 Batch 1500/2400 - Train Accuracy: 0.8580, Validation Accuracy: 0.6339, Loss: 0.5859
+    Epoch  11 Batch 2000/2400 - Train Accuracy: 0.6034, Validation Accuracy: 0.6339, Loss: 1.5344
+    Epoch  12 Batch  500/2400 - Train Accuracy: 0.7610, Validation Accuracy: 0.6339, Loss: 0.9842
+    Epoch  12 Batch 1000/2400 - Train Accuracy: 0.6473, Validation Accuracy: 0.6339, Loss: 1.2971
+    Epoch  12 Batch 1500/2400 - Train Accuracy: 0.8580, Validation Accuracy: 0.6339, Loss: 0.5255
+    Epoch  12 Batch 2000/2400 - Train Accuracy: 0.6010, Validation Accuracy: 0.6339, Loss: 1.3935
+    Epoch  13 Batch  500/2400 - Train Accuracy: 0.7721, Validation Accuracy: 0.6339, Loss: 0.8974
+    Epoch  13 Batch 1000/2400 - Train Accuracy: 0.6629, Validation Accuracy: 0.6339, Loss: 1.2005
+    Epoch  13 Batch 1500/2400 - Train Accuracy: 0.8949, Validation Accuracy: 0.6339, Loss: 0.4541
+    Epoch  13 Batch 2000/2400 - Train Accuracy: 0.6298, Validation Accuracy: 0.6339, Loss: 1.2525
+    Epoch  14 Batch  500/2400 - Train Accuracy: 0.7923, Validation Accuracy: 0.6339, Loss: 0.8303
+    Epoch  14 Batch 1000/2400 - Train Accuracy: 0.6719, Validation Accuracy: 0.6339, Loss: 1.0979
+    Epoch  14 Batch 1500/2400 - Train Accuracy: 0.8778, Validation Accuracy: 0.6339, Loss: 0.3918
+    Epoch  14 Batch 2000/2400 - Train Accuracy: 0.6635, Validation Accuracy: 0.6339, Loss: 1.1165
+    Epoch  15 Batch  500/2400 - Train Accuracy: 0.8015, Validation Accuracy: 0.6339, Loss: 0.8186
+    Epoch  15 Batch 1000/2400 - Train Accuracy: 0.7411, Validation Accuracy: 0.6339, Loss: 0.9573
+    Epoch  15 Batch 1500/2400 - Train Accuracy: 0.9034, Validation Accuracy: 0.6339, Loss: 0.3815
+    Epoch  15 Batch 2000/2400 - Train Accuracy: 0.6322, Validation Accuracy: 0.6339, Loss: 1.0469
+    Epoch  16 Batch  500/2400 - Train Accuracy: 0.8088, Validation Accuracy: 0.6339, Loss: 0.7384
+    Epoch  16 Batch 1000/2400 - Train Accuracy: 0.6853, Validation Accuracy: 0.6339, Loss: 0.8702
+    Epoch  16 Batch 1500/2400 - Train Accuracy: 0.9062, Validation Accuracy: 0.6339, Loss: 0.3387
+    Epoch  16 Batch 2000/2400 - Train Accuracy: 0.6779, Validation Accuracy: 0.6339, Loss: 0.9736
+    Epoch  17 Batch  500/2400 - Train Accuracy: 0.8180, Validation Accuracy: 0.6339, Loss: 0.7337
+    Epoch  17 Batch 1000/2400 - Train Accuracy: 0.7634, Validation Accuracy: 0.6339, Loss: 0.8291
+    Epoch  17 Batch 1500/2400 - Train Accuracy: 0.9318, Validation Accuracy: 0.6339, Loss: 0.2843
+    Epoch  17 Batch 2000/2400 - Train Accuracy: 0.6971, Validation Accuracy: 0.6339, Loss: 0.9246
+    Epoch  18 Batch  500/2400 - Train Accuracy: 0.7941, Validation Accuracy: 0.6339, Loss: 0.6937
+    Epoch  18 Batch 1000/2400 - Train Accuracy: 0.7812, Validation Accuracy: 0.6339, Loss: 0.7610
+    Epoch  18 Batch 1500/2400 - Train Accuracy: 0.9347, Validation Accuracy: 0.6339, Loss: 0.2580
+    Epoch  18 Batch 2000/2400 - Train Accuracy: 0.7019, Validation Accuracy: 0.6339, Loss: 0.8523
+    Epoch  19 Batch  500/2400 - Train Accuracy: 0.8327, Validation Accuracy: 0.6339, Loss: 0.6111
+    Epoch  19 Batch 1000/2400 - Train Accuracy: 0.7746, Validation Accuracy: 0.6339, Loss: 0.7092
+    Epoch  19 Batch 1500/2400 - Train Accuracy: 0.9432, Validation Accuracy: 0.6339, Loss: 0.2428
+    Epoch  19 Batch 2000/2400 - Train Accuracy: 0.7620, Validation Accuracy: 0.6339, Loss: 0.7962
+    Epoch  20 Batch  500/2400 - Train Accuracy: 0.8438, Validation Accuracy: 0.6339, Loss: 0.5840
+    Epoch  20 Batch 1000/2400 - Train Accuracy: 0.7522, Validation Accuracy: 0.6339, Loss: 0.6448
+    Epoch  20 Batch 1500/2400 - Train Accuracy: 0.9460, Validation Accuracy: 0.6362, Loss: 0.2140
+    Epoch  20 Batch 2000/2400 - Train Accuracy: 0.7500, Validation Accuracy: 0.6362, Loss: 0.7080
+    Epoch  21 Batch  500/2400 - Train Accuracy: 0.8640, Validation Accuracy: 0.6339, Loss: 0.5800
+    Epoch  21 Batch 1000/2400 - Train Accuracy: 0.7589, Validation Accuracy: 0.6339, Loss: 0.6473
+    Epoch  21 Batch 1500/2400 - Train Accuracy: 0.9602, Validation Accuracy: 0.6339, Loss: 0.1847
+    Epoch  21 Batch 2000/2400 - Train Accuracy: 0.7139, Validation Accuracy: 0.6384, Loss: 0.6637
+    Epoch  22 Batch  500/2400 - Train Accuracy: 0.8585, Validation Accuracy: 0.6339, Loss: 0.5283
+    Epoch  22 Batch 1000/2400 - Train Accuracy: 0.7723, Validation Accuracy: 0.6339, Loss: 0.5823
+    Epoch  22 Batch 1500/2400 - Train Accuracy: 0.9489, Validation Accuracy: 0.6339, Loss: 0.1528
+    Epoch  22 Batch 2000/2400 - Train Accuracy: 0.7788, Validation Accuracy: 0.6384, Loss: 0.6134
+    Epoch  23 Batch  500/2400 - Train Accuracy: 0.8493, Validation Accuracy: 0.6339, Loss: 0.4685
+    Epoch  23 Batch 1000/2400 - Train Accuracy: 0.7969, Validation Accuracy: 0.6339, Loss: 0.5515
+    Epoch  23 Batch 1500/2400 - Train Accuracy: 0.9716, Validation Accuracy: 0.6339, Loss: 0.1543
+    Epoch  23 Batch 2000/2400 - Train Accuracy: 0.7620, Validation Accuracy: 0.6362, Loss: 0.5848
+    Epoch  24 Batch  500/2400 - Train Accuracy: 0.8676, Validation Accuracy: 0.6339, Loss: 0.4613
+    Epoch  24 Batch 1000/2400 - Train Accuracy: 0.8013, Validation Accuracy: 0.6339, Loss: 0.5133
+    Epoch  24 Batch 1500/2400 - Train Accuracy: 0.9631, Validation Accuracy: 0.6339, Loss: 0.1362
+    Epoch  24 Batch 2000/2400 - Train Accuracy: 0.8125, Validation Accuracy: 0.6362, Loss: 0.5467
+    Epoch  25 Batch  500/2400 - Train Accuracy: 0.8566, Validation Accuracy: 0.6339, Loss: 0.4405
+    Epoch  25 Batch 1000/2400 - Train Accuracy: 0.8371, Validation Accuracy: 0.6339, Loss: 0.4634
+    Epoch  25 Batch 1500/2400 - Train Accuracy: 0.9716, Validation Accuracy: 0.6339, Loss: 0.1353
+    Epoch  25 Batch 2000/2400 - Train Accuracy: 0.7812, Validation Accuracy: 0.6384, Loss: 0.5157
+    Epoch  26 Batch  500/2400 - Train Accuracy: 0.8511, Validation Accuracy: 0.6339, Loss: 0.4270
+    Epoch  26 Batch 1000/2400 - Train Accuracy: 0.8460, Validation Accuracy: 0.6339, Loss: 0.4068
+    Epoch  26 Batch 1500/2400 - Train Accuracy: 0.9659, Validation Accuracy: 0.6339, Loss: 0.1237
+    Epoch  26 Batch 2000/2400 - Train Accuracy: 0.8149, Validation Accuracy: 0.6384, Loss: 0.4771
+    Epoch  27 Batch  500/2400 - Train Accuracy: 0.8511, Validation Accuracy: 0.6339, Loss: 0.4089
+    Epoch  27 Batch 1000/2400 - Train Accuracy: 0.8504, Validation Accuracy: 0.6339, Loss: 0.3670
+    Epoch  27 Batch 1500/2400 - Train Accuracy: 0.9688, Validation Accuracy: 0.6362, Loss: 0.0948
+    Epoch  27 Batch 2000/2400 - Train Accuracy: 0.8269, Validation Accuracy: 0.6384, Loss: 0.4333
+    Epoch  28 Batch  500/2400 - Train Accuracy: 0.8658, Validation Accuracy: 0.6362, Loss: 0.3985
+    Epoch  28 Batch 1000/2400 - Train Accuracy: 0.8348, Validation Accuracy: 0.6339, Loss: 0.3839
+    Epoch  28 Batch 1500/2400 - Train Accuracy: 0.9773, Validation Accuracy: 0.6339, Loss: 0.1016
+    Epoch  28 Batch 2000/2400 - Train Accuracy: 0.8029, Validation Accuracy: 0.6362, Loss: 0.4031
+    Epoch  29 Batch  500/2400 - Train Accuracy: 0.8787, Validation Accuracy: 0.6339, Loss: 0.3768
+    Epoch  29 Batch 1000/2400 - Train Accuracy: 0.8415, Validation Accuracy: 0.6362, Loss: 0.3458
+    Epoch  29 Batch 1500/2400 - Train Accuracy: 0.9830, Validation Accuracy: 0.6339, Loss: 0.0966
+    Epoch  29 Batch 2000/2400 - Train Accuracy: 0.8438, Validation Accuracy: 0.6362, Loss: 0.3798
+    Epoch  30 Batch  500/2400 - Train Accuracy: 0.8676, Validation Accuracy: 0.6339, Loss: 0.3389
+    Epoch  30 Batch 1000/2400 - Train Accuracy: 0.8571, Validation Accuracy: 0.6362, Loss: 0.3212
+    Epoch  30 Batch 1500/2400 - Train Accuracy: 0.9744, Validation Accuracy: 0.6362, Loss: 0.0786
+    Epoch  30 Batch 2000/2400 - Train Accuracy: 0.8822, Validation Accuracy: 0.6362, Loss: 0.3821
+    Epoch  31 Batch  500/2400 - Train Accuracy: 0.8732, Validation Accuracy: 0.6362, Loss: 0.3289
+    Epoch  31 Batch 1000/2400 - Train Accuracy: 0.8415, Validation Accuracy: 0.6339, Loss: 0.3226
+    Epoch  31 Batch 1500/2400 - Train Accuracy: 0.9886, Validation Accuracy: 0.6339, Loss: 0.0878
+    Epoch  31 Batch 2000/2400 - Train Accuracy: 0.8606, Validation Accuracy: 0.6384, Loss: 0.3134
+    Epoch  32 Batch  500/2400 - Train Accuracy: 0.8603, Validation Accuracy: 0.6339, Loss: 0.3268
+    Epoch  32 Batch 1000/2400 - Train Accuracy: 0.9040, Validation Accuracy: 0.6339, Loss: 0.2952
+    Epoch  32 Batch 1500/2400 - Train Accuracy: 0.9773, Validation Accuracy: 0.6339, Loss: 0.0615
+    Epoch  32 Batch 2000/2400 - Train Accuracy: 0.8365, Validation Accuracy: 0.6384, Loss: 0.3058
+    Epoch  33 Batch  500/2400 - Train Accuracy: 0.8879, Validation Accuracy: 0.6339, Loss: 0.3062
+    Epoch  33 Batch 1000/2400 - Train Accuracy: 0.9152, Validation Accuracy: 0.6339, Loss: 0.2599
+    Epoch  33 Batch 1500/2400 - Train Accuracy: 0.9773, Validation Accuracy: 0.6339, Loss: 0.0742
+    Epoch  33 Batch 2000/2400 - Train Accuracy: 0.8702, Validation Accuracy: 0.6339, Loss: 0.3450
+    Epoch  34 Batch  500/2400 - Train Accuracy: 0.8713, Validation Accuracy: 0.6339, Loss: 0.2665
+    Epoch  34 Batch 1000/2400 - Train Accuracy: 0.8996, Validation Accuracy: 0.6339, Loss: 0.2396
+    Epoch  34 Batch 1500/2400 - Train Accuracy: 0.9915, Validation Accuracy: 0.6362, Loss: 0.0561
+    Epoch  34 Batch 2000/2400 - Train Accuracy: 0.8990, Validation Accuracy: 0.6362, Loss: 0.2825
+    Epoch  35 Batch  500/2400 - Train Accuracy: 0.8879, Validation Accuracy: 0.6339, Loss: 0.2788
+    Epoch  35 Batch 1000/2400 - Train Accuracy: 0.9062, Validation Accuracy: 0.6362, Loss: 0.2616
+    Epoch  35 Batch 1500/2400 - Train Accuracy: 0.9830, Validation Accuracy: 0.6339, Loss: 0.0416
+    Epoch  35 Batch 2000/2400 - Train Accuracy: 0.8942, Validation Accuracy: 0.6362, Loss: 0.2956
+    Epoch  36 Batch  500/2400 - Train Accuracy: 0.8952, Validation Accuracy: 0.6339, Loss: 0.2750
+    Epoch  36 Batch 1000/2400 - Train Accuracy: 0.9241, Validation Accuracy: 0.6339, Loss: 0.2404
+    Epoch  36 Batch 1500/2400 - Train Accuracy: 0.9744, Validation Accuracy: 0.6339, Loss: 0.0535
+    Epoch  36 Batch 2000/2400 - Train Accuracy: 0.8678, Validation Accuracy: 0.6362, Loss: 0.2449
+    Epoch  37 Batch  500/2400 - Train Accuracy: 0.8860, Validation Accuracy: 0.6362, Loss: 0.2426
+    Epoch  37 Batch 1000/2400 - Train Accuracy: 0.8973, Validation Accuracy: 0.6339, Loss: 0.2280
+    Epoch  37 Batch 1500/2400 - Train Accuracy: 0.9830, Validation Accuracy: 0.6362, Loss: 0.0763
+    Epoch  37 Batch 2000/2400 - Train Accuracy: 0.8966, Validation Accuracy: 0.6362, Loss: 0.2536
+    Epoch  38 Batch  500/2400 - Train Accuracy: 0.9044, Validation Accuracy: 0.6384, Loss: 0.2438
+    Epoch  38 Batch 1000/2400 - Train Accuracy: 0.8973, Validation Accuracy: 0.6339, Loss: 0.1792
+    Epoch  38 Batch 1500/2400 - Train Accuracy: 0.9716, Validation Accuracy: 0.6362, Loss: 0.0512
+    Epoch  38 Batch 2000/2400 - Train Accuracy: 0.9135, Validation Accuracy: 0.6362, Loss: 0.2638
+    Epoch  39 Batch  500/2400 - Train Accuracy: 0.8952, Validation Accuracy: 0.6339, Loss: 0.2388
+    Epoch  39 Batch 1000/2400 - Train Accuracy: 0.8951, Validation Accuracy: 0.6339, Loss: 0.1637
+    Epoch  39 Batch 1500/2400 - Train Accuracy: 0.9915, Validation Accuracy: 0.6339, Loss: 0.0374
+    Epoch  39 Batch 2000/2400 - Train Accuracy: 0.8918, Validation Accuracy: 0.6362, Loss: 0.2389
+    Epoch  40 Batch  500/2400 - Train Accuracy: 0.9210, Validation Accuracy: 0.6339, Loss: 0.2273
+    Epoch  40 Batch 1000/2400 - Train Accuracy: 0.9196, Validation Accuracy: 0.6339, Loss: 0.1760
+    Epoch  40 Batch 1500/2400 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0464
+    Epoch  40 Batch 2000/2400 - Train Accuracy: 0.8726, Validation Accuracy: 0.6362, Loss: 0.2212
+    Epoch  41 Batch  500/2400 - Train Accuracy: 0.8787, Validation Accuracy: 0.6384, Loss: 0.2444
+    Epoch  41 Batch 1000/2400 - Train Accuracy: 0.9353, Validation Accuracy: 0.6339, Loss: 0.1539
+    Epoch  41 Batch 1500/2400 - Train Accuracy: 0.9773, Validation Accuracy: 0.6384, Loss: 0.0501
+    Epoch  41 Batch 2000/2400 - Train Accuracy: 0.8606, Validation Accuracy: 0.6362, Loss: 0.1887
+    Epoch  42 Batch  500/2400 - Train Accuracy: 0.9136, Validation Accuracy: 0.6339, Loss: 0.2276
+    Epoch  42 Batch 1000/2400 - Train Accuracy: 0.9375, Validation Accuracy: 0.6339, Loss: 0.1541
+    Epoch  42 Batch 1500/2400 - Train Accuracy: 0.9915, Validation Accuracy: 0.6362, Loss: 0.0365
+    Epoch  42 Batch 2000/2400 - Train Accuracy: 0.8942, Validation Accuracy: 0.6362, Loss: 0.2104
+    Epoch  43 Batch  500/2400 - Train Accuracy: 0.9375, Validation Accuracy: 0.6339, Loss: 0.1884
+    Epoch  43 Batch 1000/2400 - Train Accuracy: 0.9107, Validation Accuracy: 0.6339, Loss: 0.1835
+    Epoch  43 Batch 1500/2400 - Train Accuracy: 0.9972, Validation Accuracy: 0.6362, Loss: 0.0341
+    Epoch  43 Batch 2000/2400 - Train Accuracy: 0.9159, Validation Accuracy: 0.6339, Loss: 0.1875
+    Epoch  44 Batch  500/2400 - Train Accuracy: 0.9375, Validation Accuracy: 0.6362, Loss: 0.1641
+    Epoch  44 Batch 1000/2400 - Train Accuracy: 0.9442, Validation Accuracy: 0.6339, Loss: 0.1380
+    Epoch  44 Batch 1500/2400 - Train Accuracy: 0.9943, Validation Accuracy: 0.6339, Loss: 0.0358
+    Epoch  44 Batch 2000/2400 - Train Accuracy: 0.8654, Validation Accuracy: 0.6362, Loss: 0.2172
+    Epoch  45 Batch  500/2400 - Train Accuracy: 0.9191, Validation Accuracy: 0.6384, Loss: 0.1719
+    Epoch  45 Batch 1000/2400 - Train Accuracy: 0.9509, Validation Accuracy: 0.6339, Loss: 0.1356
+    Epoch  45 Batch 1500/2400 - Train Accuracy: 0.9972, Validation Accuracy: 0.6362, Loss: 0.0339
+    Epoch  45 Batch 2000/2400 - Train Accuracy: 0.8942, Validation Accuracy: 0.6339, Loss: 0.1802
+    Epoch  46 Batch  500/2400 - Train Accuracy: 0.9283, Validation Accuracy: 0.6339, Loss: 0.1879
+    Epoch  46 Batch 1000/2400 - Train Accuracy: 0.9129, Validation Accuracy: 0.6339, Loss: 0.1220
+    Epoch  46 Batch 1500/2400 - Train Accuracy: 0.9716, Validation Accuracy: 0.6362, Loss: 0.0290
+    Epoch  46 Batch 2000/2400 - Train Accuracy: 0.9423, Validation Accuracy: 0.6406, Loss: 0.1382
+    Epoch  47 Batch  500/2400 - Train Accuracy: 0.9540, Validation Accuracy: 0.6339, Loss: 0.1799
+    Epoch  47 Batch 1000/2400 - Train Accuracy: 0.9598, Validation Accuracy: 0.6339, Loss: 0.1299
+    Epoch  47 Batch 1500/2400 - Train Accuracy: 0.9972, Validation Accuracy: 0.6339, Loss: 0.0227
+    Epoch  47 Batch 2000/2400 - Train Accuracy: 0.9447, Validation Accuracy: 0.6362, Loss: 0.1260
+    Epoch  48 Batch  500/2400 - Train Accuracy: 0.9338, Validation Accuracy: 0.6339, Loss: 0.1546
+    Epoch  48 Batch 1000/2400 - Train Accuracy: 0.9643, Validation Accuracy: 0.6339, Loss: 0.1172
+    Epoch  48 Batch 1500/2400 - Train Accuracy: 0.9915, Validation Accuracy: 0.6362, Loss: 0.0264
+    Epoch  48 Batch 2000/2400 - Train Accuracy: 0.9303, Validation Accuracy: 0.6339, Loss: 0.1500
+    Epoch  49 Batch  500/2400 - Train Accuracy: 0.9283, Validation Accuracy: 0.6339, Loss: 0.1290
+    Epoch  49 Batch 1000/2400 - Train Accuracy: 0.9286, Validation Accuracy: 0.6339, Loss: 0.0936
+    Epoch  49 Batch 1500/2400 - Train Accuracy: 0.9886, Validation Accuracy: 0.6362, Loss: 0.0314
+    Epoch  49 Batch 2000/2400 - Train Accuracy: 0.9784, Validation Accuracy: 0.6339, Loss: 0.1293
+    Epoch  50 Batch  500/2400 - Train Accuracy: 0.9375, Validation Accuracy: 0.6339, Loss: 0.1285
+    Epoch  50 Batch 1000/2400 - Train Accuracy: 0.9576, Validation Accuracy: 0.6362, Loss: 0.1085
+    Epoch  50 Batch 1500/2400 - Train Accuracy: 0.9830, Validation Accuracy: 0.6339, Loss: 0.0186
+    Epoch  50 Batch 2000/2400 - Train Accuracy: 0.9375, Validation Accuracy: 0.6339, Loss: 0.1443
+    Epoch  51 Batch  500/2400 - Train Accuracy: 0.9577, Validation Accuracy: 0.6362, Loss: 0.1446
+    Epoch  51 Batch 1000/2400 - Train Accuracy: 0.9531, Validation Accuracy: 0.6339, Loss: 0.1003
+    Epoch  51 Batch 1500/2400 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0229
+    Epoch  51 Batch 2000/2400 - Train Accuracy: 0.9231, Validation Accuracy: 0.6339, Loss: 0.1405
+    Epoch  52 Batch  500/2400 - Train Accuracy: 0.9210, Validation Accuracy: 0.6362, Loss: 0.1247
+    Epoch  52 Batch 1000/2400 - Train Accuracy: 0.9866, Validation Accuracy: 0.6362, Loss: 0.0688
+    Epoch  52 Batch 1500/2400 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0247
+    Epoch  52 Batch 2000/2400 - Train Accuracy: 0.9423, Validation Accuracy: 0.6362, Loss: 0.1144
+    Epoch  53 Batch  500/2400 - Train Accuracy: 0.9375, Validation Accuracy: 0.6362, Loss: 0.1256
+    Epoch  53 Batch 1000/2400 - Train Accuracy: 0.9688, Validation Accuracy: 0.6362, Loss: 0.0971
+    Epoch  53 Batch 1500/2400 - Train Accuracy: 0.9773, Validation Accuracy: 0.6339, Loss: 0.0272
+    Epoch  53 Batch 2000/2400 - Train Accuracy: 0.9279, Validation Accuracy: 0.6339, Loss: 0.1503
+    Epoch  54 Batch  500/2400 - Train Accuracy: 0.9614, Validation Accuracy: 0.6339, Loss: 0.1076
+    Epoch  54 Batch 1000/2400 - Train Accuracy: 0.9509, Validation Accuracy: 0.6362, Loss: 0.0895
+    Epoch  54 Batch 1500/2400 - Train Accuracy: 0.9972, Validation Accuracy: 0.6339, Loss: 0.0214
+    Epoch  54 Batch 2000/2400 - Train Accuracy: 0.9663, Validation Accuracy: 0.6362, Loss: 0.1065
+    Epoch  55 Batch  500/2400 - Train Accuracy: 0.9651, Validation Accuracy: 0.6362, Loss: 0.1130
+    Epoch  55 Batch 1000/2400 - Train Accuracy: 0.9844, Validation Accuracy: 0.6339, Loss: 0.0643
+    Epoch  55 Batch 1500/2400 - Train Accuracy: 0.9915, Validation Accuracy: 0.6339, Loss: 0.0216
+    Epoch  55 Batch 2000/2400 - Train Accuracy: 0.9567, Validation Accuracy: 0.6339, Loss: 0.0888
+    Epoch  56 Batch  500/2400 - Train Accuracy: 0.9688, Validation Accuracy: 0.6339, Loss: 0.1098
+    Epoch  56 Batch 1000/2400 - Train Accuracy: 0.9621, Validation Accuracy: 0.6362, Loss: 0.0730
+    Epoch  56 Batch 1500/2400 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0171
+    Epoch  56 Batch 2000/2400 - Train Accuracy: 0.9471, Validation Accuracy: 0.6384, Loss: 0.1046
+    Epoch  57 Batch  500/2400 - Train Accuracy: 0.9430, Validation Accuracy: 0.6339, Loss: 0.1291
+    Epoch  57 Batch 1000/2400 - Train Accuracy: 0.9799, Validation Accuracy: 0.6339, Loss: 0.0745
+    Epoch  57 Batch 1500/2400 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0191
+    Epoch  57 Batch 2000/2400 - Train Accuracy: 0.9399, Validation Accuracy: 0.6362, Loss: 0.1102
+    Epoch  58 Batch  500/2400 - Train Accuracy: 0.9688, Validation Accuracy: 0.6339, Loss: 0.1312
+    Epoch  58 Batch 1000/2400 - Train Accuracy: 0.9732, Validation Accuracy: 0.6339, Loss: 0.0695
+    Epoch  58 Batch 1500/2400 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0175
+    Epoch  58 Batch 2000/2400 - Train Accuracy: 0.9615, Validation Accuracy: 0.6362, Loss: 0.1031
+    Epoch  59 Batch  500/2400 - Train Accuracy: 0.9430, Validation Accuracy: 0.6339, Loss: 0.1139
+    Epoch  59 Batch 1000/2400 - Train Accuracy: 0.9487, Validation Accuracy: 0.6362, Loss: 0.0846
+    Epoch  59 Batch 1500/2400 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0217
+    Epoch  59 Batch 2000/2400 - Train Accuracy: 0.9736, Validation Accuracy: 0.6339, Loss: 0.1029
+    Epoch  60 Batch  500/2400 - Train Accuracy: 0.9412, Validation Accuracy: 0.6339, Loss: 0.1038
+    Epoch  60 Batch 1000/2400 - Train Accuracy: 0.9442, Validation Accuracy: 0.6339, Loss: 0.0980
+    Epoch  60 Batch 1500/2400 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0162
+    Epoch  60 Batch 2000/2400 - Train Accuracy: 0.9519, Validation Accuracy: 0.6362, Loss: 0.1130
+    Epoch  61 Batch  500/2400 - Train Accuracy: 0.9449, Validation Accuracy: 0.6339, Loss: 0.0936
+    Epoch  61 Batch 1000/2400 - Train Accuracy: 0.9710, Validation Accuracy: 0.6339, Loss: 0.0903
+    Epoch  61 Batch 1500/2400 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0223
+    Epoch  61 Batch 2000/2400 - Train Accuracy: 0.9760, Validation Accuracy: 0.6339, Loss: 0.0850
+    Epoch  62 Batch  500/2400 - Train Accuracy: 0.9504, Validation Accuracy: 0.6339, Loss: 0.1195
+    Epoch  62 Batch 1000/2400 - Train Accuracy: 0.9844, Validation Accuracy: 0.6339, Loss: 0.0836
+    Epoch  62 Batch 1500/2400 - Train Accuracy: 0.9943, Validation Accuracy: 0.6339, Loss: 0.0175
+    Epoch  62 Batch 2000/2400 - Train Accuracy: 0.9688, Validation Accuracy: 0.6339, Loss: 0.0639
+    Epoch  63 Batch  500/2400 - Train Accuracy: 0.9375, Validation Accuracy: 0.6339, Loss: 0.0960
+    Epoch  63 Batch 1000/2400 - Train Accuracy: 0.9710, Validation Accuracy: 0.6362, Loss: 0.0803
+    Epoch  63 Batch 1500/2400 - Train Accuracy: 0.9943, Validation Accuracy: 0.6339, Loss: 0.0220
+    Epoch  63 Batch 2000/2400 - Train Accuracy: 0.9760, Validation Accuracy: 0.6339, Loss: 0.1181
+    Epoch  64 Batch  500/2400 - Train Accuracy: 0.9412, Validation Accuracy: 0.6339, Loss: 0.0972
+    Epoch  64 Batch 1000/2400 - Train Accuracy: 0.9821, Validation Accuracy: 0.6339, Loss: 0.0682
+    Epoch  64 Batch 1500/2400 - Train Accuracy: 0.9943, Validation Accuracy: 0.6339, Loss: 0.0232
+    Epoch  64 Batch 2000/2400 - Train Accuracy: 0.9712, Validation Accuracy: 0.6339, Loss: 0.0637
+    Epoch  65 Batch  500/2400 - Train Accuracy: 0.9393, Validation Accuracy: 0.6362, Loss: 0.0818
+    Epoch  65 Batch 1000/2400 - Train Accuracy: 0.9554, Validation Accuracy: 0.6339, Loss: 0.0633
+    Epoch  65 Batch 1500/2400 - Train Accuracy: 0.9886, Validation Accuracy: 0.6339, Loss: 0.0194
+    Epoch  65 Batch 2000/2400 - Train Accuracy: 0.9591, Validation Accuracy: 0.6339, Loss: 0.0715
+    Epoch  66 Batch  500/2400 - Train Accuracy: 0.9393, Validation Accuracy: 0.6339, Loss: 0.0905
+    Epoch  66 Batch 1000/2400 - Train Accuracy: 0.9866, Validation Accuracy: 0.6339, Loss: 0.0568
+    Epoch  66 Batch 1500/2400 - Train Accuracy: 0.9744, Validation Accuracy: 0.6362, Loss: 0.0192
+    Epoch  66 Batch 2000/2400 - Train Accuracy: 0.9760, Validation Accuracy: 0.6339, Loss: 0.0857
+    Epoch  67 Batch  500/2400 - Train Accuracy: 0.9540, Validation Accuracy: 0.6339, Loss: 0.0758
+    Epoch  67 Batch 1000/2400 - Train Accuracy: 0.9777, Validation Accuracy: 0.6339, Loss: 0.0533
+    Epoch  67 Batch 1500/2400 - Train Accuracy: 0.9858, Validation Accuracy: 0.6362, Loss: 0.0218
+    Epoch  67 Batch 2000/2400 - Train Accuracy: 0.9832, Validation Accuracy: 0.6339, Loss: 0.0672
+    Epoch  68 Batch  500/2400 - Train Accuracy: 0.9467, Validation Accuracy: 0.6339, Loss: 0.0947
+    Epoch  68 Batch 1000/2400 - Train Accuracy: 0.9777, Validation Accuracy: 0.6339, Loss: 0.0587
+    Epoch  68 Batch 1500/2400 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0113
+    Epoch  68 Batch 2000/2400 - Train Accuracy: 0.9760, Validation Accuracy: 0.6339, Loss: 0.0460
+    Epoch  69 Batch  500/2400 - Train Accuracy: 0.9651, Validation Accuracy: 0.6339, Loss: 0.1071
+    Epoch  69 Batch 1000/2400 - Train Accuracy: 0.9799, Validation Accuracy: 0.6339, Loss: 0.0662
+    Epoch  69 Batch 1500/2400 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0197
+    Epoch  69 Batch 2000/2400 - Train Accuracy: 0.9760, Validation Accuracy: 0.6339, Loss: 0.0713
+    Epoch  70 Batch  500/2400 - Train Accuracy: 0.9706, Validation Accuracy: 0.6339, Loss: 0.0865
+    Epoch  70 Batch 1000/2400 - Train Accuracy: 0.9955, Validation Accuracy: 0.6339, Loss: 0.0444
+    Epoch  70 Batch 1500/2400 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0130
+    Epoch  70 Batch 2000/2400 - Train Accuracy: 0.9712, Validation Accuracy: 0.6362, Loss: 0.0825
+    Epoch  71 Batch  500/2400 - Train Accuracy: 0.9449, Validation Accuracy: 0.6339, Loss: 0.0898
+    Epoch  71 Batch 1000/2400 - Train Accuracy: 0.9464, Validation Accuracy: 0.6339, Loss: 0.0690
+    Epoch  71 Batch 1500/2400 - Train Accuracy: 0.9972, Validation Accuracy: 0.6339, Loss: 0.0092
+    Epoch  71 Batch 2000/2400 - Train Accuracy: 0.9856, Validation Accuracy: 0.6339, Loss: 0.0593
+    Epoch  72 Batch  500/2400 - Train Accuracy: 0.9504, Validation Accuracy: 0.6339, Loss: 0.0731
+    Epoch  72 Batch 1000/2400 - Train Accuracy: 0.9844, Validation Accuracy: 0.6339, Loss: 0.0629
+    Epoch  72 Batch 1500/2400 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0086
+    Epoch  72 Batch 2000/2400 - Train Accuracy: 0.9639, Validation Accuracy: 0.6339, Loss: 0.0517
+    Epoch  73 Batch  500/2400 - Train Accuracy: 0.9577, Validation Accuracy: 0.6339, Loss: 0.0638
+    Epoch  73 Batch 1000/2400 - Train Accuracy: 0.9598, Validation Accuracy: 0.6339, Loss: 0.0658
+    Epoch  73 Batch 1500/2400 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0153
+    Epoch  73 Batch 2000/2400 - Train Accuracy: 0.9832, Validation Accuracy: 0.6339, Loss: 0.0552
+    Epoch  74 Batch  500/2400 - Train Accuracy: 0.9724, Validation Accuracy: 0.6339, Loss: 0.0785
+    Epoch  74 Batch 1000/2400 - Train Accuracy: 0.9799, Validation Accuracy: 0.6339, Loss: 0.0437
+    Epoch  74 Batch 1500/2400 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0095
+    Epoch  74 Batch 2000/2400 - Train Accuracy: 0.9688, Validation Accuracy: 0.6339, Loss: 0.0825
+    Epoch  75 Batch  500/2400 - Train Accuracy: 0.9614, Validation Accuracy: 0.6339, Loss: 0.0679
+    Epoch  75 Batch 1000/2400 - Train Accuracy: 0.9598, Validation Accuracy: 0.6339, Loss: 0.0646
+    Epoch  75 Batch 1500/2400 - Train Accuracy: 0.9972, Validation Accuracy: 0.6339, Loss: 0.0091
+    Epoch  75 Batch 2000/2400 - Train Accuracy: 0.9784, Validation Accuracy: 0.6339, Loss: 0.0625
+    Epoch  76 Batch  500/2400 - Train Accuracy: 0.9614, Validation Accuracy: 0.6339, Loss: 0.0786
+    Epoch  76 Batch 1000/2400 - Train Accuracy: 0.9911, Validation Accuracy: 0.6339, Loss: 0.0419
+    Epoch  76 Batch 1500/2400 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0108
+    Epoch  76 Batch 2000/2400 - Train Accuracy: 0.9736, Validation Accuracy: 0.6362, Loss: 0.0555
+    Epoch  77 Batch  500/2400 - Train Accuracy: 0.9632, Validation Accuracy: 0.6362, Loss: 0.0579
+    Epoch  77 Batch 1000/2400 - Train Accuracy: 0.9866, Validation Accuracy: 0.6339, Loss: 0.0388
+    Epoch  77 Batch 1500/2400 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0063
+    Epoch  77 Batch 2000/2400 - Train Accuracy: 0.9688, Validation Accuracy: 0.6339, Loss: 0.0422
+    Epoch  78 Batch  500/2400 - Train Accuracy: 0.9706, Validation Accuracy: 0.6362, Loss: 0.0727
+    Epoch  78 Batch 1000/2400 - Train Accuracy: 0.9821, Validation Accuracy: 0.6339, Loss: 0.0257
+    Epoch  78 Batch 1500/2400 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0131
+    Epoch  78 Batch 2000/2400 - Train Accuracy: 0.9736, Validation Accuracy: 0.6362, Loss: 0.0612
+    Epoch  79 Batch  500/2400 - Train Accuracy: 0.9835, Validation Accuracy: 0.6362, Loss: 0.0559
+    Epoch  79 Batch 1000/2400 - Train Accuracy: 0.9888, Validation Accuracy: 0.6384, Loss: 0.0444
+    Epoch  79 Batch 1500/2400 - Train Accuracy: 0.9972, Validation Accuracy: 0.6339, Loss: 0.0111
+    Epoch  79 Batch 2000/2400 - Train Accuracy: 0.9591, Validation Accuracy: 0.6362, Loss: 0.0400
+    Epoch  80 Batch  500/2400 - Train Accuracy: 0.9706, Validation Accuracy: 0.6339, Loss: 0.0448
+    Epoch  80 Batch 1000/2400 - Train Accuracy: 0.9754, Validation Accuracy: 0.6362, Loss: 0.0429
+    Epoch  80 Batch 1500/2400 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0081
+    Epoch  80 Batch 2000/2400 - Train Accuracy: 0.9880, Validation Accuracy: 0.6339, Loss: 0.0639
+    Epoch  81 Batch  500/2400 - Train Accuracy: 0.9559, Validation Accuracy: 0.6339, Loss: 0.0572
+    Epoch  81 Batch 1000/2400 - Train Accuracy: 0.9665, Validation Accuracy: 0.6362, Loss: 0.0411
+    Epoch  81 Batch 1500/2400 - Train Accuracy: 0.9972, Validation Accuracy: 0.6339, Loss: 0.0113
+    Epoch  81 Batch 2000/2400 - Train Accuracy: 0.9760, Validation Accuracy: 0.6339, Loss: 0.0683
+    Epoch  82 Batch  500/2400 - Train Accuracy: 0.9596, Validation Accuracy: 0.6339, Loss: 0.0489
+    Epoch  82 Batch 1000/2400 - Train Accuracy: 0.9866, Validation Accuracy: 0.6339, Loss: 0.0312
+    Epoch  82 Batch 1500/2400 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0150
+    Epoch  82 Batch 2000/2400 - Train Accuracy: 0.9832, Validation Accuracy: 0.6339, Loss: 0.0417
+    Epoch  83 Batch  500/2400 - Train Accuracy: 0.9651, Validation Accuracy: 0.6339, Loss: 0.0798
+    Epoch  83 Batch 1000/2400 - Train Accuracy: 0.9754, Validation Accuracy: 0.6339, Loss: 0.0387
+    Epoch  83 Batch 1500/2400 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0070
+    Epoch  83 Batch 2000/2400 - Train Accuracy: 0.9952, Validation Accuracy: 0.6339, Loss: 0.0522
+    Epoch  84 Batch  500/2400 - Train Accuracy: 0.9577, Validation Accuracy: 0.6339, Loss: 0.0522
+    Epoch  84 Batch 1000/2400 - Train Accuracy: 0.9844, Validation Accuracy: 0.6339, Loss: 0.0495
+    Epoch  84 Batch 1500/2400 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0116
+    Epoch  84 Batch 2000/2400 - Train Accuracy: 0.9784, Validation Accuracy: 0.6339, Loss: 0.0565
+    Epoch  85 Batch  500/2400 - Train Accuracy: 0.9688, Validation Accuracy: 0.6339, Loss: 0.0640
+    Epoch  85 Batch 1000/2400 - Train Accuracy: 0.9911, Validation Accuracy: 0.6362, Loss: 0.0448
+    Epoch  85 Batch 1500/2400 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0155
+    Epoch  85 Batch 2000/2400 - Train Accuracy: 0.9567, Validation Accuracy: 0.6339, Loss: 0.0615
+    Epoch  86 Batch  500/2400 - Train Accuracy: 0.9688, Validation Accuracy: 0.6339, Loss: 0.0496
+    Epoch  86 Batch 1000/2400 - Train Accuracy: 1.0000, Validation Accuracy: 0.6362, Loss: 0.0458
+    Epoch  86 Batch 1500/2400 - Train Accuracy: 0.9943, Validation Accuracy: 0.6339, Loss: 0.0155
+    Epoch  86 Batch 2000/2400 - Train Accuracy: 0.9880, Validation Accuracy: 0.6362, Loss: 0.0187
+    Epoch  87 Batch  500/2400 - Train Accuracy: 0.9596, Validation Accuracy: 0.6339, Loss: 0.0506
+    Epoch  87 Batch 1000/2400 - Train Accuracy: 0.9621, Validation Accuracy: 0.6339, Loss: 0.0269
+    Epoch  87 Batch 1500/2400 - Train Accuracy: 0.9972, Validation Accuracy: 0.6339, Loss: 0.0077
+    Epoch  87 Batch 2000/2400 - Train Accuracy: 0.9688, Validation Accuracy: 0.6339, Loss: 0.0526
+    Epoch  88 Batch  500/2400 - Train Accuracy: 0.9614, Validation Accuracy: 0.6339, Loss: 0.0491
+    Epoch  88 Batch 1000/2400 - Train Accuracy: 0.9777, Validation Accuracy: 0.6339, Loss: 0.0569
+    Epoch  88 Batch 1500/2400 - Train Accuracy: 0.9943, Validation Accuracy: 0.6339, Loss: 0.0110
+    Epoch  88 Batch 2000/2400 - Train Accuracy: 0.9880, Validation Accuracy: 0.6339, Loss: 0.0480
+    Epoch  89 Batch  500/2400 - Train Accuracy: 0.9651, Validation Accuracy: 0.6339, Loss: 0.0488
+    Epoch  89 Batch 1000/2400 - Train Accuracy: 0.9911, Validation Accuracy: 0.6339, Loss: 0.0445
+    Epoch  89 Batch 1500/2400 - Train Accuracy: 1.0000, Validation Accuracy: 0.6339, Loss: 0.0130
+    Epoch  89 Batch 2000/2400 - Train Accuracy: 0.9856, Validation Accuracy: 0.6339, Loss: 0.0293
 
 
 ### Evaluate LSTM Net Only
@@ -3020,19 +1531,6 @@ speaker_id, lexicon = list(lexicons.items())[0]
 print("List of Speeches:", len(lexicon.speeches))
 lexicon.evaluate_testset()
 ```
-
-    List of Speeches: 240
-    Speech Results:
-    Average Candidate Transcript Accuracy: nan
-    Average Seq2Seq Model Accuracy: nan
-    
-
-
-    /root/miniconda3/envs/tf-gpu/lib/python3.5/site-packages/numpy/core/_methods.py:59: RuntimeWarning: Mean of empty slice.
-      warnings.warn("Mean of empty slice.", RuntimeWarning)
-    /root/miniconda3/envs/tf-gpu/lib/python3.5/site-packages/numpy/core/_methods.py:70: RuntimeWarning: invalid value encountered in double_scalars
-      ret = ret.dtype.type(ret / rcount)
-
 
 
 ```python
