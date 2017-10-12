@@ -24,7 +24,7 @@ class Lexicon(object):
             return None
             
     def __init__(self, base_corpus, name='base_corpus', print_report=False, validation_set = None,
-                 validation_portion = 0.10, test_set = None, testing_portion = 0.10):
+                 validation_portion = 0.15, test_set = None, testing_portion = 0.10):
         self.cache_dir = os.path.join(os.getcwd(), 'datacache', 'lexicon_objects',name)
         if not os.path.exists(self.cache_dir):
             os.makedirs(self.cache_dir, exist_ok=True)
@@ -65,20 +65,21 @@ class Lexicon(object):
         self._corpus_sentences = self._full_corpus.split('.')
         self.training_set = (self._corpus_sentences.copy(), self._corpus_sentences.copy()) # (Examples, Targets)
         self.num_examples = len(self._corpus_sentences)
-        if not validation_set:
+        if validation_set is None:
             validation_size = int(self.num_examples*validation_portion)
             self.validation_set = (self.training_set[0][:validation_size], self.training_set[1][:validation_size]) 
             self.training_set = (self.training_set[0][validation_size:], self.training_set[1][validation_size:]) 
         else:
             self.validation_set = validation_set
-        if not test_set:
+            
+        if test_set is None:
             test_size = int(self.num_examples*testing_portion)
             self.testing_set = (self.training_set[0][:test_size], self.training_set[1][:test_size]) 
             self.training_set = (self.training_set[0][test_size:], self.training_set[1][test_size:]) 
         else:
-            self.validation_set = validation_set
+            self.training_set = training_set
         
-        #self.shuffle_training_data()
+        self.shuffle_training_data()
         ## Early Stopping Parameters ##
         self.best_validation_accuracy = 0
         self.last_improvement = None
@@ -360,7 +361,7 @@ class Lexicon(object):
     def optimize(self, early_stop=True): # Return training Report
         #Set the epochs value high to try to trigger early_stop conditions.
         if early_stop:
-            num_epochs = 45
+            num_epochs = 90
         else:
             num_epochs = 2
         start_time = time.time()
@@ -390,7 +391,8 @@ class Lexicon(object):
          valid_targets_batch, 
          valid_sources_lengths, 
          valid_targets_lengths ) = next(self.get_batches(source_validation_text_ids, target_validation_text_ids,
-                                                             val_source_vocab_to_int['<PAD>'], val_target_vocab_to_int['<PAD>']))
+                                                             val_source_vocab_to_int['<PAD>'],
+                                                             val_target_vocab_to_int['<PAD>']))
         with tf.Session(graph=self.train_graph) as sess:
             init = tf.global_variables_initializer()
             self.model.sess = sess
@@ -475,7 +477,6 @@ class Lexicon(object):
 
             #loader = tf.train.import_meta_graph(os.path.join(checkpoint_dir, 'model.ckpt-5000.meta'))
             #lexicon.model.saver.restore(sess, checkpoint_path)
-
             #self.model.load_model(sess, checkpoint_path)
 
             input_data = loaded_graph.get_tensor_by_name('input:0')
@@ -574,21 +575,7 @@ class Lexicon(object):
     def shuffle_training_data(self):
         perm = [i for i in range(len(self.training_set[0]))]
         np.random.shuffle(perm)
-        
-        src_tmp = os.path.join(self.cache_dir, mkdtemp(), 'src_tmp.dat')
-        fp = np.memmap(src_tmp, dtype='int32', mode='w+', shape=len(perm))
-        fp[:] = self.training_set[0][:]
-        tmp = fp[perm]
-        
-        targ_tmp = os.path.join(self.cache_dir, mkdtemp(), 'targ_tmp.dat')
-        fp2 = np.memmap(targ_tmp, dtype='int32', mode='w+', shape=len(perm))
-        fp2[:] = self.training_set[1][:]
-        tmp2 = fp2[perm]
-        
-        
-        
-        
-        
-        # tmp2 = np.array(self.training_set[1])[perm]
+        tmp = np.array(self.training_set[0])[perm]       
+        tmp2 = np.array(self.training_set[1])[perm]
         self.training_set = (tmp,tmp2)
     
