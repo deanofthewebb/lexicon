@@ -370,29 +370,32 @@ class Lexicon(object):
         #Get Preprocessing Data - Also use helper.load_preprocess()
         source_text = '\n'.join(self.training_set[0])
         target_text = '\n'.join(self.training_set[1])
-        source_vocab_to_int, source_int_to_vocab = self.create_lookup_tables(source_text)
-        target_vocab_to_int, target_int_to_vocab = self.create_lookup_tables(target_text)
+        source_validation_text = '\n'.join(self.validation_set[0])
+        target_validation_text = '\n'.join(self.validation_set[1])
+        
+        # Join the Training And Validation Text for Creating Lookup Tables
+        source_vocab_to_int, source_int_to_vocab = self.create_lookup_tables('\n'.join(source_text, source_validation_text))
+        target_vocab_to_int, target_int_to_vocab = self.create_lookup_tables('\n'.join(target_text, target_validation_text))
         source_text_ids, target_text_ids = Lexicon.text_to_ids(source_text, target_text, source_vocab_to_int,
                                                                    target_vocab_to_int)
         # Build Graph
         self.train_graph = self.build_graph(source_vocab_to_int, target_vocab_to_int)
 
-        source_validation_text = '\n'.join(self.validation_set[0])
-        target_validation_text = '\n'.join(self.validation_set[1])
-        (val_source_vocab_to_int, 
-        val_source_int_to_vocab) = self.create_lookup_tables(source_validation_text)
-        (val_target_vocab_to_int, 
-        val_target_int_to_vocab) = self.create_lookup_tables(target_validation_text)
+
+        # (val_source_vocab_to_int, 
+        # val_source_int_to_vocab) = self.create_lookup_tables(source_validation_text)
+        # (val_target_vocab_to_int, 
+        # val_target_int_to_vocab) = self.create_lookup_tables(target_validation_text)
         source_validation_text_ids, target_validation_text_ids = Lexicon.text_to_ids(source_validation_text,
                                                             target_validation_text,
-                                                            val_source_vocab_to_int,
-                                                            val_target_vocab_to_int)
+                                                            source_vocab_to_int,
+                                                            target_vocab_to_int)
         (valid_sources_batch, 
          valid_targets_batch, 
          valid_sources_lengths, 
          valid_targets_lengths ) = next(self.get_batches(source_validation_text_ids, target_validation_text_ids,
-                                                             val_source_vocab_to_int['<PAD>'],
-                                                             val_target_vocab_to_int['<PAD>']))
+                                                             source_vocab_to_int['<PAD>'],
+                                                             target_vocab_to_int['<PAD>']))
         with tf.Session(graph=self.train_graph) as sess:
             init = tf.global_variables_initializer()
             self.model.sess = sess
