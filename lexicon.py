@@ -406,6 +406,7 @@ class Lexicon(object):
             sess.run(init)
             for epoch_i in range(num_epochs):
                 self.shuffle_training_data()
+                early_stopping = False
                 for batch_i, (source_batch, target_batch, sources_lengths, targets_lengths) in enumerate(
                     self.get_batches(source_text_ids, source_text_ids, source_vocab_to_int['<PAD>'],
                                      target_vocab_to_int['<PAD>'])):
@@ -460,6 +461,7 @@ class Lexicon(object):
                             (total_iterations - self.last_improvement) > self.require_improvement:
                                 print("No improvement found in a while, stopping optimization.")
                                 # Break out from the for-loop.
+                                early_stopping = True
                                 break
                         
                         # Set Current Validation Accuracy
@@ -476,7 +478,9 @@ class Lexicon(object):
                         #print("Model saved in file: %s" % checkpoint_path)
 
                         helper.save_params(checkpoint_path)
-        # Ending time.http://localhost:8157/notebooks/Traffic_Signs_Recognition.ipynb#
+                if early_stopping is True:
+                    break
+                        
         end_time = time.time()
 
         # Difference between start and end-times.
