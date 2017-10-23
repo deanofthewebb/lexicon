@@ -81,8 +81,10 @@ class Lexicon(object):
         
         self.shuffle_training_data()
         ## Early Stopping Parameters ##
-        self.best_validation_accuracy = 0
+        self.best_validation_accuracy = 0.0
         self.last_improvement = None
+        self.require_improvement = 2500
+        self.current_validation_accuracy = 0.0
         
 
         
@@ -359,11 +361,12 @@ class Lexicon(object):
 
     
     def optimize(self, early_stop=True): # Return training Report
+        start_time = time.time()
         #Set the epochs value high to try to trigger early_stop conditions.
         if early_stop:
             num_epochs = 90
         else:
-            num_epochs = 2
+            num_epochs = 10
         start_time = time.time()
 
 
@@ -402,9 +405,11 @@ class Lexicon(object):
             # Launch the session
             sess.run(init)
             for epoch_i in range(num_epochs):
+                self.shuffle_training_data()
                 for batch_i, (source_batch, target_batch, sources_lengths, targets_lengths) in enumerate(
                     self.get_batches(source_text_ids, source_text_ids, source_vocab_to_int['<PAD>'],
                                      target_vocab_to_int['<PAD>'])):
+                    total_iterations = int((epoch_i+1)*(batch_i+1))
                     _, loss = sess.run(
                         [self.train_op, self.loss],
                         {self.input_data_ph: source_batch,
@@ -433,7 +438,35 @@ class Lexicon(object):
 
                         train_acc = Lexicon.get_accuracy(target_batch, batch_train_logits)
                         valid_acc = Lexicon.get_accuracy(valid_targets_batch, batch_valid_logits)
-                        print('Epoch {:>3} Batch {:>4}/{} - Train Accuracy: {:>6.4f}, Validation Accuracy: {:>6.4f}, Loss: {:>6.4f}'.format(epoch_i, batch_i, len(source_text_ids) // self.model.batch_size, train_acc, valid_acc, loss))
+                        
+                        
+                        if valid_acc > self.best_validation_accuracy:
+                            # Update the best-known validation accuracy.
+                            self.best_validation_accuracy = valid_acc
+
+                            # Set the iteration for the last improvement to current.
+                            self.last_improvement = total_iterations
+
+                            # A string to be printed below, shows improvement found.
+                            improved_str = '**'
+
+                        elif self.current_validation_accuracy > valid_acc:
+                            improved_str = '*'
+                        else:
+                            # An empty string to be printed below shows that no improvement was found.
+                            improved_str = ''
+
+                            if (valid_acc < self.best_validation_accuracy) and \
+                            (total_iterations - self.last_improvement) > self.require_improvement:
+                                print("No improvement found in a while, stopping optimization.")
+                                # Break out from the for-loop.
+                                break
+                        
+                        # Set Current Validation Accuracy
+                        self.current_validation_accuracy = valid_acc
+
+                        # Status-message for printing.
+                        print('Epoch {0:>3} Batch {1:>4}/{2} - Train Accuracy: {3:>6.4f}, Validation Accuracy: {4:>6.4f}, Loss:{5:>6.4f} Improve?: {6}'.format(epoch_i, batch_i, len(source_text_ids) // self.model.batch_size, train_acc, valid_acc, loss, improved_str))
 
                         # Save Model
                         checkpoint_dir = os.path.join(self.cache_dir,'checkpoints')
@@ -443,6 +476,14 @@ class Lexicon(object):
                         #print("Model saved in file: %s" % checkpoint_path)
 
                         helper.save_params(checkpoint_path)
+        # Ending time.http://localhost:8157/notebooks/Traffic_Signs_Recognition.ipynb#
+        end_time = time.time()
+
+        # Difference between start and end-times.
+        time_dif = end_time - start_time
+
+        # Print the time-usage.
+        print("Time usage: " + str(timedelta(seconds=int(round(time_dif)))))
             
     def sentence_to_seq(sentence, vocab_to_int):
         """
