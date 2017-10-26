@@ -10,6 +10,8 @@ import copy
 import tensorflow as tf
 import helper
 from tempfile import mkdtemp
+from datetime import datetime, timedelta
+
 
 
 class Lexicon(object):
@@ -82,8 +84,8 @@ class Lexicon(object):
         self.shuffle_training_data()
         ## Early Stopping Parameters ##
         self.best_validation_accuracy = 0.0
-        self.last_improvement = None
-        self.require_improvement = 2500
+        self.last_improvement = 0
+        self.require_improvement = 2000
         self.current_validation_accuracy = 0.0
         
 
@@ -450,9 +452,16 @@ class Lexicon(object):
 
                             # A string to be printed below, shows improvement found.
                             improved_str = '**'
+                            
+                            # Save model
+                            checkpoint_dir = os.path.join(self.cache_dir,'checkpoints')
+                            checkpoint_path = os.path.join(checkpoint_dir, 'model.ckpt')
+                            self.model.save_model(sess, checkpoint_path,total_iterations)
 
-                        elif self.current_validation_accuracy > valid_acc:
+                        elif self.current_validation_accuracy < valid_acc:
                             improved_str = '*'
+                            # Set the iteration for the last improvement to current.
+                            self.last_improvement = total_iterations
                         else:
                             # An empty string to be printed below shows that no improvement was found.
                             improved_str = ''
@@ -468,13 +477,13 @@ class Lexicon(object):
                         self.current_validation_accuracy = valid_acc
 
                         # Status-message for printing.
-                        print('Epoch {0:>3} Batch {1:>4}/{2} - Train Accuracy: {3:>6.4f}, Validation Accuracy: {4:>6.4f}, Loss:{5:>6.4f} Improve?: {6}'.format(epoch_i, batch_i, len(source_text_ids) // self.model.batch_size, train_acc, valid_acc, loss, improved_str))
+                        print('Epoch {0:>3} Batch {1:>4}/{2} - Train Accuracy: {3:>6.4f}, Validation Accuracy: {4:>6.4f}, Loss:{5:>6.4f} Improved?: {6}'.format(epoch_i, batch_i, len(source_text_ids) // self.model.batch_size, train_acc, self.current_validation_accuracy, loss, improved_str))
 
                         # Save Model
                         checkpoint_dir = os.path.join(self.cache_dir,'checkpoints')
                         checkpoint_path = os.path.join(checkpoint_dir, 'model.ckpt')
 
-                        self.model.save_model(sess, checkpoint_path,batch_i*(epoch_i+1))
+                        self.model.save_model(sess, checkpoint_path,total_iterations)
                         #print("Model saved in file: %s" % checkpoint_path)
 
                         helper.save_params(checkpoint_path)
